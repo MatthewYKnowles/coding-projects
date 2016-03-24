@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <script src="node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="myApp">
+<div class = "main" ng-controller="HomeController">
+    <p>latitude: {{latitude}}</p>
+    <p>longitude: {{longitude}}</p>
+    <p>WeatherData: {{weatherData}}</p>
+    <p>City Name: {{weatherData.name}}</p>
+</div>
+</script>
+
+<script src="js/app.js"></script>
+</body>
+</html>
