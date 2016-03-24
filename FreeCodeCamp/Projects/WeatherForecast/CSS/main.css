@@ -1,0 +1,19 @@
+.jumbotron {
+    background: URL(http://tinyurl.com/hjgfmaa) no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.title {
+    margin-bottom: 50px;
+}
+
+.btn {
+    margin-top: 40px;
+}
+
+img {
+    height: 100px;
+}

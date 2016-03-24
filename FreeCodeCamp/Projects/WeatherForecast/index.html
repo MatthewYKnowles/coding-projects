@@ -3,17 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather Forecast</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="CSS/main.css">
     <script src="node_modules/angular/angular.js"></script>
 </head>
 <body ng-app="myApp">
-<div class = "main" ng-controller="HomeController">
-    <p>latitude: {{latitude}}</p>
-    <p>longitude: {{longitude}}</p>
-    <p>WeatherData: {{weatherData}}</p>
-    <p>City Name: {{weatherData.name}}</p>
+<div class = "jumbotron text-center" ng-controller="HomeController">
+    <h3>Your location is:</h3>
+    <h1 class="title">{{weatherData["name"]}}</h1>
+    <div class="row">
+        <div class="col-sm-4">
+            <img ng-src="{{weatherIconUrl}}" />
+            <h3>{{weatherDescription}}</h3>
+        </div>
+        <div class="col-sm-4">
+            <p>{{currentTemperature | number:0}}&deg; {{currentDegreeMeasurement[0]}}</p>
+            <button class="btn btn-primary" ng-click="changeDegreeMeasurement()">{{otherDegreeMeasurement}}</button>
+        </div>
+        <div class="col-sm-4">
+            <p>Wind Speed: {{windSpeed}}mph</p>
+            <p>Humidity: {{humidity}}%</p>
+        </div>
+    </div>
 </div>
-</script>
-
 <script src="js/app.js"></script>
 </body>
 </html>
