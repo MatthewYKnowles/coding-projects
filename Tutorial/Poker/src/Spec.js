@@ -5,11 +5,30 @@ describe('separateHands', function () {
 });
 describe('convertHandToObject', function(){
     it('Should convert string of one hand into an object representing that hand', function(){
-        var blackHand = {player : "Black", cards: [["2", "H"], ["3", "D"], ["5", "S"], ["9", "C"], ["K", "D"]]};
         return expect(convertHandToObject("Black: 2H 3D 5S 9C KD")).toEqual(blackHand)
     })
-    it('Should convert string of White hand correctly', function(){
-        var whiteHand = {player : "White", cards: [["2", "C"], ["3", "H"], ["4", "S"], ["8", "C"], ["A", "H"]]};
-        return expect(convertHandToObject("White: 2C 3H 4S 8C AH")).toEqual(whiteHand)
-    })
 });
+
+var blackHand = {
+    player : "Black",
+    card1: {
+        value: 2,
+        suit: "H"
+    },
+    card2: {
+        value: 3,
+        suit: "D"
+    },
+    card3: {
+        value: 5,
+        suit: "S"
+    },
+    card4: {
+        value: 9,
+        suit: "C"
+    },
+    card5: {
+        value: 13,
+        suit: "D"
+    }
+};
