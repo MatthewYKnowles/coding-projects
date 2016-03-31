@@ -17,4 +17,6 @@ function convertHandToObject(str) {
     }
     return handObject;
 }
+function convertFaceCardsToValues(obj) {
+}
 //# sourceMappingURL=pokerGame.js.map

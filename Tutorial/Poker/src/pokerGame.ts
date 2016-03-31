@@ -18,3 +18,11 @@ function convertHandToObject(str: string): any {
     }
     return handObject;
 }
+
+function convertCardsToIntegers(obj: any): any {
+    for (let i = 0; i < 5; i++){
+        let currentCardValue = obj["cards"][0][i][0];
+        console.log(currentCardValue);
+    }
+    return 5;
+}

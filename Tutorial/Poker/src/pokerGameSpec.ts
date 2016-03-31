@@ -13,3 +13,10 @@ describe('convertHandToObject', function(){
         return expect(convertHandToObject("White: 2C 3H 4S 8C AH")).toEqual(whiteHand)
     })
 });
+describe('convertFaceCardsToValues', function () {
+    it('Should take in an object with face card values and conver them to 11,12,13 or 14', function () {
+        var handWithFaceCardValues = {player : "Black", cards: [["J", "H"], ["Q", "D"], ["5", "S"], ["A", "C"], ["K", "D"]]};
+        var handWithIntegerValues = {player : "Black", cards: [["J", "H"], ["Q", "D"], ["5", "S"], ["A", "C"], ["K", "D"]]};
+        return expect(convertCardsToIntegers(handWithFaceCardValues)).toEqual(handWithIntegerValues);
+    });
+});
