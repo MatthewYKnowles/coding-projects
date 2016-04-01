@@ -1,13 +1,18 @@
-function separateHands(str: string): string[] {
+
+function highCardWins(hand1: any, hand2: any): any[] {
+    return [];
+}
+
+function separateHands(gameInput: string): string[] {
     let handArray: string[] = [];
-    handArray.push(str.slice(0, 21));
-    handArray.push(str.slice(23));
+    handArray.push(gameInput.slice(0, 21));
+    handArray.push(gameInput.slice(23));
     return handArray;
 }
 
-function convertHandToObject(str: string): any {
+function convertHandToObject(Hand: string): any {
     let handObject = {};
-    let handArray = str.split(" ");
+    let handArray = Hand.split(" ");
     handObject["player"] = handArray[0].slice(0,5);
     handObject["cards"] = [];
     for (let i = 1; i < 6; i++){
@@ -19,10 +24,32 @@ function convertHandToObject(str: string): any {
     return handObject;
 }
 
-function convertCardsToIntegers(obj: any): any {
+function convertCardsToIntegers(hand: any): any {
     for (let i = 0; i < 5; i++){
-        let currentCardValue = obj["cards"][0][i][0];
+        let currentCardValue = hand["cards"][i][0];
+        switch (currentCardValue) {
+            case "A":
+                hand["cards"][i][0] = 14;
+                break;
+            case "K":
+                hand["cards"][i][0] = 13;
+                break;
+            case "Q":
+                hand["cards"][i][0] = 12;
+                break;
+            case "J":
+                hand["cards"][i][0] = 11;
+                break;
+            default:
+                hand["cards"][i][0] = parseInt(currentCardValue);
+                break;
+        }
         console.log(currentCardValue);
     }
-    return 5;
+    return hand;
+}
+
+function sortPokerHand(hand: any): any {
+    hand["cards"].sort((a,b)=>{return b[0] - a[0]});
+    return hand;
 }
