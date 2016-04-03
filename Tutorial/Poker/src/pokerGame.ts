@@ -1,6 +1,31 @@
+function pokerGame(gameInput: string){
+    let separatedHands = separateHands(gameInput);
+    let firstHand = convertHandToObject(separatedHands[0]);
+    let secondHand = convertHandToObject(separatedHands[1]);
+    let firstHandWithIntegers = convertCardsToIntegers(firstHand);
+    let secondHandWithIntegers = convertCardsToIntegers(secondHand);
+    let firstHandSorted = sortPokerHand(firstHandWithIntegers);
+    let secondHandSorted = sortPokerHand(secondHandWithIntegers);
+    let winningString = highCardWins(firstHandSorted, secondHandSorted);
+    return parseWinningHand(winningString);
 
-function highCardWins(hand1: any, hand2: any): any[] {
-    return [];
+}
+
+
+function highCardWins(hand1: any, hand2: any){
+    var hand1HighestCard = hand1["cards"][0][0];
+    var hand2HighestCard = hand2["cards"][0][0];
+    if (hand2HighestCard > hand1HighestCard){
+        return [hand2["player"] + " wins. - with high card: xxx", hand2HighestCard];
+    }
+    else if (hand1HighestCard > hand2HighestCard){
+        return [hand1["player"] + " wins. - with high card: xxx", hand1HighestCard];
+    } else{
+        hand1["cards"] = hand1["cards"].slice(1,hand1["cards"].length);
+        hand2["cards"] = hand2["cards"].slice(1,hand2["cards"].length);
+        if (hand1["cards"].length === 0){return "Tie."}
+        return highCardWins(hand1, hand2);
+    }
 }
 
 function separateHands(gameInput: string): string[] {
@@ -44,7 +69,6 @@ function convertCardsToIntegers(hand: any): any {
                 hand["cards"][i][0] = parseInt(currentCardValue);
                 break;
         }
-        console.log(currentCardValue);
     }
     return hand;
 }
@@ -52,4 +76,25 @@ function convertCardsToIntegers(hand: any): any {
 function sortPokerHand(hand: any): any {
     hand["cards"].sort((a,b)=>{return b[0] - a[0]});
     return hand;
+}
+
+function convertIntegersToCards(cardInteger: number): string {
+    switch (cardInteger) {
+        case 14:
+            return "Ace";
+        case 13:
+            return "King";
+        case 12:
+            return "Queen";
+        case 11:
+            return "Jack";
+        default:
+            return cardInteger.toString();
+        }
+    }
+
+
+function parseWinningHand(winningMessage: any): string {
+    if (typeof winningMessage === "string"){return winningMessage;}
+    else {return winningMessage[0].replace("xxx", convertIntegersToCards(winningMessage[1]));}
 }
