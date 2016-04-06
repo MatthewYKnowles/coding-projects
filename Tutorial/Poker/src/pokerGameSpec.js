@@ -2,6 +2,18 @@ describe('pokerGame', function () {
     it('Should return the winner and which hand they won with', function () {
         return expect(pokerGame("Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH")).toEqual("White wins. - with high card: Ace");
     });
+    it('Should return tie if the values for both hands are the same', function () {
+        return expect(pokerGame("Black: 2H 3D 5S 9C KD  White: 2C 3H 5H 9S KH")).toEqual("Tie.");
+    });
+    it('Should return pair if a hand has a pair in it', function () {
+        return expect(pokerGame("Black: 2H 3D 5S 9C KD  White: 2C 5C 5H 9S KH")).toEqual("White wins. - with a pair of 5's");
+    });
+    it('Should return Black as the winner if it has a higher pair', function () {
+        return expect(pokerGame("Black: 2H 3D 9H 9C KD  White: 2C 5C 5H 9S KH")).toEqual("Black wins. - with a pair of 9's");
+    });
+    it('Should return Black as the winner with a high card if each hand has the same pair', function () {
+        return expect(pokerGame("Black: 2H 3D 9H 9C KD  White: 2C 5C 9D 9S KH")).toEqual("White wins. - with high card: 5");
+    });
 });
 describe('separateHands', function () {
     it('Should return an array of both hands', function () {
@@ -47,6 +59,19 @@ describe('highCardWins', function () {
         var blackHand = { player: "Black", cards: [[14, "H"], [13, "D"], [11, "S"], [9, "C"], [5, "D"]] };
         var whiteHand = { player: "White", cards: [[14, "C"], [13, "C"], [11, "D"], [9, "H"], [5, "S"]] };
         return expect(highCardWins(blackHand, whiteHand)).toEqual("Tie.");
+    });
+});
+describe('highPairWins', function () {
+    it('Should recognize when two values are the same and return Pair', function () {
+        var blackHand = { player: "Black", cards: [[14, "H"], [13, "D"], [11, "S"], [11, "C"], [5, "D"]] };
+        var whiteHand = { player: "White", cards: [[14, "C"], [13, "C"], [11, "D"], [9, "H"], [5, "S"]] };
+        return expect(highPairWins(blackHand, whiteHand)).toEqual(["Black wins. - with a pair of xxx's", 11]);
+    });
+});
+describe('valueOfPairInHand', function () {
+    it('Should return the value of a pair in a hand', function () {
+        var blackHand = { player: "Black", cards: [[14, "H"], [13, "D"], [11, "S"], [11, "C"], [5, "D"]] };
+        return expect(valueOfPairInHand(blackHand)).toEqual(11);
     });
 });
 describe('parseWinningHand', function () {

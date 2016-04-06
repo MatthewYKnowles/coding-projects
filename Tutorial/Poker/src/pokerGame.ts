@@ -1,4 +1,7 @@
+var cardValue = 0;
+
 function pokerGame(gameInput: string){
+    let winningString;
     let separatedHands = separateHands(gameInput);
     let firstHand = convertHandToObject(separatedHands[0]);
     let secondHand = convertHandToObject(separatedHands[1]);
@@ -6,11 +9,14 @@ function pokerGame(gameInput: string){
     let secondHandWithIntegers = convertCardsToIntegers(secondHand);
     let firstHandSorted = sortPokerHand(firstHandWithIntegers);
     let secondHandSorted = sortPokerHand(secondHandWithIntegers);
-    let winningString = highCardWins(firstHandSorted, secondHandSorted);
+    if (eitherHandHasAHigherPair(firstHandSorted,secondHandSorted)){
+        winningString = highPairWins(firstHandSorted, secondHandSorted);
+    } else {
+        winningString = highCardWins(firstHandSorted, secondHandSorted);
+    }
     return parseWinningHand(winningString);
 
 }
-
 
 function highCardWins(hand1: any, hand2: any){
     var hand1HighestCard = hand1["cards"][0][0];
@@ -26,6 +32,23 @@ function highCardWins(hand1: any, hand2: any){
         if (hand1["cards"].length === 0){return "Tie."}
         return highCardWins(hand1, hand2);
     }
+}
+
+function highPairWins(hand1: any, hand2: any){
+    let hand1HighPair = valueOfPairInHand(hand1);
+    let hand2HighPair = valueOfPairInHand(hand2);
+    if (hand1HighPair > hand2HighPair){return [hand1["player"] + " wins. - with a pair of xxx's", hand1HighPair];}
+    if (hand2HighPair > hand1HighPair){return [hand2["player"] + " wins. - with a pair of xxx's", hand2HighPair];}
+}
+
+function valueOfPairInHand (hand: any){
+    var handPairValue = 0;
+    for (let i = 0; i < hand["cards"].length - 1; i++) {
+        if (hand["cards"][i][cardValue] === hand["cards"][i + 1][cardValue]) {
+            handPairValue = hand["cards"][i][cardValue];
+        }
+    }
+     return handPairValue;   
 }
 
 function separateHands(gameInput: string): string[] {
@@ -98,3 +121,8 @@ function parseWinningHand(winningMessage: any): string {
     if (typeof winningMessage === "string"){return winningMessage;}
     else {return winningMessage[0].replace("xxx", convertIntegersToCards(winningMessage[1]));}
 }
+
+function eitherHandHasAHigherPair(hand1: any, hand2: any){
+    return valueOfPairInHand(hand1)!= valueOfPairInHand(hand2);
+}
+

@@ -1,4 +1,6 @@
+var cardValue = 0;
 function pokerGame(gameInput) {
+    var winningString;
     var separatedHands = separateHands(gameInput);
     var firstHand = convertHandToObject(separatedHands[0]);
     var secondHand = convertHandToObject(separatedHands[1]);
@@ -6,7 +8,12 @@ function pokerGame(gameInput) {
     var secondHandWithIntegers = convertCardsToIntegers(secondHand);
     var firstHandSorted = sortPokerHand(firstHandWithIntegers);
     var secondHandSorted = sortPokerHand(secondHandWithIntegers);
-    var winningString = highCardWins(firstHandSorted, secondHandSorted);
+    if (eitherHandHasAHigherPair(firstHandSorted, secondHandSorted)) {
+        winningString = highPairWins(firstHandSorted, secondHandSorted);
+    }
+    else {
+        winningString = highCardWins(firstHandSorted, secondHandSorted);
+    }
     return parseWinningHand(winningString);
 }
 function highCardWins(hand1, hand2) {
@@ -26,6 +33,25 @@ function highCardWins(hand1, hand2) {
         }
         return highCardWins(hand1, hand2);
     }
+}
+function highPairWins(hand1, hand2) {
+    var hand1HighPair = valueOfPairInHand(hand1);
+    var hand2HighPair = valueOfPairInHand(hand2);
+    if (hand1HighPair > hand2HighPair) {
+        return [hand1["player"] + " wins. - with a pair of xxx's", hand1HighPair];
+    }
+    if (hand2HighPair > hand1HighPair) {
+        return [hand2["player"] + " wins. - with a pair of xxx's", hand2HighPair];
+    }
+}
+function valueOfPairInHand(hand) {
+    var handPairValue = 0;
+    for (var i = 0; i < hand["cards"].length - 1; i++) {
+        if (hand["cards"][i][cardValue] === hand["cards"][i + 1][cardValue]) {
+            handPairValue = hand["cards"][i][cardValue];
+        }
+    }
+    return handPairValue;
 }
 function separateHands(gameInput) {
     var handArray = [];
@@ -94,4 +120,7 @@ function parseWinningHand(winningMessage) {
     else {
         return winningMessage[0].replace("xxx", convertIntegersToCards(winningMessage[1]));
     }
+}
+function eitherHandHasAHigherPair(hand1, hand2) {
+    return valueOfPairInHand(hand1) != valueOfPairInHand(hand2);
 }
