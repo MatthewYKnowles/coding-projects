@@ -1,26 +1,39 @@
 var cardValue = 0;
 
-function pokerGame(gameInput: string){
-    let winningString;
+function pokerGame(gameInput: string): any{
     let separatedHands = separateHands(gameInput);
-    let firstHand = convertHandToObject(separatedHands[0]);
-    let secondHand = convertHandToObject(separatedHands[1]);
-    let firstHandWithIntegers = convertCardsToIntegers(firstHand);
-    let secondHandWithIntegers = convertCardsToIntegers(secondHand);
-    let firstHandSorted = sortPokerHand(firstHandWithIntegers);
-    let secondHandSorted = sortPokerHand(secondHandWithIntegers);
-    if (eitherHandHasAHigherPair(firstHandSorted,secondHandSorted)){
-        winningString = highPairWins(firstHandSorted, secondHandSorted);
-    } else {
-        winningString = highCardWins(firstHandSorted, secondHandSorted);
-    }
-    return parseWinningHand(winningString);
+    let hand1 = createSortedHandWithValues(separatedHands[0]);
+    let hand2 = createSortedHandWithValues(separatedHands[1]);
+    if (bothHandsHaveATwoPair(hand1, hand2)){return parseWinningHand(highTwoPairWins(hand1, hand2));}
+    if (eitherHandHasATwoPair(hand1, hand2)){return parseWinningHand(twoPairWins(hand1, hand2));}
+    if (eitherHandHasAHigherPair(hand1, hand2)) {return parseWinningHand(highPairWins(hand1, hand2));}
+    return parseWinningHand(highCardWins(hand1, hand2));
+}
 
+function twoPairWins(hand1: any, hand2: any){
+    let hand1HasTwoPair = arrayOfPairValues(hand1).length > 1;
+    let hand2HasTwoPair = arrayOfPairValues(hand2).length > 1;
+    if (hand1HasTwoPair){return [hand1["player"] + " wins. - with a xxx high two pair", arrayOfPairValues(hand1)[cardValue]];}
+    if (hand2HasTwoPair){return [hand2["player"] + " wins. - with a xxx high two pair", arrayOfPairValues(hand2)[cardValue]];}
+}
+
+function highTwoPairWins(hand1: any, hand2: any){
+    let hand1HighPairValue = arrayOfPairValues(hand1)[0];
+    let hand2HighPairValue = arrayOfPairValues(hand2)[0];
+    if (hand1HighPairValue > hand2HighPairValue){return [hand1["player"] + " wins. - with a xxx high two pair", hand1HighPairValue];}
+    if (hand2HighPairValue > hand1HighPairValue){return [hand2["player"] + " wins. - with a xxx high two pair", hand2HighPairValue];}
+}
+
+function highPairWins(hand1: any, hand2: any){
+    let hand1HighPair = valueOfPairInHand(hand1["cards"]);
+    let hand2HighPair = valueOfPairInHand(hand2["cards"]);
+    if (hand1HighPair > hand2HighPair){return [hand1["player"] + " wins. - with a pair of xxx's", hand1HighPair];}
+    if (hand2HighPair > hand1HighPair){return [hand2["player"] + " wins. - with a pair of xxx's", hand2HighPair];}
 }
 
 function highCardWins(hand1: any, hand2: any){
-    var hand1HighestCard = hand1["cards"][0][0];
-    var hand2HighestCard = hand2["cards"][0][0];
+    var hand1HighestCard = hand1["cards"][0][cardValue];
+    var hand2HighestCard = hand2["cards"][0][cardValue];
     if (hand2HighestCard > hand1HighestCard){
         return [hand2["player"] + " wins. - with high card: xxx", hand2HighestCard];
     }
@@ -34,21 +47,28 @@ function highCardWins(hand1: any, hand2: any){
     }
 }
 
-function highPairWins(hand1: any, hand2: any){
-    let hand1HighPair = valueOfPairInHand(hand1);
-    let hand2HighPair = valueOfPairInHand(hand2);
-    if (hand1HighPair > hand2HighPair){return [hand1["player"] + " wins. - with a pair of xxx's", hand1HighPair];}
-    if (hand2HighPair > hand1HighPair){return [hand2["player"] + " wins. - with a pair of xxx's", hand2HighPair];}
-}
-
-function valueOfPairInHand (hand: any){
+function valueOfPairInHand (cardsInHand: any){
     var handPairValue = 0;
-    for (let i = 0; i < hand["cards"].length - 1; i++) {
-        if (hand["cards"][i][cardValue] === hand["cards"][i + 1][cardValue]) {
-            handPairValue = hand["cards"][i][cardValue];
+    for (let i = 0; i < cardsInHand.length - 1; i++) {
+        if (cardsInHand[i][cardValue] === cardsInHand[i + 1][cardValue]) {
+            handPairValue = cardsInHand[i][cardValue];
         }
     }
      return handPairValue;   
+}
+
+function arrayOfPairValues(hand: any): number[] {
+    let cardsInHand = hand["cards"];
+    let firstPairValue = valueOfPairInHand(cardsInHand);
+    console.log(firstPairValue);
+    if (firstPairValue > 0){
+        cardsInHand = cardsInHand.filter((a)=> a[0] != firstPairValue);
+        if (valueOfPairInHand(cardsInHand) > 0){
+            console.log([valueOfPairInHand(cardsInHand), firstPairValue]);
+            return [valueOfPairInHand(cardsInHand), firstPairValue];}
+        return [firstPairValue];
+    }
+    return [];
 }
 
 function separateHands(gameInput: string): string[] {
@@ -56,6 +76,12 @@ function separateHands(gameInput: string): string[] {
     handArray.push(gameInput.slice(0, 21));
     handArray.push(gameInput.slice(23));
     return handArray;
+}
+
+function createSortedHandWithValues(hand: string){
+    let handAsObject = convertHandToObject(hand);
+    let handWithIntegers = convertCardsToIntegers(handAsObject);
+    return sortPokerHand(handWithIntegers);
 }
 
 function convertHandToObject(Hand: string): any {
@@ -113,9 +139,8 @@ function convertIntegersToCards(cardInteger: number): string {
             return "Jack";
         default:
             return cardInteger.toString();
-        }
     }
-
+}
 
 function parseWinningHand(winningMessage: any): string {
     if (typeof winningMessage === "string"){return winningMessage;}
@@ -123,6 +148,15 @@ function parseWinningHand(winningMessage: any): string {
 }
 
 function eitherHandHasAHigherPair(hand1: any, hand2: any){
-    return valueOfPairInHand(hand1)!= valueOfPairInHand(hand2);
+    return valueOfPairInHand(hand1["cards"])!= valueOfPairInHand(hand2["cards"]);
 }
-
+function bothHandsHaveATwoPair(hand1: any, hand2: any){
+    let hand1HasATwoPair = arrayOfPairValues(hand1).length > 1;
+    let hand2HasATwoPair = arrayOfPairValues(hand2).length > 1;
+    return (hand1HasATwoPair && hand2HasATwoPair);
+}
+function eitherHandHasATwoPair(hand1: any, hand2: any){
+    let hand1HasATwoPair = arrayOfPairValues(hand1).length > 1;
+    let hand2HasATwoPair = arrayOfPairValues(hand2).length > 1;
+    return (hand1HasATwoPair || hand2HasATwoPair);
+}
