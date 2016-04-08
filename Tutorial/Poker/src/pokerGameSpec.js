@@ -20,8 +20,14 @@ describe('pokerGame', function () {
     it('Should return White as the winner with a higher two pair', function () {
         return expect(pokerGame("Black: 3H 3D 9H 9C KD  White: 2C 2C 8D KS KH")).toEqual("White wins. - with a King high two pair");
     });
-    it('Should return White as the winner with a two pair', function () {
+    it('Should return Black as the winner with a two pair', function () {
         return expect(pokerGame("Black: 3H 3D 9H 9C KD  White: 2C 4C 8D KS KH")).toEqual("Black wins. - with a 9 high two pair");
+    });
+    it('Should return White as the winner with a three of a kind', function () {
+        return expect(pokerGame("Black: 3H 3D 9H 9C KD  White: 8S 8C 8D 6S KH")).toEqual("White wins. - with three 8's");
+    });
+    it('Should return Black as the winner with the higher three of a kind', function () {
+        return expect(pokerGame("Black: 3H 9D 9H 9C KD  White: 8S 8C 8D 6S KH")).toEqual("Black wins. - with three 9's");
     });
 });
 describe('separateHands', function () {
@@ -89,6 +95,29 @@ describe('twoPairWins', function () {
         var blackHand = { player: "Black", cards: [[13, "H"], [13, "D"], [11, "S"], [11, "C"], [5, "D"]] };
         var whiteHand = { player: "White", cards: [[14, "C"], [12, "H"], [11, "D"], [5, "H"], [5, "S"]] };
         return expect(twoPairWins(blackHand, whiteHand)).toEqual(["Black wins. - with a xxx high two pair", 13]);
+    });
+});
+describe('threeOfAKindValue', function () {
+    it('Should take in two hands and return the winning two pair hand', function () {
+        var threeOfAKindInCards = [[13, "H"], [11, "D"], [11, "S"], [11, "C"], [5, "D"]];
+        return expect(threeOfAKindValue(threeOfAKindInCards)).toEqual(11);
+    });
+});
+describe('threeOfAKindWins', function () {
+    it('Should take in two hands and return the winning string for a three of a kind', function () {
+        var blackHand = { player: "Black", cards: [[13, "H"], [11, "D"], [11, "S"], [11, "C"], [5, "D"]] };
+        var whiteHand = { player: "White", cards: [[14, "C"], [12, "H"], [10, "D"], [5, "H"], [5, "S"]] };
+        return expect(threeOfAKindWins(blackHand, whiteHand)).toEqual(["Black wins. - with three xxx's", 11]);
+    });
+    it('Should take in two hands and return the winning string for a three of a kind in the second hand has the three of a kind', function () {
+        var blackHand = { player: "Black", cards: [[13, "H"], [11, "D"], [11, "S"], [10, "C"], [5, "D"]] };
+        var whiteHand = { player: "White", cards: [[12, "C"], [12, "H"], [12, "D"], [5, "H"], [5, "S"]] };
+        return expect(threeOfAKindWins(blackHand, whiteHand)).toEqual(["White wins. - with three xxx's", 12]);
+    });
+    it('Should take the three of a kind with the higher value', function () {
+        var blackHand = { player: "Black", cards: [[13, "H"], [9, "D"], [9, "S"], [9, "C"], [5, "D"]] };
+        var whiteHand = { player: "White", cards: [[12, "C"], [11, "H"], [5, "C"], [5, "H"], [5, "S"]] };
+        return expect(threeOfAKindWins(blackHand, whiteHand)).toEqual(["Black wins. - with three xxx's", 9]);
     });
 });
 describe('valueOfPairInHand', function () {

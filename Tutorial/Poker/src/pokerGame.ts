@@ -4,10 +4,32 @@ function pokerGame(gameInput: string): any{
     let separatedHands = separateHands(gameInput);
     let hand1 = createSortedHandWithValues(separatedHands[0]);
     let hand2 = createSortedHandWithValues(separatedHands[1]);
+    if (eitherHandHasAThreeOfAKind(hand1, hand2)){return parseWinningHand(threeOfAKindWins(hand1, hand2));}
     if (bothHandsHaveATwoPair(hand1, hand2)){return parseWinningHand(highTwoPairWins(hand1, hand2));}
     if (eitherHandHasATwoPair(hand1, hand2)){return parseWinningHand(twoPairWins(hand1, hand2));}
     if (eitherHandHasAHigherPair(hand1, hand2)) {return parseWinningHand(highPairWins(hand1, hand2));}
     return parseWinningHand(highCardWins(hand1, hand2));
+}
+
+function threeOfAKindValue(hand){
+    let threeOfAKindValueInHand = 0
+    for (let i = 0; i < hand.length - 2; i++){
+        if (hand[i][cardValue] === hand[i + 1][cardValue] && hand[i][cardValue] === hand[i + 2][cardValue]){
+            threeOfAKindValueInHand = hand[i][cardValue];
+        }
+    }
+    return threeOfAKindValueInHand;
+}
+
+function threeOfAKindWins(hand1, hand2){
+    let hand1ThreeOfAKindValue = threeOfAKindValue(hand1["cards"]);
+    console.log(hand1ThreeOfAKindValue);
+    let hand2ThreeOfAKindValue = threeOfAKindValue(hand2["cards"]);
+    //console.log(hand2ThreeOfAKindValue);
+    if (hand1ThreeOfAKindValue > hand2ThreeOfAKindValue){
+        console.log("in the loop");
+        return [hand1["player"] + " wins. - with three xxx's", hand1ThreeOfAKindValue];}
+    return [hand2["player"] + " wins. - with three xxx's", hand2ThreeOfAKindValue];
 }
 
 function twoPairWins(hand1: any, hand2: any){
@@ -60,11 +82,9 @@ function valueOfPairInHand (cardsInHand: any){
 function arrayOfPairValues(hand: any): number[] {
     let cardsInHand = hand["cards"];
     let firstPairValue = valueOfPairInHand(cardsInHand);
-    console.log(firstPairValue);
     if (firstPairValue > 0){
         cardsInHand = cardsInHand.filter((a)=> a[0] != firstPairValue);
         if (valueOfPairInHand(cardsInHand) > 0){
-            console.log([valueOfPairInHand(cardsInHand), firstPairValue]);
             return [valueOfPairInHand(cardsInHand), firstPairValue];}
         return [firstPairValue];
     }
@@ -159,4 +179,10 @@ function eitherHandHasATwoPair(hand1: any, hand2: any){
     let hand1HasATwoPair = arrayOfPairValues(hand1).length > 1;
     let hand2HasATwoPair = arrayOfPairValues(hand2).length > 1;
     return (hand1HasATwoPair || hand2HasATwoPair);
+}
+
+function eitherHandHasAThreeOfAKind(hand1: any, hand2: any){
+    let hand1HasAThreeOfAKind = threeOfAKindValue(hand1["cards"]) > 0;
+    let hand2HasAThreeOfAKind = threeOfAKindValue(hand2["cards"]) > 0;
+    return (hand1HasAThreeOfAKind || hand2HasAThreeOfAKind);
 }
