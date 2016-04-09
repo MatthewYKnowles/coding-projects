@@ -3,6 +3,12 @@ function pokerGame(gameInput) {
     var separatedHands = separateHands(gameInput);
     var hand1 = createSortedHandWithValues(separatedHands[0]);
     var hand2 = createSortedHandWithValues(separatedHands[1]);
+    if (bothHandsHaveAStrait(hand1, hand2)) {
+        return parseWinningHand(handWithHigherStraitWins(hand1, hand2));
+    }
+    if (eitherHandHasAStrait(hand1, hand2)) {
+        return parseWinningHand(straitWins(hand1, hand2));
+    }
     if (eitherHandHasAThreeOfAKind(hand1, hand2)) {
         return parseWinningHand(threeOfAKindWins(hand1, hand2));
     }
@@ -16,6 +22,38 @@ function pokerGame(gameInput) {
         return parseWinningHand(highPairWins(hand1, hand2));
     }
     return parseWinningHand(highCardWins(hand1, hand2));
+}
+function handWithHigherStraitWins(hand1, hand2) {
+    var hand1HighCard = hand1["cards"][0][cardValue];
+    var hand2HighCard = hand2["cards"][0][cardValue];
+    if (hand1HighCard > hand2HighCard) {
+        return [hand1["player"] + " wins. - with an xxx high strait", hand1HighCard];
+    }
+    if (hand2HighCard > hand1HighCard) {
+        return [hand2["player"] + " wins. - with an xxx high strait", hand2HighCard];
+    }
+    if (hand1HighCard === hand2HighCard) {
+        return "Tie.";
+    }
+}
+function straitWins(hand1, hand2) {
+    if (hasAStrait(hand1)) {
+        return [hand1["player"] + " wins. - with an xxx high strait", hand1["cards"][0][cardValue]];
+    }
+    if (hasAStrait(hand2)) {
+        return [hand2["player"] + " wins. - with an xxx high strait", hand2["cards"][0][cardValue]];
+    }
+}
+function hasAStrait(hand) {
+    var cards = hand["cards"];
+    var consecutiveNumbers = 0;
+    for (var i = 0; i < cards.length - 1; i++) {
+        if (cards[i][cardValue] - 1 === cards[i + 1][cardValue]) {
+            console.log(cards[i + 1][cardValue]);
+            consecutiveNumbers += 1;
+        }
+    }
+    return consecutiveNumbers === 4;
 }
 function threeOfAKindValue(hand) {
     var threeOfAKindValueInHand = 0;
@@ -143,6 +181,9 @@ function convertCardsToIntegers(hand) {
             case "J":
                 hand["cards"][i][0] = 11;
                 break;
+            case "T":
+                hand["cards"][i][0] = 10;
+                break;
             default:
                 hand["cards"][i][0] = parseInt(currentCardValue);
                 break;
@@ -164,6 +205,8 @@ function convertIntegersToCards(cardInteger) {
             return "Queen";
         case 11:
             return "Jack";
+        case 10:
+            return "10";
         default:
             return cardInteger.toString();
     }
@@ -193,4 +236,10 @@ function eitherHandHasAThreeOfAKind(hand1, hand2) {
     var hand1HasAThreeOfAKind = threeOfAKindValue(hand1["cards"]) > 0;
     var hand2HasAThreeOfAKind = threeOfAKindValue(hand2["cards"]) > 0;
     return (hand1HasAThreeOfAKind || hand2HasAThreeOfAKind);
+}
+function eitherHandHasAStrait(hand1, hand2) {
+    return (hasAStrait(hand1) || hasAStrait(hand2));
+}
+function bothHandsHaveAStrait(hand1, hand2) {
+    return (hasAStrait(hand1) && hasAStrait(hand2));
 }

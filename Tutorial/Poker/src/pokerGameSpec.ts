@@ -29,6 +29,15 @@ describe('pokerGame', function () {
     it('Should return Black as the winner with the higher three of a kind', function () {
         return expect(pokerGame("Black: 3H 9D 9H 9C KD  White: 8S 8C 8D 6S KH")).toEqual("Black wins. - with three 9's");
     });
+    it('Should return Black as the winner with a strait', function () {
+        return expect(pokerGame("Black: 9H 8D 7H 6C 5D  White: 8S 8C 8D 6S KH")).toEqual("Black wins. - with an 9 high strait");
+    });
+    it('Should return White as the winner with a strait', function () {
+        return expect(pokerGame("Black: 9H 9D 7H 6C 5D  White: KS JC QD TS 9S")).toEqual("White wins. - with an King high strait");
+    });
+    it('Should return tie since they both have the same strait value', function () {
+        return expect(pokerGame("Black: KH QD JH TC 9D  White: KS JC QD TS 9S")).toEqual("Tie.");
+    });
 });
 describe('separateHands', function () {
     it('Should return an array of both hands', function () {
@@ -97,6 +106,37 @@ describe('twoPairWins', function () {
         return expect(twoPairWins(blackHand, whiteHand)).toEqual(["Black wins. - with a xxx high two pair", 13]);
     });
 });
+
+describe('straitWins', function () {
+    it('Should take in two hands and return the hand that contains the strait', function () {
+        var whiteHand = {player : "White", cards: [[13, "S"], [12, "S"], [11, "S"], [9, "H"], [2, "S"]]};
+        var blackHand = {player : "Black", cards: [[13, "C"], [12, "H"], [11, "D"], [10, "H"], [9, "S"]]};
+        return expect(straitWins(blackHand, whiteHand)).toEqual(["Black wins. - with an xxx high strait", 13]);
+    });
+});
+describe('hasAStrait', function () {
+    it('Should take return true if it is a strait', function () {
+        var handWithStrait = {player : "White", cards: [[13, "C"], [12, "H"], [11, "D"], [10, "H"], [9, "S"]]};
+        return expect(hasAStrait(handWithStrait)).toEqual(true);
+    });
+    it('Should return false if it does not contain a strait', function () {
+        var handWithStrait = {player : "White", cards: [[13, "C"], [12, "H"], [11, "D"], [9, "H"], [2, "S"]]};
+        return expect(hasAStrait(handWithStrait)).toEqual(false);
+    });
+});
+describe('handWithHigherStraitWins', function () {
+    it('Should take return true if it is a strait', function () {
+        var whiteHand = {player : "White", cards: [[13, "S"], [12, "S"], [11, "S"], [10, "H"], [9, "S"]]};
+        var blackHand = {player : "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]]};
+        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual([ 'Black wins. - with an xxx high strait', 14 ]);
+    });
+    it('Should take return tie if they have the same high strait card', function () {
+        var whiteHand = {player : "White", cards: [[14, "S"], [13, "S"], [12, "S"], [11, "S"], [10, "H"]]};
+        var blackHand = {player : "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]]};
+        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual("Tie.");
+    });
+});
+
 describe('threeOfAKindValue', function () {
     it('Should take in two hands and return the winning two pair hand', function () {
         var threeOfAKindInCards= [[13, "H"], [11, "D"], [11, "S"], [11, "C"], [5, "D"]];
@@ -145,5 +185,12 @@ describe('arrayOfPairValues', function () {
     var handWithTwoPair = {player : "Black", cards: [[14, "H"], [14, "D"], [11, "S"], [11, "C"], [5, "D"]]};
     it('Should return an array of both hands', function () {
         return expect(arrayOfPairValues(handWithTwoPair)).toEqual([14, 11]);
+    });
+});
+describe('eitherHandHasAStrait', function () {
+    var blackHand = {player : "Black", cards: [[13, "H"], [9, "D"], [9, "S"], [9, "C"], [5, "D"]]};
+    var whiteHand = {player : "White", cards: [[12, "C"], [11, "H"], [10, "C"], [9, "H"], [8, "S"]]};
+    it('Should take in an object with face card values and convert them to 11,12,13 or 14', function () {
+        return expect(eitherHandHasAStrait(blackHand, whiteHand)).toEqual(true);
     });
 });

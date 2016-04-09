@@ -24,8 +24,8 @@
       <file leaf-file-name="pokerGameSpec.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pokerGameSpec.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="141" column="7" selection-start-line="141" selection-start-column="7" selection-end-line="141" selection-end-column="7" />
+            <state relative-caret-position="377">
+              <caret line="175" column="7" selection-start-line="175" selection-start-column="7" selection-end-line="175" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -34,8 +34,18 @@
       <file leaf-file-name="pokerGame.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="unit-tests.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/unit-tests.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -65,8 +75,8 @@
         <option value="$PROJECT_DIR$/tsconfig.json" />
         <option value="$PROJECT_DIR$/src/pokerGameSpec.js" />
         <option value="$PROJECT_DIR$/src/pokerGame.js" />
-        <option value="$PROJECT_DIR$/src/pokerGameSpec.ts" />
         <option value="$PROJECT_DIR$/src/pokerGame.ts" />
+        <option value="$PROJECT_DIR$/src/pokerGameSpec.ts" />
       </list>
     </option>
   </component>
@@ -78,8 +88,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1696" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -106,6 +116,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -140,7 +151,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -256,11 +266,12 @@
       <workItem from="1460122842936" duration="5334000" />
       <workItem from="1460136038720" duration="123000" />
       <workItem from="1460137657222" duration="3441000" />
+      <workItem from="1460227375809" duration="4168000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56603000" />
+    <option name="totallyTimeSpent" value="60771000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -272,12 +283,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14434524" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14414957" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281075" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="TypeScript Compiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32242227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript Compiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32138857" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -356,13 +367,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="1" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="37" />
-          <folding>
-            <marker date="1460145874006" expanded="true" signature="49:757" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="629:697" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1098" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1060" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="6984:6986" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -408,13 +413,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="1" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="37" />
-          <folding>
-            <marker date="1460145874006" expanded="true" signature="49:757" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="629:697" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1098" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1060" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="6984:6986" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -460,13 +459,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="1" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="37" />
-          <folding>
-            <marker date="1460145874006" expanded="true" signature="49:757" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="629:697" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1098" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1060" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="6984:6986" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -507,26 +500,20 @@
     <entry file="file://$PROJECT_DIR$/src/pokerGameSpec.js.map" />
     <entry file="file://$PROJECT_DIR$/src/pokerGameSpec.ts" />
     <entry file="file://$PROJECT_DIR$/src/pokerGame.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pokerGame.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="1" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="45" />
-          <folding>
-            <marker date="1460145874006" expanded="true" signature="49:757" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="629:697" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1098" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1060" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="6984:6986" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -567,23 +554,16 @@
     <entry file="file://$PROJECT_DIR$/node_modules/tsconfig.json" />
     <entry file="file://$PROJECT_DIR$/src/pokerGameSpec.js.map" />
     <entry file="file://$PROJECT_DIR$/src/pokerGame.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/typings.json" />
-    <entry file="file://$PROJECT_DIR$/src/Spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="33" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_github.com_DefinitelyTyped_DefinitelyTyped_raw_master_jasmine_jasmine.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -653,13 +633,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <marker date="1460145874006" expanded="true" signature="49:757" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="629:697" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1098" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="1029:1060" placeholder="{...}" />
-            <marker date="1460145874006" expanded="true" signature="6984:6986" placeholder="{...}" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -671,18 +661,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pokerGameSpec.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="141" column="7" selection-start-line="141" selection-start-column="7" selection-end-line="141" selection-end-column="7" />
+        <state relative-caret-position="377">
+          <caret line="175" column="7" selection-start-line="175" selection-start-column="7" selection-end-line="175" selection-end-column="7" />
           <folding />
         </state>
       </provider>
