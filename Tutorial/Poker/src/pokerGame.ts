@@ -23,11 +23,8 @@ function threeOfAKindValue(hand){
 
 function threeOfAKindWins(hand1, hand2){
     let hand1ThreeOfAKindValue = threeOfAKindValue(hand1["cards"]);
-    console.log(hand1ThreeOfAKindValue);
     let hand2ThreeOfAKindValue = threeOfAKindValue(hand2["cards"]);
-    //console.log(hand2ThreeOfAKindValue);
     if (hand1ThreeOfAKindValue > hand2ThreeOfAKindValue){
-        console.log("in the loop");
         return [hand1["player"] + " wins. - with three xxx's", hand1ThreeOfAKindValue];}
     return [hand2["player"] + " wins. - with three xxx's", hand2ThreeOfAKindValue];
 }
@@ -180,7 +177,6 @@ function eitherHandHasATwoPair(hand1: any, hand2: any){
     let hand2HasATwoPair = arrayOfPairValues(hand2).length > 1;
     return (hand1HasATwoPair || hand2HasATwoPair);
 }
-
 function eitherHandHasAThreeOfAKind(hand1: any, hand2: any){
     let hand1HasAThreeOfAKind = threeOfAKindValue(hand1["cards"]) > 0;
     let hand2HasAThreeOfAKind = threeOfAKindValue(hand2["cards"]) > 0;

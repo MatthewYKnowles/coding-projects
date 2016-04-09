@@ -12,7 +12,8 @@ import {AutoGrowDirective} from "./auto-grow.directive";
             <li *ngFor="#course of courses">
             {{ course }}
             </li>
-        </ul>`,
+        </ul>
+        `,
     providers: [CourseService],
     directives: [AutoGrowDirective]
 })

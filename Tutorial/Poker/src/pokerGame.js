@@ -28,11 +28,8 @@ function threeOfAKindValue(hand) {
 }
 function threeOfAKindWins(hand1, hand2) {
     var hand1ThreeOfAKindValue = threeOfAKindValue(hand1["cards"]);
-    console.log(hand1ThreeOfAKindValue);
     var hand2ThreeOfAKindValue = threeOfAKindValue(hand2["cards"]);
-    //console.log(hand2ThreeOfAKindValue);
     if (hand1ThreeOfAKindValue > hand2ThreeOfAKindValue) {
-        console.log("in the loop");
         return [hand1["player"] + " wins. - with three xxx's", hand1ThreeOfAKindValue];
     }
     return [hand2["player"] + " wins. - with three xxx's", hand2ThreeOfAKindValue];

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./courses.component", "./author.component"], function(exports_1, context_1) {
+System.register(['angular2/core', "./courses.component", "./author.component", "./favorite.component"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "./courses.component", "./author.component"], 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, courses_component_1, author_component_1;
+    var core_1, courses_component_1, author_component_1, favorite_component_1;
     var AppComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', "./courses.component", "./author.component"], 
             },
             function (author_component_1_1) {
                 author_component_1 = author_component_1_1;
+            },
+            function (favorite_component_1_1) {
+                favorite_component_1 = favorite_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -30,8 +33,8 @@ System.register(['angular2/core', "./courses.component", "./author.component"], 
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "<h1>Hello Angular</h1>\n               <courses></courses>\n               <authors></authors>",
-                        directives: [courses_component_1.CoursesComponent, author_component_1.AuthorComponent]
+                        template: "<h1>Hello Angular</h1>\n               <courses></courses>\n               <authors></authors>\n               <favorite></favorite>",
+                        directives: [courses_component_1.CoursesComponent, author_component_1.AuthorComponent, favorite_component_1.FavoriteComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
