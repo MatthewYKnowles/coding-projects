@@ -86,6 +86,20 @@ describe('sortPokerHand', function () {
         return expect(sortPokerHand(unsortedHand)).toEqual(sortedHand);
     });
 });
+describe('parseWinningHand', function () {
+    it('Should return correct winning string', function () {
+        return expect(parseWinningHand(["Black wins. - with high card: xxx", 13])).toEqual("Black wins. - with high card: King");
+    });
+    it('Should return correct tie string', function () {
+        return expect(parseWinningHand(("Tie."))).toEqual("Tie.");
+    });
+});
+describe('convertIntegersToCards', function () {
+    it('Should take in an object with face card values and convert them to 11,12,13 or 14', function () {
+        return expect(convertIntegersToCards(14)).toEqual("Ace");
+    });
+});
+//--------------------------------------------------------------------------------------------------------------------------------------
 describe('highCardWins', function () {
     it('Should take in two hands and return a string of which player won and with which card', function () {
         var blackHand = { player: "Black", cards: [[12, "H"], [11, "D"], [10, "S"], [9, "C"], [2, "D"]] };
@@ -108,6 +122,12 @@ describe('highPairWins', function () {
         var blackHand = { player: "Black", cards: [[14, "H"], [13, "D"], [11, "S"], [11, "C"], [5, "D"]] };
         var whiteHand = { player: "White", cards: [[14, "C"], [13, "C"], [11, "D"], [9, "H"], [5, "S"]] };
         return expect(highPairWins(blackHand, whiteHand)).toEqual(["Black wins. - with a pair of xxx's", 11]);
+    });
+});
+describe('valueOfPairInHand', function () {
+    it('Should return the value of a pair in a hand', function () {
+        var blackHandCards = [[14, "H"], [13, "D"], [13, "S"], [11, "C"], [5, "D"]];
+        return expect(valueOfPairInHand(blackHandCards)).toEqual(13);
     });
 });
 describe('highTwoPairWins', function () {
@@ -141,6 +161,18 @@ describe('hasAStrait', function () {
         return expect(hasAStrait(handWithStrait)).toEqual(false);
     });
 });
+describe('handWithHigherStraitWins', function () {
+    it('Should take return true if it is a strait', function () {
+        var whiteHand = { player: "White", cards: [[13, "S"], [12, "S"], [11, "S"], [10, "H"], [9, "S"]] };
+        var blackHand = { player: "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]] };
+        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual(['Black wins. - with an xxx high strait', 14]);
+    });
+    it('Should take return tie if they have the same high strait card', function () {
+        var whiteHand = { player: "White", cards: [[14, "S"], [13, "S"], [12, "S"], [11, "S"], [10, "H"]] };
+        var blackHand = { player: "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]] };
+        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual("Tie.");
+    });
+});
 describe('hasAFlush', function () {
     it('Should take return true if player has a flush', function () {
         var handWithFlush = { player: "White", cards: [[13, "H"], [12, "H"], [11, "H"], [10, "H"], [2, "H"]] };
@@ -156,18 +188,6 @@ describe('eitherHandHasAFlush', function () {
         var handWithFlush = { player: "White", cards: [[13, "H"], [12, "H"], [11, "H"], [10, "H"], [2, "H"]] };
         var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "D"], [11, "D"], [9, "D"], [2, "S"]] };
         return expect(eitherHandHasAFlush(handWithFlush, handWithNoFlush)).toEqual(true);
-    });
-});
-describe('handWithHigherStraitWins', function () {
-    it('Should take return true if it is a strait', function () {
-        var whiteHand = { player: "White", cards: [[13, "S"], [12, "S"], [11, "S"], [10, "H"], [9, "S"]] };
-        var blackHand = { player: "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]] };
-        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual(['Black wins. - with an xxx high strait', 14]);
-    });
-    it('Should take return tie if they have the same high strait card', function () {
-        var whiteHand = { player: "White", cards: [[14, "S"], [13, "S"], [12, "S"], [11, "S"], [10, "H"]] };
-        var blackHand = { player: "Black", cards: [[14, "C"], [13, "H"], [12, "D"], [11, "H"], [10, "S"]] };
-        return expect(handWithHigherStraitWins(blackHand, whiteHand)).toEqual("Tie.");
     });
 });
 describe('threeOfAKindValue', function () {
@@ -191,25 +211,6 @@ describe('threeOfAKindWins', function () {
         var blackHand = { player: "Black", cards: [[13, "H"], [9, "D"], [9, "S"], [9, "C"], [5, "D"]] };
         var whiteHand = { player: "White", cards: [[12, "C"], [11, "H"], [5, "C"], [5, "H"], [5, "S"]] };
         return expect(threeOfAKindWins(blackHand, whiteHand)).toEqual(["Black wins. - with three xxx's", 9]);
-    });
-});
-describe('valueOfPairInHand', function () {
-    it('Should return the value of a pair in a hand', function () {
-        var blackHandCards = [[14, "H"], [13, "D"], [11, "S"], [11, "C"], [5, "D"]];
-        return expect(valueOfPairInHand(blackHandCards)).toEqual(11);
-    });
-});
-describe('parseWinningHand', function () {
-    it('Should return correct winning string', function () {
-        return expect(parseWinningHand(["Black wins. - with high card: xxx", 13])).toEqual("Black wins. - with high card: King");
-    });
-    it('Should return correct tie string', function () {
-        return expect(parseWinningHand(("Tie."))).toEqual("Tie.");
-    });
-});
-describe('convertIntegersToCards', function () {
-    it('Should take in an object with face card values and convert them to 11,12,13 or 14', function () {
-        return expect(convertIntegersToCards(14)).toEqual("Ace");
     });
 });
 describe('arrayOfPairValues', function () {

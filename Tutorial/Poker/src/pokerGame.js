@@ -49,15 +49,6 @@ function straitFlushWins(hand1, hand2) {
         return [hand2["player"] + " wins. - with a strait flush", 0];
     }
 }
-function hasAStraitFlush(hand) {
-    return (hasAFlush(hand) && hasAStrait(hand));
-}
-function eitherHandHasAStraitFlush(hand1, hand2) {
-    return (hasAStraitFlush(hand1) || hasAStraitFlush(hand2));
-}
-function eitherHandHasAFourOfAKind(hand1, hand2) {
-    return (hasAFourOfAKind(hand1) || hasAFourOfAKind(hand2));
-}
 function fourOfAKindWins(hand1, hand2) {
     if (valueOfAFourOfAKind(hand1) > valueOfAFourOfAKind(hand2)) {
         return [hand1["player"] + " wins. - with 4 xxx's", valueOfAFourOfAKind(hand1)];
@@ -375,6 +366,15 @@ function eitherHandHasAFullHouse(hand1, hand2) {
 }
 function bothHandsHaveAFullHouse(hand1, hand2) {
     return (hasAFullHouse(hand1) && hasAFullHouse(hand2));
+}
+function hasAStraitFlush(hand) {
+    return (hasAFlush(hand) && hasAStrait(hand));
+}
+function eitherHandHasAStraitFlush(hand1, hand2) {
+    return (hasAStraitFlush(hand1) || hasAStraitFlush(hand2));
+}
+function eitherHandHasAFourOfAKind(hand1, hand2) {
+    return (hasAFourOfAKind(hand1) || hasAFourOfAKind(hand2));
 }
 var cardValue = 0;
 var suit = 1;

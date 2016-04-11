@@ -12,7 +12,6 @@ function pokerGame(gameInput: string): any{
     if (eitherHandHasAHigherPair(hand1, hand2)) {return parseWinningHand(highPairWins(hand1, hand2));}
     return parseWinningHand(highCardWins(hand1, hand2));
 }
-
 function highStraitFlushWins(hand1: any, hand2: any){
     if (highestCardInHand(hand1)> highestCardInHand(hand2)){return [hand1["player"] + " wins. - with a xxx high strait flush", highestCardInHand(hand1)];}
     else{{return [hand2["player"] + " wins. - with a xxx high strait flush", highestCardInHand(hand2)];}}
@@ -23,16 +22,6 @@ function straitFlushWins(hand1: any, hand2: any){
     if (hasAStraitFlush(hand1)){return [hand1["player"] + " wins. - with a strait flush", 0];}
     else {return [hand2["player"] + " wins. - with a strait flush", 0];}
 }
-function hasAStraitFlush(hand: any): boolean{
-    return (hasAFlush(hand) && hasAStrait(hand));
-}
-function eitherHandHasAStraitFlush(hand1: any, hand2: any): boolean {
-    return (hasAStraitFlush(hand1) || hasAStraitFlush(hand2));
-}
-function eitherHandHasAFourOfAKind(hand1, hand2){
-    return (hasAFourOfAKind(hand1) || hasAFourOfAKind(hand2))
-}
-
 function fourOfAKindWins(hand1: any, hand2: any){
     if (valueOfAFourOfAKind(hand1)> valueOfAFourOfAKind(hand2)){return [hand1["player"] + " wins. - with 4 xxx's", valueOfAFourOfAKind(hand1)];}
     else {return [hand2["player"] + " wins. - with 4 xxx's", valueOfAFourOfAKind(hand2)];}
@@ -299,6 +288,15 @@ function eitherHandHasAFullHouse(hand1:any, hand2:any){
 }
 function bothHandsHaveAFullHouse(hand1: any, hand2: any): boolean {
     return (hasAFullHouse(hand1) && hasAFullHouse(hand2));
+}
+function hasAStraitFlush(hand: any): boolean{
+    return (hasAFlush(hand) && hasAStrait(hand));
+}
+function eitherHandHasAStraitFlush(hand1: any, hand2: any): boolean {
+    return (hasAStraitFlush(hand1) || hasAStraitFlush(hand2));
+}
+function eitherHandHasAFourOfAKind(hand1, hand2){
+    return (hasAFourOfAKind(hand1) || hasAFourOfAKind(hand2))
 }
 var cardValue = 0;
 var suit = 1;
