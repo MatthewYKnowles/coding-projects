@@ -38,6 +38,24 @@ describe('pokerGame', function () {
     it('Should return tie since they both have the same strait value', function () {
         return expect(pokerGame("Black: KH QD JH TC 9D  White: KS JC QD TS 9S")).toEqual("Tie.");
     });
+    it('Should return the hand that has the flush', function () {
+        return expect(pokerGame("Black: 5D QD JD TD 9D  White: KS JC QC TS 9S")).toEqual("Black wins. - with a flush");
+    });
+    it('Should return the hand with the higher flush', function () {
+        return expect(pokerGame("Black: 5D QD JD TD KD  White: KS JS QS 5S 9S")).toEqual("Black wins. - with a 10 high flush");
+    });
+    it('Should return the hand with the full house', function () {
+        return expect(pokerGame("Black: 5D QD JD TD KD  White: 5S 5D 5C 9S 9D")).toEqual("White wins. - with a full house");
+    });
+    it('Should return the full house hand with the higher three pair', function () {
+        return expect(pokerGame("Black: 5D 5C 5S TD TS  White: 6S 6D 6C 2S 2D")).toEqual("White wins. - with a full house with 3 6's");
+    });
+    it('Should return the hand with the higher 4 of a kind', function () {
+        return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with 4 9's");
+    });
+    it('Should return the hand with the strait flush', function () {
+        return expect(pokerGame("Black: TD 9D 8D 7D 6D  White: 9S 9D 9C 9H 2D")).toEqual("Black wins. - with a strait flush");
+    });
 });
 describe('separateHands', function () {
     it('Should return an array of both hands', function () {
@@ -123,6 +141,23 @@ describe('hasAStrait', function () {
         return expect(hasAStrait(handWithStrait)).toEqual(false);
     });
 });
+describe('hasAFlush', function () {
+    it('Should take return true if player has a flush', function () {
+        var handWithFlush = { player: "White", cards: [[13, "H"], [12, "H"], [11, "H"], [10, "H"], [2, "H"]] };
+        return expect(hasAFlush(handWithFlush)).toEqual(true);
+    });
+    it('Should return false if it does not contain a flush', function () {
+        var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "H"], [11, "D"], [9, "H"], [2, "S"]] };
+        return expect(hasAFlush(handWithNoFlush)).toEqual(false);
+    });
+});
+describe('eitherHandHasAFlush', function () {
+    it('Should take return true if player has a flush', function () {
+        var handWithFlush = { player: "White", cards: [[13, "H"], [12, "H"], [11, "H"], [10, "H"], [2, "H"]] };
+        var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "D"], [11, "D"], [9, "D"], [2, "S"]] };
+        return expect(eitherHandHasAFlush(handWithFlush, handWithNoFlush)).toEqual(true);
+    });
+});
 describe('handWithHigherStraitWins', function () {
     it('Should take return true if it is a strait', function () {
         var whiteHand = { player: "White", cards: [[13, "S"], [12, "S"], [11, "S"], [10, "H"], [9, "S"]] };
@@ -137,7 +172,7 @@ describe('handWithHigherStraitWins', function () {
 });
 describe('threeOfAKindValue', function () {
     it('Should take in two hands and return the winning two pair hand', function () {
-        var threeOfAKindInCards = [[13, "H"], [11, "D"], [11, "S"], [11, "C"], [5, "D"]];
+        var threeOfAKindInCards = { player: "White", cards: [[13, "H"], [11, "D"], [11, "S"], [11, "C"], [5, "D"]] };
         return expect(threeOfAKindValue(threeOfAKindInCards)).toEqual(11);
     });
 });
@@ -186,7 +221,97 @@ describe('arrayOfPairValues', function () {
 describe('eitherHandHasAStrait', function () {
     var blackHand = { player: "Black", cards: [[13, "H"], [9, "D"], [9, "S"], [9, "C"], [5, "D"]] };
     var whiteHand = { player: "White", cards: [[12, "C"], [11, "H"], [10, "C"], [9, "H"], [8, "S"]] };
-    it('Should take in an object with face card values and convert them to 11,12,13 or 14', function () {
+    it('Should take return the hand that has the strait', function () {
         return expect(eitherHandHasAStrait(blackHand, whiteHand)).toEqual(true);
+    });
+});
+describe('bothHandsHaveAFlush', function () {
+    var blackHand = { player: "Black", cards: [[13, "H"], [9, "H"], [9, "H"], [9, "H"], [5, "H"]] };
+    var whiteHand = { player: "White", cards: [[12, "S"], [11, "S"], [10, "S"], [9, "S"], [8, "S"]] };
+    it('Should true if both hands have a flush', function () {
+        return expect(bothHandsHaveAFlush(blackHand, whiteHand)).toEqual(true);
+    });
+});
+describe('handWithHigherFlushWins', function () {
+    var blackHand = { player: "Black", cards: [[13, "H"], [10, "H"], [9, "H"], [8, "H"], [5, "H"]] };
+    var whiteHand = { player: "White", cards: [[12, "S"], [11, "S"], [10, "S"], [9, "S"], [6, "S"]] };
+    it('Should return the flush hand that has the highest card', function () {
+        return expect(handWithHigherFlushWins(blackHand, whiteHand)).toEqual(["Black wins. - with a xxx high flush", 13]);
+    });
+});
+describe('hasAFullHouse', function () {
+    it('Should take return true if player has a full house', function () {
+        var handWithFullHouse = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [10, "H"], [10, "C"]] };
+        return expect(hasAFullHouse(handWithFullHouse)).toEqual(true);
+    });
+    it('Should return false if it does not contain a full house', function () {
+        var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "H"], [11, "D"], [9, "H"], [2, "S"]] };
+        return expect(hasAFlush(handWithNoFlush)).toEqual(false);
+    });
+});
+describe('fullHouseWins', function () {
+    var blackHand = { player: "Black", cards: [[13, "H"], [9, "H"], [9, "H"], [9, "H"], [5, "H"]] };
+    var whiteHand = { player: "White", cards: [[12, "S"], [12, "H"], [12, "C"], [9, "S"], [9, "C"]] };
+    it('Should return the hand that has a full house', function () {
+        return expect(fullHouseWins(blackHand, whiteHand)).toEqual(["White wins. - with a full house", 0]);
+    });
+});
+describe('higherFullHouseWins', function () {
+    var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [9, "H"], [9, "D"]] };
+    var whiteHand = { player: "White", cards: [[12, "S"], [12, "H"], [12, "C"], [9, "S"], [9, "C"]] };
+    it('Should return the hand that has a higher three pair in its full house', function () {
+        return expect(higherFullHouseWins(blackHand, whiteHand)).toEqual(["White wins. - with a full house with 3 xxx's", 12]);
+    });
+});
+describe('hasAFourOfAKind', function () {
+    it('Should take return true if player has a four of a kind', function () {
+        var handWithFourOfAKind = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [10, "C"]] };
+        return expect(hasAFourOfAKind(handWithFourOfAKind)).toEqual(true);
+    });
+    it('Should return false if it does not contain a full house', function () {
+        var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "H"], [11, "D"], [9, "H"], [2, "S"]] };
+        return expect(hasAFlush(handWithNoFlush)).toEqual(false);
+    });
+});
+describe('ValueOfAFourOfAKind', function () {
+    it('Should take return true if player has a four of a kind', function () {
+        var handWithFourOfAKind = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [10, "C"]] };
+        return expect(valueOfAFourOfAKind(handWithFourOfAKind)).toEqual(13);
+    });
+});
+describe('fourOfAKindWins', function () {
+    it('Should take return true if player has a four of a kind', function () {
+        var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [9, "H"], [9, "D"]] };
+        var whiteHand = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [10, "C"]] };
+        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual(["White wins. - with 4 xxx's", 13]);
+    });
+    it('Should take return correct winner if they both have 4 of a kinds', function () {
+        var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [10, "D"], [9, "D"]] };
+        var whiteHand = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [2, "C"]] };
+        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual(["White wins. - with 4 xxx's", 13]);
+    });
+});
+describe('hasAStraitFlush', function () {
+    it('Should take return true if player has both a strait and a flush', function () {
+        var handWithStraitFlush = { player: "White", cards: [[12, "H"], [11, "H"], [10, "H"], [9, "H"], [8, "H"]] };
+        return expect(hasAStraitFlush(handWithStraitFlush)).toEqual(true);
+    });
+    it('Should return false if it does not contain a full house', function () {
+        var handWithNoFlush = { player: "White", cards: [[13, "C"], [12, "H"], [11, "D"], [9, "H"], [2, "S"]] };
+        return expect(hasAFlush(handWithNoFlush)).toEqual(false);
+    });
+});
+describe('straitFlushWins', function () {
+    it('Should take return that has both a strait and a flush', function () {
+        var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [10, "D"], [9, "D"]] };
+        var whiteHand = { player: "White", cards: [[12, "H"], [11, "H"], [10, "H"], [9, "H"], [8, "H"]] };
+        return expect(straitFlushWins(blackHand, whiteHand)).toEqual(["White wins. - with a strait flush", 0]);
+    });
+});
+describe('highStraitFlushWins', function () {
+    it('Should return the hand with the higher strait flush', function () {
+        var blackHand = { player: "Black", cards: [[8, "D"], [7, "D"], [6, "D"], [5, "D"], [4, "D"]] };
+        var whiteHand = { player: "White", cards: [[12, "H"], [11, "H"], [10, "H"], [9, "H"], [8, "H"]] };
+        return expect(highStraitFlushWins(blackHand, whiteHand)).toEqual(["White wins. - with a xxx high strait flush", 12]);
     });
 });
