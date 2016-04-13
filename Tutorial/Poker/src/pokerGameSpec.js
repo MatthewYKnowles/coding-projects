@@ -54,7 +54,7 @@ describe('pokerGame', function () {
         return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with 4 9's");
     });
     it('Should return the hand with the strait flush', function () {
-        return expect(pokerGame("Black: TD 9D 8D 7D 6D  White: 9S 9D 9C 9H 2D")).toEqual("Black wins. - with a strait flush");
+        return expect(pokerGame("Black: TD 9D 8D 7D 6D  White: 9S 9D 9C 9H 2D")).toEqual("Black wins. - with strait flush");
     });
 });
 describe('separateHands', function () {
@@ -306,13 +306,13 @@ describe('straitFlushWins', function () {
     it('Should take return that has both a strait and a flush', function () {
         var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [10, "D"], [9, "D"]] };
         var whiteHand = { player: "White", cards: [[12, "H"], [11, "H"], [10, "H"], [9, "H"], [8, "H"]] };
-        return expect(straitFlushWins(blackHand, whiteHand)).toEqual(["White wins. - with a strait flush", 0]);
+        return expect(straitFlushWins(blackHand, whiteHand)).toEqual("White wins. - with strait flush");
     });
 });
 describe('highStraitFlushWins', function () {
     it('Should return the hand with the higher strait flush', function () {
         var blackHand = { player: "Black", cards: [[8, "D"], [7, "D"], [6, "D"], [5, "D"], [4, "D"]] };
         var whiteHand = { player: "White", cards: [[12, "H"], [11, "H"], [10, "H"], [9, "H"], [8, "H"]] };
-        return expect(highStraitFlushWins(blackHand, whiteHand)).toEqual(["White wins. - with a xxx high strait flush", 12]);
+        return expect(highStraitFlushWins(blackHand, whiteHand)).toEqual("White wins. - with strait flush: Queen high");
     });
 });

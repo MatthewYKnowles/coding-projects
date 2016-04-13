@@ -1,40 +1,51 @@
 function pokerGame(gameInput) {
-    var separatedHands = separateHands(gameInput);
-    var hand1 = createSortedHandWithValues(separatedHands[0]);
-    var hand2 = createSortedHandWithValues(separatedHands[1]);
+    var arrayOfBothHands = separateHands(gameInput);
+    var hand1 = createSortedHandObjectWithValues(arrayOfBothHands[0]);
+    var hand2 = createSortedHandObjectWithValues(arrayOfBothHands[1]);
     if (eitherHandHasAStraitFlush(hand1, hand2)) {
-        return parseWinningHand(straitFlushWins(hand1, hand2));
+        return straitFlushWins(hand1, hand2);
     }
+    return parseWinningHand(winningHandHierarchy(hand1, hand2));
+}
+function winningHandHierarchy(hand1, hand2) {
     if (eitherHandHasAFourOfAKind(hand1, hand2)) {
-        return parseWinningHand(fourOfAKindWins(hand1, hand2));
+        return fourOfAKindWins(hand1, hand2);
     }
     if (eitherHandHasAFullHouse(hand1, hand2)) {
-        return parseWinningHand(fullHouseWins(hand1, hand2));
+        return fullHouseWins(hand1, hand2);
     }
     if (eitherHandHasAFlush(hand1, hand2)) {
-        return parseWinningHand(flushWins(hand1, hand2));
+        return flushWins(hand1, hand2);
     }
     if (eitherHandHasAStrait(hand1, hand2)) {
-        return parseWinningHand(straitWins(hand1, hand2));
+        return straitWins(hand1, hand2);
     }
     if (eitherHandHasAThreeOfAKind(hand1, hand2)) {
-        return parseWinningHand(threeOfAKindWins(hand1, hand2));
+        return threeOfAKindWins(hand1, hand2);
     }
     if (eitherHandHasATwoPair(hand1, hand2)) {
-        return parseWinningHand(twoPairWins(hand1, hand2));
+        return twoPairWins(hand1, hand2);
     }
     if (eitherHandHasAHigherPair(hand1, hand2)) {
-        return parseWinningHand(highPairWins(hand1, hand2));
+        return highPairWins(hand1, hand2);
     }
-    return parseWinningHand(highCardWins(hand1, hand2));
+    return highCardWins(hand1, hand2);
+}
+function winningString(hand, typeofHand, highCard) {
+    if (highCard === void 0) { highCard = 0; }
+    var winningString = hand["player"] + " wins. - with " + typeofHand;
+    if (highCard === 0) {
+        return winningString;
+    }
+    return winningString + ": " + convertIntegersToCards(highCard) + " high";
 }
 function highStraitFlushWins(hand1, hand2) {
     if (highestCardInHand(hand1) > highestCardInHand(hand2)) {
-        return [hand1["player"] + " wins. - with a xxx high strait flush", highestCardInHand(hand1)];
+        return winningString(hand1, "strait flush", highestCardInHand(hand2));
     }
     else {
         {
-            return [hand2["player"] + " wins. - with a xxx high strait flush", highestCardInHand(hand2)];
+            return winningString(hand2, "strait flush", highestCardInHand(hand2));
         }
     }
 }
@@ -43,10 +54,10 @@ function straitFlushWins(hand1, hand2) {
         return highStraitFlushWins(hand1, hand2);
     }
     if (hasAStraitFlush(hand1)) {
-        return [hand1["player"] + " wins. - with a strait flush", 0];
+        return winningString(hand1, "strait flush");
     }
     else {
-        return [hand2["player"] + " wins. - with a strait flush", 0];
+        return winningString(hand2, "strait flush");
     }
 }
 function fourOfAKindWins(hand1, hand2) {
@@ -262,7 +273,7 @@ function separateHands(gameInput) {
     handArray.push(gameInput.slice(23));
     return handArray;
 }
-function createSortedHandWithValues(hand) {
+function createSortedHandObjectWithValues(hand) {
     var handAsObject = convertHandToObject(hand);
     var handWithIntegers = convertCardsToIntegers(handAsObject);
     return sortPokerHand(handWithIntegers);
