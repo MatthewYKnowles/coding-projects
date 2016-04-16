@@ -3,12 +3,12 @@ function pokerGame(gameInput: string): any{
     let hand1 = createSortedHandObjectWithValues(arrayOfBothHands[0]);
     let hand2 = createSortedHandObjectWithValues(arrayOfBothHands[1]);
     if (eitherHandHasAStraitFlush(hand1, hand2)){return straitFlushWins(hand1, hand2)}
+    if (eitherHandHasAFourOfAKind(hand1, hand2)){return fourOfAKindWins(hand1, hand2);}
+    if (eitherHandHasAFullHouse(hand1, hand2)){return fullHouseWins(hand1, hand2);}
     return parseWinningHand(winningHandHierarchy(hand1, hand2));
 }
 
 function winningHandHierarchy(hand1, hand2){
-    if (eitherHandHasAFourOfAKind(hand1, hand2)){return fourOfAKindWins(hand1, hand2);}
-    if (eitherHandHasAFullHouse(hand1, hand2)){return fullHouseWins(hand1, hand2);}
     if (eitherHandHasAFlush(hand1, hand2)){return flushWins(hand1, hand2);}
     if (eitherHandHasAStrait(hand1, hand2)){return straitWins(hand1, hand2);}
     if (eitherHandHasAThreeOfAKind(hand1, hand2)){return threeOfAKindWins(hand1, hand2);}
@@ -17,25 +17,19 @@ function winningHandHierarchy(hand1, hand2){
     return highCardWins(hand1, hand2);
 }
 
-function winningString(hand, typeofHand, highCard=0){
-    let winningString = hand["player"] + " wins. - with " + typeofHand;
-    if (highCard === 0){return winningString}
-    return winningString + ": " + convertIntegersToCards(highCard) + " high";
-}
-
-function highStraitFlushWins(hand1: any, hand2: any){
-    if (highestCardInHand(hand1)> highestCardInHand(hand2)){return winningString(hand1, "strait flush", highestCardInHand(hand2));}
-    else{{return winningString(hand2, "strait flush", highestCardInHand(hand2));}}
-}
-
 function straitFlushWins(hand1: any, hand2: any){
     if (hasAStraitFlush(hand1) && hasAStraitFlush(hand2)){return highStraitFlushWins(hand1, hand2);}
     if (hasAStraitFlush(hand1)){return winningString(hand1, "strait flush");}
     else {return winningString(hand2, "strait flush");}
 }
+function highStraitFlushWins(hand1: any, hand2: any){
+    if (highestCardInHand(hand1)> highestCardInHand(hand2)){return winningString(hand1, "strait flush", highestCardInHand(hand1));}
+    else{return winningString(hand2, "strait flush", highestCardInHand(hand2));}
+}
+
 function fourOfAKindWins(hand1: any, hand2: any){
-    if (valueOfAFourOfAKind(hand1)> valueOfAFourOfAKind(hand2)){return [hand1["player"] + " wins. - with 4 xxx's", valueOfAFourOfAKind(hand1)];}
-    else {return [hand2["player"] + " wins. - with 4 xxx's", valueOfAFourOfAKind(hand2)];}
+    if (valueOfAFourOfAKind(hand1)> valueOfAFourOfAKind(hand2)){return winningString(hand1, "4 of a kind");}
+    else {return winningString(hand1, "4 of a kind");}
 }
 function hasAFourOfAKind(hand:any): boolean{
     return valueOfAFourOfAKind(hand) > 0;
@@ -43,20 +37,20 @@ function hasAFourOfAKind(hand:any): boolean{
 
 function valueOfAFourOfAKind(hand: any): number{
     let cardsInHand = hand["cards"];
-    let fourOfAKindValueInHand = 0;
     if (cardsInHand[0][cardValue] === cardsInHand[3][cardValue] || cardsInHand[1][cardValue] === cardsInHand[4][cardValue]){
-        fourOfAKindValueInHand = cardsInHand[2][cardValue];
+        return cardsInHand[2][cardValue];
     }
-    return fourOfAKindValueInHand;
+    return 0;
 }
 function higherFullHouseWins(hand1: any, hand2: any){
-    if (threeOfAKindValue(hand1) > threeOfAKindValue(hand2)){return [hand1["player"] + " wins. - with a full house with 3 xxx's", threeOfAKindValue(hand1)];}
-    else {return [hand2["player"] + " wins. - with a full house with 3 xxx's", threeOfAKindValue(hand2)];}}
+    if (threeOfAKindValue(hand1) > threeOfAKindValue(hand2)){return winningString(hand1, "full house", threeOfAKindValue(hand1));}
+    else {return winningString(hand2, "full house", threeOfAKindValue(hand2));}}
+
 
 function fullHouseWins(hand1: any, hand2: any){
     if (bothHandsHaveAFullHouse(hand1, hand2)){return higherFullHouseWins(hand1, hand2);}
-    if (hasAFullHouse(hand1)){return [hand1["player"] + " wins. - with a full house", 0];}
-    else {return [hand2["player"] + " wins. - with a full house", 0];}
+    if (hasAFullHouse(hand1)){return winningString(hand1, "full house");}
+    else {return winningString(hand2, "full house");}
 }
 
 function handWithHigherFlushWins(hand1: any, hand2: any){
@@ -265,6 +259,12 @@ function convertIntegersToCards(cardInteger: number): string {
 function parseWinningHand(winningMessage: any): string {
     if (typeof winningMessage === "string"){return winningMessage;}
     else {return winningMessage[0].replace("xxx", convertIntegersToCards(winningMessage[1]));}
+}
+
+function winningString(hand, typeofHand, highCard=0){
+    let winningString = hand["player"] + " wins. - with " + typeofHand;
+    if (highCard === 0){return winningString}
+    return winningString + ": " + convertIntegersToCards(highCard) + " high";
 }
 
 function eitherHandHasAHigherPair(hand1: any, hand2: any){

@@ -51,7 +51,7 @@ describe('pokerGame', function () {
         return expect(pokerGame("Black: 5D 5C 5S TD TS  White: 6S 6D 6C 2S 2D")).toEqual("White wins. - with a full house with 3 6's");
     });
     it('Should return the hand with the higher 4 of a kind', function () {
-        return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with 4 9's");
+        return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with a four of a kind: 9");
     });
     it('Should return the hand with the strait flush', function () {
         return expect(pokerGame("Black: TD 9D 8D 7D 6D  White: 9S 9D 9C 9H 2D")).toEqual("Black wins. - with strait flush");
@@ -281,15 +281,15 @@ describe('ValueOfAFourOfAKind', function () {
     });
 });
 describe('fourOfAKindWins', function () {
-    it('Should take return true if player has a four of a kind', function () {
+    it('Should return the player with the 4 of a kind', function () {
         var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [9, "H"], [9, "D"]] };
         var whiteHand = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [10, "C"]] };
-        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual(["White wins. - with 4 xxx's", 13]);
+        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual("White wins. - with 4 of a kind");
     });
     it('Should take return correct winner if they both have 4 of a kinds', function () {
         var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [10, "D"], [9, "D"]] };
         var whiteHand = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [2, "C"]] };
-        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual(["White wins. - with 4 xxx's", 13]);
+        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual("White wins. - with 4 of a kind: Ace");
     });
 });
 describe('hasAStraitFlush', function () {
