@@ -39,19 +39,19 @@ describe('pokerGame', function () {
         return expect(pokerGame("Black: KH QD JH TC 9D  White: KS JC QD TS 9S")).toEqual("Tie.");
     });
     it('Should return the hand that has the flush', function () {
-        return expect(pokerGame("Black: 5D QD JD TD 9D  White: KS JC QC TS 9S")).toEqual("Black wins. - with a flush");
+        return expect(pokerGame("Black: 5D QD JD TD 9D  White: KS JC QC TS 9S")).toEqual("Black wins. - with flush");
     });
     it('Should return the hand with the higher flush', function () {
-        return expect(pokerGame("Black: 5D QD JD TD KD  White: KS JS QS 5S 9S")).toEqual("Black wins. - with a 10 high flush");
+        return expect(pokerGame("Black: 5D QD JD TD KD  White: KS JS QS 5S 9S")).toEqual("Black wins. - with flush: 10 high");
     });
     it('Should return the hand with the full house', function () {
-        return expect(pokerGame("Black: 5D QD JD TD KD  White: 5S 5D 5C 9S 9D")).toEqual("White wins. - with a full house");
+        return expect(pokerGame("Black: 5D QD JD TD KD  White: 5S 5D 5C 9S 9D")).toEqual("White wins. - with full house");
     });
     it('Should return the full house hand with the higher three pair', function () {
-        return expect(pokerGame("Black: 5D 5C 5S TD TS  White: 6S 6D 6C 2S 2D")).toEqual("White wins. - with a full house with 3 6's");
+        return expect(pokerGame("Black: 5D 5C 5S TD TS  White: 6S 6D 6C 2S 2D")).toEqual("White wins. - with full house: 6 high");
     });
     it('Should return the hand with the higher 4 of a kind', function () {
-        return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with a four of a kind: 9");
+        return expect(pokerGame("Black: 5D 5C 5S 5H TS  White: 9S 9D 9C 9H 2D")).toEqual("White wins. - with 4 of a kind: 9 high");
     });
     it('Should return the hand with the strait flush', function () {
         return expect(pokerGame("Black: TD 9D 8D 7D 6D  White: 9S 9D 9C 9H 2D")).toEqual("Black wins. - with strait flush");
@@ -237,7 +237,7 @@ describe('handWithHigherFlushWins', function () {
     var blackHand = { player: "Black", cards: [[13, "H"], [10, "H"], [9, "H"], [8, "H"], [5, "H"]] };
     var whiteHand = { player: "White", cards: [[12, "S"], [11, "S"], [10, "S"], [9, "S"], [6, "S"]] };
     it('Should return the flush hand that has the highest card', function () {
-        return expect(handWithHigherFlushWins(blackHand, whiteHand)).toEqual(["Black wins. - with a xxx high flush", 13]);
+        return expect(handWithHigherFlushWins(blackHand, whiteHand)).toEqual("Black wins. - with flush: King high");
     });
 });
 describe('hasAFullHouse', function () {
@@ -254,14 +254,14 @@ describe('fullHouseWins', function () {
     var blackHand = { player: "Black", cards: [[13, "H"], [9, "H"], [9, "H"], [9, "H"], [5, "H"]] };
     var whiteHand = { player: "White", cards: [[12, "S"], [12, "H"], [12, "C"], [9, "S"], [9, "C"]] };
     it('Should return the hand that has a full house', function () {
-        return expect(fullHouseWins(blackHand, whiteHand)).toEqual(["White wins. - with a full house", 0]);
+        return expect(fullHouseWins(blackHand, whiteHand)).toEqual("White wins. - with full house");
     });
 });
 describe('higherFullHouseWins', function () {
     var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [9, "H"], [9, "D"]] };
     var whiteHand = { player: "White", cards: [[12, "S"], [12, "H"], [12, "C"], [9, "S"], [9, "C"]] };
     it('Should return the hand that has a higher three pair in its full house', function () {
-        return expect(higherFullHouseWins(blackHand, whiteHand)).toEqual(["White wins. - with a full house with 3 xxx's", 12]);
+        return expect(higherFullHouseWins(blackHand, whiteHand)).toEqual("White wins. - with full house: Queen high");
     });
 });
 describe('hasAFourOfAKind', function () {
@@ -289,7 +289,7 @@ describe('fourOfAKindWins', function () {
     it('Should take return correct winner if they both have 4 of a kinds', function () {
         var blackHand = { player: "Black", cards: [[10, "H"], [10, "S"], [10, "C"], [10, "D"], [9, "D"]] };
         var whiteHand = { player: "White", cards: [[13, "H"], [13, "S"], [13, "D"], [13, "C"], [2, "C"]] };
-        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual("White wins. - with 4 of a kind: Ace");
+        return expect(fourOfAKindWins(whiteHand, blackHand)).toEqual("White wins. - with 4 of a kind: King high");
     });
 });
 describe('hasAStraitFlush', function () {

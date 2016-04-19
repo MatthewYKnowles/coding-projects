@@ -11,12 +11,12 @@ function pokerGame(gameInput) {
     if (eitherHandHasAFullHouse(hand1, hand2)) {
         return fullHouseWins(hand1, hand2);
     }
-    return parseWinningHand(winningHandHierarchy(hand1, hand2));
-}
-function winningHandHierarchy(hand1, hand2) {
     if (eitherHandHasAFlush(hand1, hand2)) {
         return flushWins(hand1, hand2);
     }
+    return parseWinningHand(winningHandHierarchy(hand1, hand2));
+}
+function winningHandHierarchy(hand1, hand2) {
     if (eitherHandHasAStrait(hand1, hand2)) {
         return straitWins(hand1, hand2);
     }
@@ -51,15 +51,26 @@ function highStraitFlushWins(hand1, hand2) {
     }
 }
 function fourOfAKindWins(hand1, hand2) {
+    if (hasAFourOfAKind(hand1) && hasAFourOfAKind(hand2)) {
+        return highFourOfAKindWins(hand1, hand2);
+    }
     if (valueOfAFourOfAKind(hand1) > valueOfAFourOfAKind(hand2)) {
         return winningString(hand1, "4 of a kind");
     }
     else {
-        return winningString(hand1, "4 of a kind");
+        return winningString(hand2, "4 of a kind");
     }
 }
 function hasAFourOfAKind(hand) {
     return valueOfAFourOfAKind(hand) > 0;
+}
+function highFourOfAKindWins(hand1, hand2) {
+    if (valueOfAFourOfAKind(hand1) > valueOfAFourOfAKind(hand2)) {
+        return winningString(hand1, "4 of a kind", valueOfAFourOfAKind(hand1));
+    }
+    else {
+        return winningString(hand2, "4 of a kind", valueOfAFourOfAKind(hand2));
+    }
 }
 function valueOfAFourOfAKind(hand) {
     var cardsInHand = hand["cards"];
@@ -89,10 +100,10 @@ function fullHouseWins(hand1, hand2) {
 }
 function handWithHigherFlushWins(hand1, hand2) {
     if (highestCardInHand(hand1) > highestCardInHand(hand2)) {
-        return [hand1["player"] + " wins. - with a xxx high flush", highestCardInHand(hand1)];
+        return winningString(hand1, "flush", highestCardInHand(hand1));
     }
     if (highestCardInHand(hand2) > highestCardInHand(hand1)) {
-        return [hand2["player"] + " wins. - with a xxx high flush", highestCardInHand(hand2)];
+        return winningString(hand2, "flush", highestCardInHand(hand2));
     }
     else {
         hand1["cards"] = hand1["cards"].slice(1, hand1["cards"].length);
@@ -108,10 +119,10 @@ function flushWins(hand1, hand2) {
         return handWithHigherFlushWins(hand1, hand2);
     }
     if (hasAFlush(hand1)) {
-        return [hand1["player"] + " wins. - with a flush", 0];
+        return winningString(hand1, "flush");
     }
     if (hasAFlush(hand2)) {
-        return [hand2["player"] + " wins. - with a flush", 0];
+        return winningString(hand2, "flush");
     }
 }
 function hasAFlush(hand) {
@@ -335,12 +346,11 @@ function parseWinningHand(winningMessage) {
     }
 }
 function winningString(hand, typeofHand, highCard) {
-    if (highCard === void 0) { highCard = 0; }
     var winningString = hand["player"] + " wins. - with " + typeofHand;
-    if (highCard === 0) {
-        return winningString;
+    if (highCard != undefined) {
+        return winningString + ": " + convertIntegersToCards(highCard) + " high";
     }
-    return winningString + ": " + convertIntegersToCards(highCard) + " high";
+    return winningString;
 }
 function eitherHandHasAHigherPair(hand1, hand2) {
     return valueOfPairInHand(hand1["cards"]) != valueOfPairInHand(hand2["cards"]);
