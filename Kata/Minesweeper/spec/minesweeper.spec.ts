@@ -41,4 +41,8 @@ describe("minesweeper", ()=> {
         let minesweeper: Minesweeper = new Minesweeper(".*.\n*..\n..*");
         expect(minesweeper.getMapWithNumbers()).toBe("2*1\n*32\n12*");
     });
+    it("should work with 4 levels", ()=> {
+        let minesweeper: Minesweeper = new Minesweeper(".*.\n*..\n..*\n...");
+        expect(minesweeper.getMapWithNumbers()).toBe("2*1\n*32\n12*\n011");
+    });
 });

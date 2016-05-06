@@ -12,7 +12,13 @@ export class Minesweeper {
     
     getMapWithNumbers(): string {
         this.topRow();
-        if (this._mapAsAGrid.length > 2) {this.middleRow()}
+        let numberOfMiddleRows: number = this._mapAsAGrid.length - 2;
+        let currentMiddleRow: number = 0;
+        while (numberOfMiddleRows > 0) {
+            this.middleRow(currentMiddleRow);
+            numberOfMiddleRows--;
+            currentMiddleRow++;
+        }
         if (this._mapAsAGrid.length > 1) {this.lastRow()}
         return this._mapWithNumbers;
     }
@@ -34,10 +40,10 @@ export class Minesweeper {
             }
         }
     }
-    middleRow(){
+    middleRow(middleRowNumber: number){
         this._mapWithNumbers += "\n";
         for (let column = 0; column < this._mapWidth; column++) {
-            let row = 1;
+            let row = middleRowNumber + 1;
             if (this.spaceHasABomb(row, column)) {this._mapWithNumbers += "*";}
             else {
                 let tempVar: number = 0;

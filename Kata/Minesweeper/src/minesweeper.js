@@ -14,8 +14,12 @@ System.register([], function(exports_1, context_1) {
                 }
                 Minesweeper.prototype.getMapWithNumbers = function () {
                     this.topRow();
-                    if (this._mapAsAGrid.length > 2) {
-                        this.middleRow();
+                    var numberOfMiddleRows = this._mapAsAGrid.length - 2;
+                    var currentMiddleRow = 0;
+                    while (numberOfMiddleRows > 0) {
+                        this.middleRow(currentMiddleRow);
+                        numberOfMiddleRows--;
+                        currentMiddleRow++;
                     }
                     if (this._mapAsAGrid.length > 1) {
                         this.lastRow();
@@ -52,10 +56,10 @@ System.register([], function(exports_1, context_1) {
                         }
                     }
                 };
-                Minesweeper.prototype.middleRow = function () {
+                Minesweeper.prototype.middleRow = function (middleRowNumber) {
                     this._mapWithNumbers += "\n";
                     for (var column = 0; column < this._mapWidth; column++) {
-                        var row = 1;
+                        var row = middleRowNumber + 1;
                         if (this.spaceHasABomb(row, column)) {
                             this._mapWithNumbers += "*";
                         }

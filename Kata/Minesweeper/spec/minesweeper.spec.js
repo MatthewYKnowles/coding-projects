@@ -49,6 +49,10 @@ System.register(["src/minesweeper"], function(exports_1, context_1) {
                     var minesweeper = new minesweeper_1.Minesweeper(".*.\n*..\n..*");
                     expect(minesweeper.getMapWithNumbers()).toBe("2*1\n*32\n12*");
                 });
+                it("should work with 4 levels", function () {
+                    var minesweeper = new minesweeper_1.Minesweeper(".*.\n*..\n..*\n...");
+                    expect(minesweeper.getMapWithNumbers()).toBe("2*1\n*32\n12*\n011");
+                });
             });
         }
     }
