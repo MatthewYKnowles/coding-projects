@@ -8,19 +8,16 @@ export class Minesweeper {
         this._mapInOneString = gameMap;// maybe not be needed
         this._mapAsAGrid = gameMap.split("\n");
         this._mapWidth = this._mapAsAGrid[0].length;
+        this.createMapWithNumbers();
     }
-    
     getMapWithNumbers(): string {
+        return this._mapWithNumbers;
+    }
+    createMapWithNumbers() {
         this.topRow();
         let numberOfMiddleRows: number = this._mapAsAGrid.length - 2;
-        let currentMiddleRow: number = 0;
-        while (numberOfMiddleRows > 0) {
-            this.middleRow(currentMiddleRow);
-            numberOfMiddleRows--;
-            currentMiddleRow++;
-        }
+        for (let i = 0; i < numberOfMiddleRows; i++) {this.middleRow(i);}
         if (this._mapAsAGrid.length > 1) {this.lastRow()}
-        return this._mapWithNumbers;
     }
     spaceHasABomb(row: number, column: number): boolean {
         return this._mapAsAGrid[row][column] == "*";

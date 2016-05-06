@@ -11,20 +11,20 @@ System.register([], function(exports_1, context_1) {
                     this._mapInOneString = gameMap; // maybe not be needed
                     this._mapAsAGrid = gameMap.split("\n");
                     this._mapWidth = this._mapAsAGrid[0].length;
+                    this.createMapWithNumbers();
                 }
                 Minesweeper.prototype.getMapWithNumbers = function () {
+                    return this._mapWithNumbers;
+                };
+                Minesweeper.prototype.createMapWithNumbers = function () {
                     this.topRow();
                     var numberOfMiddleRows = this._mapAsAGrid.length - 2;
-                    var currentMiddleRow = 0;
-                    while (numberOfMiddleRows > 0) {
-                        this.middleRow(currentMiddleRow);
-                        numberOfMiddleRows--;
-                        currentMiddleRow++;
+                    for (var i = 0; i < numberOfMiddleRows; i++) {
+                        this.middleRow(i);
                     }
                     if (this._mapAsAGrid.length > 1) {
                         this.lastRow();
                     }
-                    return this._mapWithNumbers;
                 };
                 Minesweeper.prototype.spaceHasABomb = function (row, column) {
                     return this._mapAsAGrid[row][column] == "*";
