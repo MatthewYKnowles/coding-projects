@@ -12,6 +12,7 @@ export class Minesweeper {
     
     getMapWithNumbers(): string {
         this.topRow();
+        if (this._mapAsAGrid.length > 2) {this.middleRow()}
         if (this._mapAsAGrid.length > 1) {this.lastRow()}
         return this._mapWithNumbers;
     }
@@ -26,6 +27,25 @@ export class Minesweeper {
                 let tempVar: number = 0;
                 if(this.spaceHasABomb(row, column-1)){tempVar++;}
                 if(this.spaceHasABomb(row, column+1)){tempVar++;}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column-1)){tempVar++}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column)){tempVar++}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column+1)){tempVar++}
+                this._mapWithNumbers += tempVar;
+            }
+        }
+    }
+    middleRow(){
+        this._mapWithNumbers += "\n";
+        for (let column = 0; column < this._mapWidth; column++) {
+            let row = 1;
+            if (this.spaceHasABomb(row, column)) {this._mapWithNumbers += "*";}
+            else {
+                let tempVar: number = 0;
+                if(this.spaceHasABomb(row, column-1)){tempVar++;}
+                if(this.spaceHasABomb(row, column+1)){tempVar++;}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row-1, column-1)){tempVar++}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row-1, column)){tempVar++}
+                if(this._mapAsAGrid[1] && this.spaceHasABomb(row-1, column+1)){tempVar++}
                 if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column-1)){tempVar++}
                 if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column)){tempVar++}
                 if(this._mapAsAGrid[1] && this.spaceHasABomb(row+1, column+1)){tempVar++}

@@ -41,6 +41,14 @@ System.register(["src/minesweeper"], function(exports_1, context_1) {
                     var minesweeper = new minesweeper_1.Minesweeper("..\n*.\n..");
                     expect(minesweeper.getMapWithNumbers()).toBe("11\n*1\n11");
                 });
+                it("should work in a 3 x 3 grid", function () {
+                    var minesweeper = new minesweeper_1.Minesweeper("...\n*..\n...");
+                    expect(minesweeper.getMapWithNumbers()).toBe("110\n*10\n110");
+                });
+                it("should work with a bomb on each level", function () {
+                    var minesweeper = new minesweeper_1.Minesweeper(".*.\n*..\n..*");
+                    expect(minesweeper.getMapWithNumbers()).toBe("2*1\n*32\n12*");
+                });
             });
         }
     }

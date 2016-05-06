@@ -14,6 +14,9 @@ System.register([], function(exports_1, context_1) {
                 }
                 Minesweeper.prototype.getMapWithNumbers = function () {
                     this.topRow();
+                    if (this._mapAsAGrid.length > 2) {
+                        this.middleRow();
+                    }
                     if (this._mapAsAGrid.length > 1) {
                         this.lastRow();
                     }
@@ -34,6 +37,43 @@ System.register([], function(exports_1, context_1) {
                                 tempVar++;
                             }
                             if (this.spaceHasABomb(row, column + 1)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column - 1)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column + 1)) {
+                                tempVar++;
+                            }
+                            this._mapWithNumbers += tempVar;
+                        }
+                    }
+                };
+                Minesweeper.prototype.middleRow = function () {
+                    this._mapWithNumbers += "\n";
+                    for (var column = 0; column < this._mapWidth; column++) {
+                        var row = 1;
+                        if (this.spaceHasABomb(row, column)) {
+                            this._mapWithNumbers += "*";
+                        }
+                        else {
+                            var tempVar = 0;
+                            if (this.spaceHasABomb(row, column - 1)) {
+                                tempVar++;
+                            }
+                            if (this.spaceHasABomb(row, column + 1)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column - 1)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column)) {
+                                tempVar++;
+                            }
+                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column + 1)) {
                                 tempVar++;
                             }
                             if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column - 1)) {
