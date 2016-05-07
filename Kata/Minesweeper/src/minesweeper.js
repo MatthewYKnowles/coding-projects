@@ -26,9 +26,6 @@ System.register([], function(exports_1, context_1) {
                         this.lastRow();
                     }
                 };
-                Minesweeper.prototype.spaceHasABomb = function (row, column) {
-                    return this._mapAsAGrid[row][column] == "*";
-                };
                 Minesweeper.prototype.topRow = function () {
                     var row = 0;
                     for (var column = 0; column < this._mapWidth; column++) {
@@ -37,20 +34,9 @@ System.register([], function(exports_1, context_1) {
                         }
                         else {
                             var tempVar = 0;
-                            if (this.spaceHasABomb(row, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this.spaceHasABomb(row, column + 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column + 1)) {
-                                tempVar++;
+                            tempVar += this.countCurrentRow(row, column);
+                            if (this._mapAsAGrid[1]) {
+                                tempVar += this.countNextRow(row, column);
                             }
                             this._mapWithNumbers += tempVar;
                         }
@@ -65,30 +51,9 @@ System.register([], function(exports_1, context_1) {
                         }
                         else {
                             var tempVar = 0;
-                            if (this.spaceHasABomb(row, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this.spaceHasABomb(row, column + 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column + 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row + 1, column + 1)) {
-                                tempVar++;
-                            }
+                            tempVar += this.countCurrentRow(row, column);
+                            tempVar += this.countPreviousRow(row, column);
+                            tempVar += this.countNextRow(row, column);
                             this._mapWithNumbers += tempVar;
                         }
                     }
@@ -108,18 +73,51 @@ System.register([], function(exports_1, context_1) {
                             if (this.spaceHasABomb(row, column + 1)) {
                                 tempVar++;
                             }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column - 1)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column)) {
-                                tempVar++;
-                            }
-                            if (this._mapAsAGrid[1] && this.spaceHasABomb(row - 1, column + 1)) {
-                                tempVar++;
-                            }
+                            tempVar += this.countPreviousRow(row, column);
                             this._mapWithNumbers += tempVar;
                         }
                     }
+                };
+                Minesweeper.prototype.spaceHasABomb = function (row, column) {
+                    return this._mapAsAGrid[row][column] == "*";
+                };
+                Minesweeper.prototype.countCurrentRow = function (row, column) {
+                    var count = 0;
+                    if (this.spaceHasABomb(row, column - 1)) {
+                        count++;
+                    }
+                    if (this.spaceHasABomb(row, column + 1)) {
+                        count++;
+                    }
+                    return count;
+                };
+                Minesweeper.prototype.countPreviousRow = function (row, column) {
+                    var count = 0;
+                    var lastRow = row - 1;
+                    if (this.spaceHasABomb(lastRow, column - 1)) {
+                        count++;
+                    }
+                    if (this.spaceHasABomb(lastRow, column)) {
+                        count++;
+                    }
+                    if (this.spaceHasABomb(lastRow, column + 1)) {
+                        count++;
+                    }
+                    return count;
+                };
+                Minesweeper.prototype.countNextRow = function (row, column) {
+                    var count = 0;
+                    var nextRow = row + 1;
+                    if (this.spaceHasABomb(nextRow, column - 1)) {
+                        count++;
+                    }
+                    if (this.spaceHasABomb(nextRow, column)) {
+                        count++;
+                    }
+                    if (this.spaceHasABomb(nextRow, column + 1)) {
+                        count++;
+                    }
+                    return count;
                 };
                 return Minesweeper;
             }());
