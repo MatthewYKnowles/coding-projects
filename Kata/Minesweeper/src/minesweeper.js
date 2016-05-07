@@ -91,33 +91,24 @@ System.register([], function(exports_1, context_1) {
                     }
                     return count;
                 };
-                Minesweeper.prototype.countPreviousRow = function (row, column) {
+                Minesweeper.prototype.countRow = function (row, column) {
                     var count = 0;
-                    var lastRow = row - 1;
-                    if (this.spaceHasABomb(lastRow, column - 1)) {
+                    if (this.spaceHasABomb(row, column - 1)) {
                         count++;
                     }
-                    if (this.spaceHasABomb(lastRow, column)) {
+                    if (this.spaceHasABomb(row, column)) {
                         count++;
                     }
-                    if (this.spaceHasABomb(lastRow, column + 1)) {
+                    if (this.spaceHasABomb(row, column + 1)) {
                         count++;
                     }
                     return count;
                 };
+                Minesweeper.prototype.countPreviousRow = function (row, column) {
+                    return this.countRow(row - 1, column);
+                };
                 Minesweeper.prototype.countNextRow = function (row, column) {
-                    var count = 0;
-                    var nextRow = row + 1;
-                    if (this.spaceHasABomb(nextRow, column - 1)) {
-                        count++;
-                    }
-                    if (this.spaceHasABomb(nextRow, column)) {
-                        count++;
-                    }
-                    if (this.spaceHasABomb(nextRow, column + 1)) {
-                        count++;
-                    }
-                    return count;
+                    return this.countRow(row + 1, column);
                 };
                 return Minesweeper;
             }());

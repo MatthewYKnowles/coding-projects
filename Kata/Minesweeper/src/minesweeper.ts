@@ -68,20 +68,17 @@ export class Minesweeper {
         if(this.spaceHasABomb(row, column+1)){count++;}
         return count;
     }
-    countPreviousRow(row: number, column: number): number {
+    countRow(row: number, column: number){
         let count: number = 0;
-        let lastRow: number = row - 1;
-        if(this.spaceHasABomb(lastRow, column-1)){count++}
-        if(this.spaceHasABomb(lastRow, column)){count++}
-        if(this.spaceHasABomb(lastRow, column+1)){count++}
+        if(this.spaceHasABomb(row, column-1)){count++}
+        if(this.spaceHasABomb(row, column)){count++}
+        if(this.spaceHasABomb(row, column+1)){count++}
         return count;
     }
+    countPreviousRow(row: number, column: number): number {
+        return this.countRow(row-1, column);
+    }
     countNextRow(row: number, column: number): number {
-        let count: number = 0;
-        let nextRow: number = row + 1;
-        if(this.spaceHasABomb(nextRow, column-1)){count++}
-        if(this.spaceHasABomb(nextRow, column)){count++}
-        if(this.spaceHasABomb(nextRow, column+1)){count++}
-        return count;
+        return this.countRow(row+1, column);
     }
 }
