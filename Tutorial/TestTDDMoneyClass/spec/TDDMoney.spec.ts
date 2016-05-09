@@ -1,4 +1,4 @@
-import {Money, Expression, Bank, Sum} from "../src/TDDMoney";
+import {Money, IExpression, Bank, Sum} from "../src/TDDMoney";
 
 describe ("Dollar", ()=>{
     it("testDollarMultiplication", ()=>{
@@ -21,20 +21,20 @@ describe ("Dollar", ()=>{
     });
     it("testSimpleAddition", ()=> {
         let five: Money = Money.dollar(5);
-        let sum: Expression = five.plus(five);
+        let sum: IExpression = five.plus(five);
         let bank: Bank = new Bank();
         let reduced: Money = bank.reduce(sum, "USD");
         expect(reduced.equals(Money.dollar(10))).toBeTruthy();
     });
     it("testPlusReturnsSum", ()=> {
         let five: Money = Money.dollar(5);
-        let result : Expression = five.plus(five);
+        let result : IExpression = five.plus(five);
         let sum : Sum = <Sum> result;
         expect(sum.augend.equals(five)).toBeTruthy();
         expect(sum.addend.equals(five)).toBeTruthy();
     });
     it("testReduceSum", ()=> {
-        let sum: Expression = new Sum(Money.dollar(3), Money.dollar(4));
+        let sum: IExpression = new Sum(Money.dollar(3), Money.dollar(4));
         let bank: Bank = new Bank();
         let result: Money = bank.reduce(sum, "USD");
         expect(result.equals(Money.dollar(7))).toBeTruthy();
@@ -49,5 +49,16 @@ describe ("Dollar", ()=>{
         bank.addRate("CHF", "USD", 2);
         let result: Money = bank.reduce(Money.franc(2), "USD");
        expect(result.equals(Money.dollar(1))).toBeTruthy()
+    });
+    it("testIdentityRate", ()=> {
+        expect(new Bank().rate("USD", "USD")).toBe(1);
+    });
+    it("textMixedAddition", ()=> {
+        let fiveBucks: IExpression = Money.dollar(5);
+        let tenFrancs: IExpression = Money.franc(10);
+        let bank: Bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        let result: Money = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+        expect(result.equals(Money.dollar(10))).toBeTruthy();
     })
 });

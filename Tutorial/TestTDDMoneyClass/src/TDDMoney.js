@@ -6,17 +6,19 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             class Bank {
+                constructor() {
+                    this._rates = {};
+                }
                 rate(from, to) {
-                    let rate = 1;
-                    if (from == "CHF" && to == "USD") {
-                        rate = 2;
-                    }
-                    return rate;
+                    if (from == to)
+                        return 1;
+                    return this._rates[from + to];
                 }
                 reduce(source, to) {
                     return source.reduce(this, to);
                 }
-                addRate(s, s2, number) {
+                addRate(from, to, rate) {
+                    this._rates[from + to] = rate;
                 }
             }
             class Sum {
@@ -25,8 +27,14 @@ System.register([], function(exports_1, context_1) {
                     this.addend = addend;
                 }
                 reduce(bank, to) {
-                    let amount = this.augend._amount + this.addend._amount;
+                    let amount = this.augend.reduce(bank, to)._amount + this.addend.reduce(bank, to)._amount;
                     return new Money(amount, to);
+                }
+                plus(addend) {
+                    return null;
+                }
+                equals(object) {
+                    return null;
                 }
             }
             class Money {

@@ -1,37 +1,45 @@
-interface Expression {
+interface IExpression {
     reduce(bank: Bank, to: string): Money;
+    plus(addend: IExpression);
+    equals(object: IExpression);
 }
 
 class Bank {
+    private _rates = {};
 
     rate(from: string, to: string): number {
-        let rate: number = 1;
-        if (from == "CHF" && to == "USD"){rate = 2;}
-        return rate;
+        if (from == to) return 1;
+        return this._rates[from + to];
     }
-    reduce(source: Expression, to: string): Money {
+    reduce(source: IExpression, to: string): Money {
        return source.reduce(this, to);
     }
 
-    addRate(s:string, s2:string, number:number) {
-            
+    addRate(from: string, to: string, rate: number) {
+        this._rates[from + to] = rate;
     }
 }
 
-class Sum implements Expression{
-    public augend : Money;
-    public addend : Money;
-    public constructor(augend: Money, addend: Money) {
+class Sum implements IExpression{
+    public augend : IExpression;
+    public addend : IExpression;
+    public constructor(augend: IExpression, addend: IExpression) {
         this.augend = augend;
         this.addend = addend;
     }
     reduce(bank: Bank, to: string): Money {
-        let amount: number = this.augend._amount + this.addend._amount;
+        let amount: number = this.augend.reduce(bank, to)._amount + this.addend.reduce(bank, to)._amount;
         return new Money(amount, to);
+    }
+    plus(addend: IExpression) {
+        return null;
+    }
+    equals(object: IExpression) {
+        return null;
     }
 }
 
-class Money implements Expression {
+class Money implements IExpression {
     public _amount: number;
     public _currency: string;
     
@@ -48,10 +56,10 @@ class Money implements Expression {
         return new Money(amount, "CHF");
     }
 
-    plus (addend: Money): Sum {
+    plus (addend: IExpression): IExpression {
         return new Sum(this, addend);
     }
-    times(multiplier: number): Money{
+    times(multiplier: number): IExpression{
         return new Money(this._amount * multiplier, this._currency);
     }
 
@@ -69,4 +77,4 @@ class Money implements Expression {
     }
 }
 
-export {Money, Expression, Bank, Sum};
+export {Money, IExpression, Bank, Sum};

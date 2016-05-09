@@ -58,6 +58,17 @@ System.register(["../src/TDDMoney"], function(exports_1, context_1) {
                     let result = bank.reduce(TDDMoney_1.Money.franc(2), "USD");
                     expect(result.equals(TDDMoney_1.Money.dollar(1))).toBeTruthy();
                 });
+                it("testIdentityRate", () => {
+                    expect(new TDDMoney_1.Bank().rate("USD", "USD")).toBe(1);
+                });
+                it("textMixedAddition", () => {
+                    let fiveBucks = TDDMoney_1.Money.dollar(5);
+                    let tenFrancs = TDDMoney_1.Money.franc(10);
+                    let bank = new TDDMoney_1.Bank();
+                    bank.addRate("CHF", "USD", 2);
+                    let result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+                    expect(result.equals(TDDMoney_1.Money.dollar(10))).toBeTruthy();
+                });
             });
         }
     }
