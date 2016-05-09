@@ -1,73 +1,41 @@
 export class Minesweeper {
-    private _mapInOneString: string;
     private _mapAsAGrid: any;
     private _mapWidth: number;
+    private _mapHeight: number;
     private _mapWithNumbers: string = "";
 
     constructor(gameMap: string){
-        this._mapInOneString = gameMap;// maybe not be needed
         this._mapAsAGrid = gameMap.split("\n");
         this._mapWidth = this._mapAsAGrid[0].length;
+        this._mapHeight = this._mapAsAGrid.length;
         this.createMapWithNumbers();
     }
     getMapWithNumbers(): string {
         return this._mapWithNumbers;
     }
+
     createMapWithNumbers() {
-        this.topRow();
-        let numberOfMiddleRows: number = this._mapAsAGrid.length - 2;
-        for (let i = 0; i < numberOfMiddleRows; i++) {this.middleRow(i);}
-        if (this._mapAsAGrid.length > 1) {this.lastRow()}
+        for (let row = 0; row < this._mapHeight; row++) {
+            if (this.aPreviousRowExists(row)){this._mapWithNumbers += '\n'}
+            this.createRowWithNumbers(row);
+        }
     }
-    topRow(){
-        let row: number = 0;
+    
+    createRowWithNumbers(row: number) {
         for (let column = 0; column < this._mapWidth; column++){
             if (this.spaceHasABomb(row,column)){this._mapWithNumbers += "*";}
-            else {
-                let tempVar: number = 0;
-                tempVar += this.countCurrentRow(row, column);
-                if(this._mapAsAGrid[1]){tempVar += this.countNextRow(row, column)}
-                this._mapWithNumbers += tempVar;
-            }
+            else {this._mapWithNumbers += this.countSurroundingBombs(row, column)}
         }
     }
-    middleRow(middleRowNumber: number){
-        this._mapWithNumbers += "\n";
-        for (let column = 0; column < this._mapWidth; column++) {
-            let row = middleRowNumber + 1;
-            if (this.spaceHasABomb(row, column)) {this._mapWithNumbers += "*";}
-            else {
-                let tempVar: number = 0;
-                tempVar += this.countCurrentRow(row, column);
-                tempVar += this.countPreviousRow(row, column);
-                tempVar += this.countNextRow(row, column);
-                this._mapWithNumbers += tempVar;
-            }
-        }
-    }
-    lastRow(){
-        this._mapWithNumbers += "\n";
-        for (let column = 0; column < this._mapWidth; column++) {
-            let row = this._mapAsAGrid.length - 1;
-            if (this.spaceHasABomb(row, column)) {this._mapWithNumbers += "*";}
-            else {
-                let tempVar: number = 0;
-                if(this.spaceHasABomb(row, column-1)){tempVar++;}
-                if(this.spaceHasABomb(row, column+1)){tempVar++;}
-                tempVar += this.countPreviousRow(row, column);
-                this._mapWithNumbers += tempVar;
-            }
-        }
-    }
-    spaceHasABomb(row: number, column: number): boolean {
-        return this._mapAsAGrid[row][column] == "*";
-    }
-    countCurrentRow(row: number, column: number): number {
+
+    countSurroundingBombs(row: number, column: number): number{
         let count: number = 0;
-        if(this.spaceHasABomb(row, column-1)){count++;}
-        if(this.spaceHasABomb(row, column+1)){count++;}
+        count += this.countRow(row, column);
+        if (this.aPreviousRowExists(row)){count += this.countPreviousRow(row, column);}
+        if (this.aFollowingRowExists(row)){count += this.countNextRow(row, column);}
         return count;
     }
+
     countRow(row: number, column: number){
         let count: number = 0;
         if(this.spaceHasABomb(row, column-1)){count++}
@@ -75,10 +43,20 @@ export class Minesweeper {
         if(this.spaceHasABomb(row, column+1)){count++}
         return count;
     }
+
+    spaceHasABomb(row: number, column: number): boolean {
+        return this._mapAsAGrid[row][column] == "*";
+    }
     countPreviousRow(row: number, column: number): number {
         return this.countRow(row-1, column);
     }
     countNextRow(row: number, column: number): number {
         return this.countRow(row+1, column);
+    }
+    aPreviousRowExists(row: number): boolean {
+        return row - 1 >= 0;
+    }
+    aFollowingRowExists(row: number): boolean {
+        return row + 1 < this._mapHeight;
     }
 }
