@@ -8,15 +8,13 @@ System.register(["src/pokerhand"], function(exports_1, context_1) {
                 pokerhand_1 = pokerhand_1_1;
             }],
         execute: function() {
-            describe("function name", () => {
-                it("should return true", () => {
-                    expect(true).toBe(true);
-                });
-                it("should return true", () => {
-                    let pokerhand = new pokerhand_1.Pokerhand();
-                    expect(pokerhand.true()).toBe(true);
+            describe("PokerHand", () => {
+                it("should split the hand", () => {
+                    let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("8C TS KC 9H 4S 7D 2S 5D 3S AC");
+                    expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
                 });
             });
         }
     }
 });
+//# sourceMappingURL=pokerhand.spec.js.map

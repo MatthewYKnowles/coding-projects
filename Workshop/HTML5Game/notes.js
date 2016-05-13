@@ -51,7 +51,8 @@ function startApp() {
     app.hero.size, app.hero.size);
 }
 ----------------------------------------------------------
-//should factor out hero creation because we are going to use it multiple times
+//should factor out hero creation because we are
+    //going to use it multiple times
 function spawnHero() {
   app.hero = {
     position : {x:400, y:400},
@@ -74,7 +75,8 @@ context.fillRect(0, 0, canvas.width, canvas.height);
 spawnHero();
 }
 ------------------------------------------------------
-//how often are we going to redraw the scene, enough to make it look like motion
+//how often are we going to redraw the scene,
+    //enough to make it look like motion
 spawnHero();
 app.lastTime = window.performance.now();
 window.requestAnimationFrame(frameUpdate);
@@ -97,10 +99,12 @@ function myMouseMove(event) {
 }
 //put the following in startApp
 app.canvas.addEventListener('mousemove', myMouseMove, false);
-//move the following to drawscene to from spawnhero to redraw the heroes location
+//move the following to drawscene to from
+    //spawnhero to redraw the heroes location
   context.fillStyle = "#FFFF00";
   context.fillRect(app.hero.position.x, app.hero.position.y,
     app.hero.size, app.hero.size);
+    //remove spawnhero function and console log
 --------------------------------------------------
 //should be able to move around the hero
 //next we are going to create a rock
@@ -136,7 +140,8 @@ position : {
   //remove console log of rock position
 -----------------------------------------------------
 //should have a rock falling from the sky
-//in programming we want to make similar things Identical so we can factor them out
+//in programming we want to make similar things
+    //Identical so we can factor them out
 //so we are going to add color properties to our rock and hero
     color: "#FFFF00" //add to hero
     color: "#FFFFFF" //add to rock
@@ -158,6 +163,8 @@ function drawObject(object) {
     object.size, object.size);
 }
 //add these to draw scene and remove fillstyle and fillrect
+drawObject(app.hero);
+drawObject(app.rock);
 ------------------------------------------------------
 //refresh and we should see no change
 //now we are going to add some images
@@ -176,7 +183,8 @@ function drawObject(object) {
   var context = app.context;
   context.save();
   context.translate(object.position.x, object.position.y);
-  context.drawImage(object.image, -object.size/2, -object.size/2, object.size, object.size);
+  context.drawImage(object.image, -object.size/2, -object.size/2,
+    object.size, object.size);
   context.restore();
 }
 //we can now remove colors from our objects
@@ -207,6 +215,8 @@ function spawnRock() {
     }
   };
 }
+//add a checkHitHero in drawscene to see if hero is hit
+app.rock.checkHitHero(app.hero);
 //we can see that the hero is getting exploded in the console
 //now we want to see it in the game
 //import exploded image, add below to startApp
@@ -238,7 +248,30 @@ function myMouseMove(event) {
   }
 }
 ---------------------------------------------------------
-//adding more rocks
+//increase the rock's speed as the game goes on
+//add a difficulty factor to the start app function to increase speed
+  app.difficulty = .1;
+  app.state = 'play';
+
+//change check hit hero to change app.state to done
+checkHitHero : function(hero) {
+  var distance = getDistance(hero, this);
+  if (distance < 50) {
+    hero.state = 'exploded';
+    app.state = 'done';
+  }
+//accelerate rock speed by adding difficulty increase in frameUpdate
+
+if (app.state === 'play') {
+  app.difficulty += dt;
+}
+//change the rock's speed
+speed : 150 + 25 * app.difficulty,
+//add a console log to frameUpdate to see increased speed
+  console.log(app.rock.speed);
+-------------------------------------------------
+//we are going to add rocks but first we have
+    //to refactor our existing rock
 //add move and past bottom function to rock object
 function spawnRock() {
   app.rock = {
@@ -272,42 +305,8 @@ rock.checkHitHero(app.hero);
 if (rock.atBottom(canvas.height)){
   spawnRock();
 }
+//remove speed consolelog
 //should work as before
-
----------------------------------------------------------
-//add a difficulty factor to the start app function to increase speed
-  app.difficulty = .1;
-//accelerate rock speed by adding difficulty increase in frameUpdate
-
-if (app.state === 'play') {
-  app.difficulty += dt;
-  app.score = Math.floor(app.difficulty * 10);
-}
-//change the rock's speed
-speed : 150 + 25 * app.difficulty
-//add score tracker
-function drawScore(context) {
-    context.font = "italic 30px Calibri";
-    context.textAlign = "center";
-    context.fillStyle = "#FFFF00";
-    context.fillText("Score " + app.score, canvas.width/2, 40);
-  }
-//call it at the end of draw scene
-  app.hero.drawMe(context);
-  for (var i = 0; i < app.rocks.length; i++) {
-    var object = app.rocks[i];
-    object.drawMe(context);
-  }
-  context.restore();
-  drawScore(context);//<--------------------
-}
-//change check hit hero to change app.state to done
-checkHitHero : function(hero) {
-  var distance = getDistance(hero, this);
-  if (distance < 50) {
-    hero.state = 'exploded';
-    app.state = 'done';
-  }
 -------------------------------------------------
 //create spawnRocks function
 function spawnRocks() {
@@ -337,13 +336,14 @@ function spawnRock() {
   function drawObject(context, object) {
     context.save();
     context.translate(object.position.x, object.position.y);
-    context.drawImage(object.image, -object.size/2, -object.size/2, object.size, object.size);
+    context.drawImage(object.image, -object.size/2, -object.size/2,
+      object.size, object.size);
     context.restore();
   }
   //this means we have to change where drawObject in ship
   function spawnHero() {
     app.hero = {
-      drawMe : function(context) {
+      drawMe : function(context) { ///<-----make sure to pass in context
         if (this.state === "exploded") {
           this.image = app.explosionImage;
         }
@@ -377,7 +377,7 @@ function frameUpdate(timestamp) {
   app.lastTime = timestamp;
 
   for (var i = 0; i < app.rocks.length; i++){
-    var rock = app.rocks[i];
+    var rock = app.rocks[i];///<---- pay attention to this
     rock.move(dt);
 
     if (rock.atBottom(canvas.height)){
@@ -389,6 +389,29 @@ function frameUpdate(timestamp) {
   drawScene();
 }
 --------------------------------------
+//add score tracker
+//add score variable to frameUpdate if play statment
+if (app.state === 'play') {
+  app.difficulty += dt;
+  app.score = Math.floor(app.difficulty * 10);
+}
+//create drawScore function
+function drawScore(context) {
+    context.font = "italic 30px Calibri";
+    context.textAlign = "center";
+    context.fillStyle = "#FFFF00";
+    context.fillText("Score " + app.score, canvas.width/2, 40);
+  }
+//call it at the end of draw scene
+  app.hero.drawMe(context);
+  for (var i = 0; i < app.rocks.length; i++) {
+    var object = app.rocks[i];
+    object.drawMe(context);
+  }
+  context.restore();
+  drawScore(context);//<--------------------
+}
+-----------------------------------------------
 //add rotation to the rocks
 //add angle roll and rotate to spawnRock
 angle : Math.random() * Math.PI,
@@ -420,10 +443,11 @@ function drawScore(context) {
     context.fillText("Score " + app.score, canvas.width/2, 40);
   }
   else {
-    context.font = "italic 130px Calibri";
+    context.font = "italic 125px Calibri";
     context.textAlign = "center";
     context.fillStyle = "#FFFF00";
-    context.fillText("Final Score " + app.score, canvas.width/2, canvas.height/2);
+    context.fillText("Final Score " + app.score,
+      0, canvas.height/2);
   }
 }
 
