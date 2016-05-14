@@ -14,6 +14,11 @@ System.register(["src/pokerhand"], function(exports_1, context_1) {
                     expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
                 });
             });
+            describe("PokerHand", () => {
+                it("should return the hand with the highest card", () => {
+                    let ratePokerHand = new pokerhand_1.RatePokerHand("hand1", "hand2");
+                });
+            });
         }
     }
 });

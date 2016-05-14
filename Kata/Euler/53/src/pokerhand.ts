@@ -12,6 +12,8 @@ class PokerHandNoPlayer {
     }
 
     setWinningString() {
+        console.log(this._handOne);
+        console.log(this._handTwo);
         let ratePokerHand: RatePokerHand = new RatePokerHand(this._handOne, this._handTwo);
         let winningArray = ratePokerHand.getWinningArray();
         this._winningHand = winningArray[0][0];
@@ -88,17 +90,18 @@ class RatePokerHand {
 
     highCardWins(){
         let ruleName = ["high card"];
-        console.log(this._hand1);
-        console.log(this._hand2);
         var hand1HighestCard = this._hand1[0][this._cardValue];
         var hand2HighestCard = this._hand2[0][this._cardValue];
-        console.log(hand1HighestCard);
-        console.log(hand2HighestCard);
-        if (hand1HighestCard > hand2HighestCard){this._winningArray = [["hand1"], ruleName,  hand1HighestCard];}
+        if (this._hand1.length === 0){this._winningArray = ["tie"];}
+        else if (hand1HighestCard > hand2HighestCard){this._winningArray = [["hand1"], ruleName,  hand1HighestCard];}
         else if (hand2HighestCard > hand1HighestCard){this._winningArray = [["hand2"], ruleName,  hand2HighestCard];}
-        else{this._winningArray = ["tie"];}
+        else{
+            this._hand1.unshift();
+            this._hand2.unshift();
+            this.highCardWins();
+        }
     }
 }
 
-export {PokerHandNoPlayer};
+export {PokerHandNoPlayer, RatePokerHand};
 
