@@ -55,7 +55,11 @@ System.register(["src/minesweeper"], function(exports_1, context_1) {
                 });
                 it("should work with 5x5 grid", function () {
                     var minesweeper = new minesweeper_1.Minesweeper("*...*\n**.**\n*.*.*\n*...*\n*...*");
-                    expect(minesweeper.getMapWithNumbers()).toBe("*323*\n**3**\n*5*5*\n*414*\n*202*");
+                    expect(minesweeper.getMapWithNumbers()).toBe("*323*\n**3*\n*5*5*\n*414*\n*202*");
+                });
+                it("should work with an 8x8 grid", function () {
+                    var minesweeper = new minesweeper_1.Minesweeper("*...*..*\n.*.**.**\n*.*.****\n*.*.*.**\n***...*.\n.*..**.*\n***..***\n.....**.");
+                    expect(minesweeper.getMapWithNumbers()).toBe("*");
                 });
             });
         }

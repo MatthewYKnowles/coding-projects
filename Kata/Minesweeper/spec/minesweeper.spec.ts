@@ -47,6 +47,10 @@ describe("minesweeper", ()=> {
     });
     it("should work with 5x5 grid", ()=> {
         let minesweeper: Minesweeper = new Minesweeper("*...*\n**.**\n*.*.*\n*...*\n*...*");
-        expect(minesweeper.getMapWithNumbers()).toBe("*323*\n**3**\n*5*5*\n*414*\n*202*");
+        expect(minesweeper.getMapWithNumbers()).toBe("*323*\n**3*\n*5*5*\n*414*\n*202*");
+    });
+    it("should work with an 8x8 grid", ()=> {
+        let minesweeper: Minesweeper = new Minesweeper("*...*..*\n.*.**.**\n*.*.****\n*.*.*.**\n***...*.\n.*..**.*\n***..***\n.....**.");
+        expect(minesweeper.getMapWithNumbers()).toBe("*");
     });
 });
