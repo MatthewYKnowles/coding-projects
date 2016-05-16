@@ -1,5 +1,5 @@
 export class ConnectFour {
-    public grid: string;
+    public grid: string = "......./n......./n......./n......./n......./n.......";
     public gridInArrays: any;
     private _gridAsAString: string = "";
     public gridInArrayOfArrays: any = [];
@@ -11,16 +11,18 @@ export class ConnectFour {
     }
 
     createGrid() {
-        this.grid = "......./n......./n......./n......./n......./n.......";
         this.gridInArrays = this.grid.split("/n");
-        for (let i = 0; i < this.gridInArrays.length; i++){
-            let localArray = [];
-            for (let j = 0; j < this.gridInArrays[0].length; j++){
-                let stringRow = this.gridInArrays[i];
-                localArray.push(stringRow.substring(j, j+1));
-            }
-            this.gridInArrayOfArrays.push(localArray);
+        for (let row = 0; row < this.gridInArrays.length; row++){
+            this.gridInArrayOfArrays.push(this.createRowForArray(row));
         }
+    }
+    createRowForArray(row){
+        let localArray = [];
+        for (let i = 0; i < this.gridInArrays[0].length; i++){
+            let stringRow = this.gridInArrays[row];
+            localArray.push(stringRow.substring(i, i+1));
+        }
+        return localArray;
     }
     getStringFromArrayOfArrays(){
         for (let i = 0; i < this.gridInArrayOfArrays.length; i++){
@@ -78,12 +80,7 @@ export class ConnectFour {
             topRow++;
             leftCol++;
         }
-        if (currentDiagonalAsString.includes("RRRR")) {
-            this._winningString = "Red wins!"
-        }
-        if (currentDiagonalAsString.includes("BBBB")) {
-            this._winningString = "Black wins!"
-        }
+        this.checkStringToSeeWhoWins(currentDiagonalAsString);
     }
     checkForAscendingDiagonalWin(row, col) {
         let currentCol = col;
@@ -104,23 +101,13 @@ export class ConnectFour {
             bottomRow--;
             leftCol++;
         }
-        if (currentDiagonalAsString.includes("RRRR")) {
-            this._winningString = "Red wins!"
-        }
-        if (currentDiagonalAsString.includes("BBBB")) {
-            this._winningString = "Black wins!"
-        }
+        this.checkStringToSeeWhoWins(currentDiagonalAsString);
     }
 
     checkRowForFourInARow(row){
         let currentRow = this.gridInArrayOfArrays[row];
         let currentRowAsString = currentRow.join("");
-        if (currentRowAsString.includes("RRRR")) {
-            this._winningString = "Red wins!";
-        }
-        if (currentRowAsString.includes("BBBB")) {
-            this._winningString = "Black wins!";
-        }
+        this.checkStringToSeeWhoWins(currentRowAsString)
     }
 
     private checkColumnForFourInARow(columnNumber:number) {
@@ -128,10 +115,13 @@ export class ConnectFour {
         for (let i = 0; i < this.gridInArrayOfArrays.length; i++) {
             currentColumnAsString += this.gridInArrayOfArrays[i][columnNumber];
         }
-        if (currentColumnAsString.includes("RRRR")) {
+        this.checkStringToSeeWhoWins(currentColumnAsString);
+    }
+    checkStringToSeeWhoWins(str: string) {
+        if (str.includes("RRRR")) {
             this._winningString = "Red wins!";
         }
-        if (currentColumnAsString.includes("BBBB")) {
+        if (str.includes("BBBB")) {
             this._winningString = "Black wins!";
         }
     }
