@@ -5,6 +5,7 @@ export class ConnectFour {
     public gridInArrayOfArrays: any = [];
     private _winningString: string = "";
     private currentColor: string;
+    private currentColorLetter: string;
 
     constructor() {
         this.createGrid();
@@ -36,12 +37,17 @@ export class ConnectFour {
         this.getStringFromArrayOfArrays();
         return this._gridAsAString;
     }
+    setCurrentPlayerAndLetter(playerColor:string){
+        this.currentColor = playerColor;
+        this.currentColorLetter = playerColor.substring(0,1);
+
+    }
 
     dropToken(playerColor: string, columnNumber: number){
-        this.currentColor = playerColor.substring(0,1);
+        this.setCurrentPlayerAndLetter(playerColor);
         for (let rowNumber = 5; rowNumber >= 0; rowNumber--) {
             if(this.gridInArrayOfArrays[rowNumber][columnNumber-1] === ".") {
-                this.gridInArrayOfArrays[rowNumber][columnNumber-1] = this.currentColor;
+                this.gridInArrayOfArrays[rowNumber][columnNumber-1] = this.currentColorLetter;
                 this.checkForWin(rowNumber, columnNumber);
                 if (this._winningString != ""){
                     return this._winningString;
@@ -118,11 +124,7 @@ export class ConnectFour {
         this.checkStringToSeeWhoWins(currentColumnAsString);
     }
     checkStringToSeeWhoWins(str: string) {
-        if (str.includes("RRRR")) {
-            this._winningString = "Red wins!";
-        }
-        if (str.includes("BBBB")) {
-            this._winningString = "Black wins!";
-        }
+        let winningString = this.currentColorLetter + this.currentColorLetter + this.currentColorLetter + this.currentColorLetter;
+        if (str.includes(winningString)){this._winningString = this.currentColor + " wins!";}
     }
 }

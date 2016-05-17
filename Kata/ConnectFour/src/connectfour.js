@@ -7,22 +7,25 @@ System.register([], function(exports_1, context_1) {
         execute: function() {
             class ConnectFour {
                 constructor() {
+                    this.grid = "......./n......./n......./n......./n......./n.......";
                     this._gridAsAString = "";
                     this.gridInArrayOfArrays = [];
                     this._winningString = "";
                     this.createGrid();
                 }
                 createGrid() {
-                    this.grid = "......./n......./n......./n......./n......./n.......";
                     this.gridInArrays = this.grid.split("/n");
-                    for (let i = 0; i < this.gridInArrays.length; i++) {
-                        let localArray = [];
-                        for (let j = 0; j < this.gridInArrays[0].length; j++) {
-                            let stringRow = this.gridInArrays[i];
-                            localArray.push(stringRow.substring(j, j + 1));
-                        }
-                        this.gridInArrayOfArrays.push(localArray);
+                    for (let row = 0; row < this.gridInArrays.length; row++) {
+                        this.gridInArrayOfArrays.push(this.createRowForArray(row));
                     }
+                }
+                createRowForArray(row) {
+                    let localArray = [];
+                    for (let i = 0; i < this.gridInArrays[0].length; i++) {
+                        let stringRow = this.gridInArrays[row];
+                        localArray.push(stringRow.substring(i, i + 1));
+                    }
+                    return localArray;
                 }
                 getStringFromArrayOfArrays() {
                     for (let i = 0; i < this.gridInArrayOfArrays.length; i++) {
@@ -38,11 +41,15 @@ System.register([], function(exports_1, context_1) {
                     this.getStringFromArrayOfArrays();
                     return this._gridAsAString;
                 }
+                setCurrentPlayerAndLetter(playerColor) {
+                    this.currentColor = playerColor;
+                    this.currentColorLetter = playerColor.substring(0, 1);
+                }
                 dropToken(playerColor, columnNumber) {
-                    this.currentColor = playerColor.substring(0, 1);
+                    this.setCurrentPlayerAndLetter(playerColor);
                     for (let rowNumber = 5; rowNumber >= 0; rowNumber--) {
                         if (this.gridInArrayOfArrays[rowNumber][columnNumber - 1] === ".") {
-                            this.gridInArrayOfArrays[rowNumber][columnNumber - 1] = this.currentColor;
+                            this.gridInArrayOfArrays[rowNumber][columnNumber - 1] = this.currentColorLetter;
                             this.checkForWin(rowNumber, columnNumber);
                             if (this._winningString != "") {
                                 return this._winningString;
@@ -79,12 +86,7 @@ System.register([], function(exports_1, context_1) {
                         topRow++;
                         leftCol++;
                     }
-                    if (currentDiagonalAsString.includes("RRRR")) {
-                        this._winningString = "Red wins!";
-                    }
-                    if (currentDiagonalAsString.includes("BBBB")) {
-                        this._winningString = "Black wins!";
-                    }
+                    this.checkStringToSeeWhoWins(currentDiagonalAsString);
                 }
                 checkForAscendingDiagonalWin(row, col) {
                     let currentCol = col;
@@ -105,33 +107,24 @@ System.register([], function(exports_1, context_1) {
                         bottomRow--;
                         leftCol++;
                     }
-                    if (currentDiagonalAsString.includes("RRRR")) {
-                        this._winningString = "Red wins!";
-                    }
-                    if (currentDiagonalAsString.includes("BBBB")) {
-                        this._winningString = "Black wins!";
-                    }
+                    this.checkStringToSeeWhoWins(currentDiagonalAsString);
                 }
                 checkRowForFourInARow(row) {
                     let currentRow = this.gridInArrayOfArrays[row];
                     let currentRowAsString = currentRow.join("");
-                    if (currentRowAsString.includes("RRRR")) {
-                        this._winningString = "Red wins!";
-                    }
-                    if (currentRowAsString.includes("BBBB")) {
-                        this._winningString = "Black wins!";
-                    }
+                    this.checkStringToSeeWhoWins(currentRowAsString);
                 }
                 checkColumnForFourInARow(columnNumber) {
                     let currentColumnAsString = "";
                     for (let i = 0; i < this.gridInArrayOfArrays.length; i++) {
                         currentColumnAsString += this.gridInArrayOfArrays[i][columnNumber];
                     }
-                    if (currentColumnAsString.includes("RRRR")) {
-                        this._winningString = "Red wins!";
-                    }
-                    if (currentColumnAsString.includes("BBBB")) {
-                        this._winningString = "Black wins!";
+                    this.checkStringToSeeWhoWins(currentColumnAsString);
+                }
+                checkStringToSeeWhoWins(str) {
+                    let winningString = this.currentColorLetter + this.currentColorLetter + this.currentColorLetter + this.currentColorLetter;
+                    if (str.includes(winningString)) {
+                        this._winningString = this.currentColor + " wins!";
                     }
                 }
             }
