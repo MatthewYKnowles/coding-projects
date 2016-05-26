@@ -1,0 +1,7 @@
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\bin\Debug\TDDWorkshop2.dll
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\bin\Debug\TDDWorkshop2.pdb
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\bin\Debug\nunit.framework.dll
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\bin\Debug\nunit.framework.xml
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\obj\Debug\TDDWorkshop2.csprojResolveAssemblyReference.cache
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\obj\Debug\TDDWorkshop2.dll
+c:\users\matthew knowles\documents\visual studio 2015\Projects\TDDWorkshop2\TDDWorkshop2\obj\Debug\TDDWorkshop2.pdb
