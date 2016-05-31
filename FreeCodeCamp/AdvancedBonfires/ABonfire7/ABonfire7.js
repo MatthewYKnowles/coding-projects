@@ -1,28 +1,26 @@
 var Person = function(firstAndLast){
-  this.fullName = firstAndLast;
-  this.nameArray = this.fullName.split(" ");
-  this.firstName = this.nameArray[0];
-  this.lastName = this.nameArray[1];
+  var fullName = firstAndLast;
+  var nameArray = fullName.split(" ");
+  var firstName = nameArray[0];
+  var lastName = nameArray[1];
   this.getFirstName = function(){
-    return this.firstName;
+    return firstName;
   };
   this.getLastName = function(){
-    return this.lastName;
+    return lastName;
   };
   this.getFullName = function(){
-    return this.firstName + " " + this.lastName;
+    return firstName + " " + lastName;
   };
   this.setFirstName = function(name){
-    this.firstName = name;
+    firstName = name;
   };
-  this.setLastName = function(lastName){
-    this.lastName = lastName;
+  this.setLastName = function(name){
+    lastName = name;
   };
   this.setFullName = function(fullName){
     var nameArray = fullName.split(" ");
-    this.firstName = nameArray[0];
-    this.lastName = nameArray[1];
+    firstName = nameArray[0];
+    lastName = nameArray[1];
   };
-}
-var bob = new Person("Bob Knowles");
-console.log(Object.keys(bob));
+};
