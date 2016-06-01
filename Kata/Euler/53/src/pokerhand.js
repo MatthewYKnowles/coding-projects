@@ -13,11 +13,14 @@ System.register([], function(exports_1, context_1) {
                     this.setWinningString();
                 }
                 setWinningString() {
-                    console.log(this._handOne);
-                    console.log(this._handTwo);
                     let ratePokerHand = new RatePokerHand(this._handOne, this._handTwo);
                     let winningArray = ratePokerHand.getWinningArray();
-                    this._winningHand = winningArray[0][0];
+                    if (winningArray[0] == "tie") {
+                        this._winningHand = "tie";
+                    }
+                    else {
+                        this._winningHand = winningArray[0][0];
+                    }
                 }
                 getWinningString() {
                     return this._winningHand;
@@ -76,6 +79,7 @@ System.register([], function(exports_1, context_1) {
                     this._suitValue = 1;
                     this._hand1 = hand1;
                     this._hand2 = hand2;
+                    this.highPairWins();
                     this.highCardWins();
                 }
                 getWinningArray() {
@@ -85,20 +89,45 @@ System.register([], function(exports_1, context_1) {
                     let ruleName = ["high card"];
                     var hand1HighestCard = this._hand1[0][this._cardValue];
                     var hand2HighestCard = this._hand2[0][this._cardValue];
-                    if (this._hand1.length === 0) {
-                        this._winningArray = ["tie"];
-                    }
-                    else if (hand1HighestCard > hand2HighestCard) {
+                    if (hand1HighestCard > hand2HighestCard) {
                         this._winningArray = [["hand1"], ruleName, hand1HighestCard];
                     }
                     else if (hand2HighestCard > hand1HighestCard) {
                         this._winningArray = [["hand2"], ruleName, hand2HighestCard];
                     }
                     else {
-                        this._hand1.unshift();
-                        this._hand2.unshift();
-                        this.highCardWins();
+                        this._hand1.shift();
+                        this._hand2.shift();
+                        if (this._hand1.length === 0) {
+                            this._winningArray = ["tie"];
+                        }
+                        else {
+                            this.highCardWins();
+                        }
                     }
+                }
+                highPairWins() {
+                    let ruleName = "Pair";
+                    let hand1HighPair = this.valueOfPairInHand(this._hand1);
+                    let hand2HighPair = this.valueOfPairInHand(this._hand2);
+                    console.log(hand1HighPair);
+                    console.log(hand2HighPair);
+                    if (hand1HighPair > hand2HighPair) {
+                        this._winningArray = [["hand1"], ruleName, hand1HighPair];
+                    }
+                    if (hand2HighPair > hand1HighPair) {
+                        this._winningArray = [["hand1"], ruleName, hand2HighPair];
+                    }
+                }
+                valueOfPairInHand(cardsInHand) {
+                    var handPairValue = 0;
+                    for (let i = 0; i < cardsInHand.length - 1; i++) {
+                        console.log(cardsInHand[i]);
+                        if (cardsInHand[i] === cardsInHand[i + 1][this._cardValue]) {
+                            handPairValue = cardsInHand[i][this._cardValue];
+                        }
+                    }
+                    return handPairValue;
                 }
             }
             exports_1("PokerHandNoPlayer", PokerHandNoPlayer);
