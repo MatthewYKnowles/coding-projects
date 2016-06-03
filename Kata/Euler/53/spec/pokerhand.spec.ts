@@ -20,4 +20,12 @@ describe("PokerHand", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS TS KC 9H 9C QD 2S KD TC AC");
         expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
     });
+    it("should return the hand with the higher pair", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS TS KC 9H 9C QD 2S KD KS AC");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
+    it("should return the high card hand if they both have pairs", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS TS KC KH 9C QD 2S KD KS AC");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
 });

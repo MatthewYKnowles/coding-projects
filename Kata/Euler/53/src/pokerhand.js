@@ -15,11 +15,11 @@ System.register([], function(exports_1, context_1) {
                 setWinningString() {
                     let ratePokerHand = new RatePokerHand(this._handOne, this._handTwo);
                     let winningArray = ratePokerHand.getWinningArray();
-                    if (winningArray[0] == "tie") {
+                    if (winningArray == "tie") {
                         this._winningHand = "tie";
                     }
                     else {
-                        this._winningHand = winningArray[0][0];
+                        this._winningHand = winningArray[0];
                     }
                 }
                 getWinningString() {
@@ -75,12 +75,16 @@ System.register([], function(exports_1, context_1) {
             }
             class RatePokerHand {
                 constructor(hand1, hand2) {
+                    this._winningArray = [];
                     this._cardValue = 0;
                     this._suitValue = 1;
                     this._hand1 = hand1;
                     this._hand2 = hand2;
                     this.highPairWins();
-                    this.highCardWins();
+                    if (this._winningArray.length == 0) {
+                        this.highCardWins();
+                    }
+                    console.log(this._winningArray);
                 }
                 getWinningArray() {
                     return this._winningArray;
@@ -90,16 +94,16 @@ System.register([], function(exports_1, context_1) {
                     var hand1HighestCard = this._hand1[0][this._cardValue];
                     var hand2HighestCard = this._hand2[0][this._cardValue];
                     if (hand1HighestCard > hand2HighestCard) {
-                        this._winningArray = [["hand1"], ruleName, hand1HighestCard];
+                        this._winningArray = ["hand1", ruleName, hand1HighestCard];
                     }
                     else if (hand2HighestCard > hand1HighestCard) {
-                        this._winningArray = [["hand2"], ruleName, hand2HighestCard];
+                        this._winningArray = ["hand2", ruleName, hand2HighestCard];
                     }
                     else {
                         this._hand1.shift();
                         this._hand2.shift();
                         if (this._hand1.length === 0) {
-                            this._winningArray = ["tie"];
+                            this._winningArray = "tie";
                         }
                         else {
                             this.highCardWins();
@@ -110,24 +114,24 @@ System.register([], function(exports_1, context_1) {
                     let ruleName = "Pair";
                     let hand1HighPair = this.valueOfPairInHand(this._hand1);
                     let hand2HighPair = this.valueOfPairInHand(this._hand2);
-                    console.log(hand1HighPair);
-                    console.log(hand2HighPair);
                     if (hand1HighPair > hand2HighPair) {
-                        this._winningArray = [["hand1"], ruleName, hand1HighPair];
+                        this._winningArray = ["hand1", ruleName, hand1HighPair];
                     }
                     if (hand2HighPair > hand1HighPair) {
-                        this._winningArray = [["hand1"], ruleName, hand2HighPair];
+                        this._winningArray = ["hand2", ruleName, hand2HighPair];
                     }
                 }
                 valueOfPairInHand(cardsInHand) {
                     var handPairValue = 0;
                     for (let i = 0; i < cardsInHand.length - 1; i++) {
-                        console.log(cardsInHand[i]);
-                        if (cardsInHand[i] === cardsInHand[i + 1][this._cardValue]) {
+                        if (this.areTwoConsecutiveCardsTheSame(cardsInHand, i)) {
                             handPairValue = cardsInHand[i][this._cardValue];
                         }
                     }
                     return handPairValue;
+                }
+                areTwoConsecutiveCardsTheSame(hand, index) {
+                    return hand[index][this._cardValue] === hand[index + 1][this._cardValue];
                 }
             }
             exports_1("PokerHandNoPlayer", PokerHandNoPlayer);
