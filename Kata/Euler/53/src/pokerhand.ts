@@ -81,12 +81,16 @@ class RatePokerHand {
     constructor(hand1: any, hand2: any){
         this._hand1 = hand1;
         this._hand2 = hand2;
-        this.highPairWins();
-        if(this._winningArray.length == 0){this.highCardWins();}
-        console.log(this._winningArray);
     }
+
     getWinningArray() {
+        this.determineWinningArray();
         return this._winningArray;
+    }
+
+    determineWinningArray() {
+        this.twoPairWins();
+        if(this._winningArray.length == 0){this.highCardWins();}
     }
 
     highCardWins(){
@@ -111,15 +115,38 @@ class RatePokerHand {
         if (hand2HighPair > hand1HighPair){this._winningArray = ["hand2", ruleName, hand2HighPair];}
     }
 
+    twoPairWins(){
+        let ruleName = "2 Pair";
+        let hand1PairArray = this.arrayOfPairValues(this._hand1);
+        let hand2PairArray = this.arrayOfPairValues(this._hand2);
+        if (hand1PairArray.length > hand2PairArray.length) {this._winningArray = ["hand1", ruleName, hand1PairArray[0]]}
+        else if (hand2PairArray.length > hand1PairArray.length) {this._winningArray = ["hand2", ruleName, hand2PairArray[0]]}
+        else {this.highPairWins();}
+    }
+
+    arrayOfPairValues(hand) {
+        let handVar = hand;
+        let firstPairValue = this.valueOfPairInHand(handVar);
+        if (firstPairValue > 0) {
+            handVar = handVar.filter((a)=> a[0] != firstPairValue);
+            if (this.valueOfPairInHand(handVar) > 0){
+                return [this.valueOfPairInHand(handVar), firstPairValue];
+            }
+            return [firstPairValue];
+        }
+        return [];
+    }
+    
+
     valueOfPairInHand (cardsInHand: any){
         var handPairValue = 0;
-        for (let i = 0; i < cardsInHand.length - 1; i++) {
+        for (let i = cardsInHand.length - 1; i > 1; i--) {
             if (this.areTwoConsecutiveCardsTheSame(cardsInHand, i)) {handPairValue = cardsInHand[i][this._cardValue];}}
         return handPairValue;
     }
 
     areTwoConsecutiveCardsTheSame(hand: any, index: number){
-        return hand[index][this._cardValue] === hand[index + 1][this._cardValue];
+        return hand[index][this._cardValue] === hand[index - 1][this._cardValue];
     }
 }
 
