@@ -45,6 +45,10 @@ System.register(["src/pokerhand"], function(exports_1, context_1) {
                     let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("AS TS QC QH TC 2D 2S KD KS AC");
                     expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
                 });
+                it("should return the hand with the three of a kind", () => {
+                    let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("AS QS QC QH TC 2D 2S KD KS AC");
+                    expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+                });
             });
         }
     }

@@ -86,13 +86,16 @@ System.register([], function(exports_1, context_1) {
                     return this._winningArray;
                 }
                 determineWinningArray() {
-                    this.twoPairWins();
+                    this.threeOfAKindWins();
+                    if (this._winningArray.length == 0) {
+                        this.twoPairWins();
+                    }
                     if (this._winningArray.length == 0) {
                         this.highCardWins();
                     }
                 }
                 highCardWins() {
-                    let ruleName = ["high card"];
+                    let ruleName = "high card";
                     var hand1HighestCard = this._hand1[0][this._cardValue];
                     var hand2HighestCard = this._hand2[0][this._cardValue];
                     if (hand1HighestCard > hand2HighestCard) {
@@ -102,15 +105,7 @@ System.register([], function(exports_1, context_1) {
                         this._winningArray = ["hand2", ruleName, hand2HighestCard];
                     }
                     else {
-                        this._hand1.shift();
-                        this._hand2.shift();
-                        if (this._hand1.length === 0) {
-                            this._winningArray = "tie";
-                        }
-                        else {
-                            this.highCardWins();
-                        }
-                        console.log(this._winningArray);
+                        this.checkNextHighestCard();
                     }
                 }
                 highPairWins() {
@@ -138,6 +133,26 @@ System.register([], function(exports_1, context_1) {
                         this.highPairWins();
                     }
                 }
+                threeOfAKindWins() {
+                    let ruleName = "3 of a Kind";
+                    let hand1ThreeOfAKind = this.threeOfAKindValue(this._hand1);
+                    let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
+                    if (hand1ThreeOfAKind > hand2ThreeOfAKind) {
+                        this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                    }
+                    if (hand2ThreeOfAKind > hand1ThreeOfAKind) {
+                        this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
+                    }
+                }
+                threeOfAKindValue(hand) {
+                    let threeOfAKindValue = 0;
+                    for (let i = 0; i < hand.length - 2; i++) {
+                        if (hand[i][this._cardValue] === hand[i + 1][this._cardValue] && hand[i][this._cardValue] === hand[i + 2][this._cardValue]) {
+                            threeOfAKindValue = hand[i][this._cardValue];
+                        }
+                    }
+                    return threeOfAKindValue;
+                }
                 arrayOfPairValues(hand) {
                     let handVar = hand;
                     let firstPairValue = this.valueOfPairInHand(handVar);
@@ -162,9 +177,18 @@ System.register([], function(exports_1, context_1) {
                 areTwoConsecutiveCardsTheSame(hand, index) {
                     return hand[index][this._cardValue] === hand[index - 1][this._cardValue];
                 }
+                checkNextHighestCard() {
+                    this._hand1.shift();
+                    this._hand2.shift();
+                    if (this._hand1.length === 0) {
+                        this._winningArray = "tie";
+                    }
+                    else {
+                        this.highCardWins();
+                    }
+                }
             }
             exports_1("PokerHandNoPlayer", PokerHandNoPlayer);
-            exports_1("RatePokerHand", RatePokerHand);
         }
     }
 });

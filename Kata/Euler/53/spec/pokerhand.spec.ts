@@ -1,4 +1,4 @@
-import {PokerHandNoPlayer, RatePokerHand} from "src/pokerhand"
+import {PokerHandNoPlayer} from "src/pokerhand"
 describe("PokerHand", ()=> {
     it("should split the hand and return higher card", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C TS KC 9H 4S 7D 2S 5D 3S AC");
@@ -35,5 +35,9 @@ describe("PokerHand", ()=> {
     it("should return the hand with the higher two pair", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS TS QC QH TC 2D 2S KD KS AC");
         expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
+    it("should return the hand with the three of a kind", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS QS QC QH TC 2D 2S KD KS AC");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
     });
 });
