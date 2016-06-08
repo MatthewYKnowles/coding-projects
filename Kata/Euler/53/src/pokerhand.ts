@@ -140,16 +140,16 @@ class RatePokerHand {
     }
 
     arrayOfPairValues(hand) {
-        let handVar = hand;
-        let firstPairValue = this.valueOfPairInHand(handVar);
-        if (firstPairValue > 0) {
-            handVar = handVar.filter((a)=> a[0] != firstPairValue);
-            if (this.valueOfPairInHand(handVar) > 0){
-                return [this.valueOfPairInHand(handVar), firstPairValue];
-            }
-            return [firstPairValue];
+        let firstPair = this.valueOfPairInHand(hand);
+        return this.checkForSecondPair(hand, firstPair)
+    }
+
+    checkForSecondPair(hand, firstPair){
+        let handWithoutFirstPair = hand.filter((a)=> a[0] != firstPair);
+        if (this.valueOfPairInHand(handWithoutFirstPair) > 0){
+            return [this.valueOfPairInHand(handWithoutFirstPair), firstPair];
         }
-        return [];
+        return [firstPair];
     }
 
     valueOfPairInHand (cardsInHand: any){
