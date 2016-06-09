@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Building a webpage using Bootstrap</title>
+ </head>
+ <body>
+ </body>
+</html>
+<!-- add a main section-->
+<div class="jumbotron">
+  <div class="container">
+    <h3>Hello, world!</h3>
+    <p>Lets build a webpage</p>
+  </div>
+</div>
+<!-- add a main section-->
+<style>
+.jumbotron {
+  height: 600px;
+  background: lightblue;
+}
+</style>
+<!-- add an about section-->
+<div class="about" id="about">
+  <div class="container">
+     <h2 style="text-align:center">About</h2>
+  </div>
+</div>
+<!-- add to the style section about css-->
+.about {
+  height: 600px;
+  background: lightgreen;
+}
+<!-- add a like section-->
+<div class="likes" id="likes">
+  <div class="container">
+    <h2 style="text-align:center">Likes</h2>
+  </div>
+</div>
+<!-- add to the style section css for likes-->
+.likes {
+  height: 600px;
+  background: lightpink;
+}
+<!-- add bootstrap link to end of head-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+ integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- add 0 margin to jumbotron-->
+.jumbotron {
+  height: 600px;
+  background: lightblue;
+  margin: 0;
+}
+<!-- add a navbar-->
+<nav class="navbar navbar-fixed-top navbar-inverse">
+</nav>
+<!-- add links to the navbar-->
+<ul class="nav navbar-nav">
+  <li><a href="#about">About</a></li>
+  <li><a href="#likes">Likes</a></li>
+  <li><a href="http://www.linkedin.com">LinkedIn</a></li>
+</ul>
+<!-- add float right to navbar-->
+.navbar-nav {
+  float: right;
+}
+<!-- make it so you can see each div heading-->
+h2 {
+  margin-top: 50px;
+}
+<!-- add a home button-->
+<div class="navbar-header">
+   <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
+</div>
+<!-- add a background image-->
+.jumbotron {
+  height: 600px;
+  background: URL(http://www.greatersum.com/wp-content/uploads/2015/08/GS_Logo_V3_horizontal_RGB.png);
+  background-size: 100% 100%;
+  margin: 0;
+}
+<!-- add centering and color-->
+.jumbotron {
+  height: 600px;
+  background: URL(http://www.greatersum.com/wp-content/uploads/2015/08/GS_Logo_V3_horizontal_RGB.png);
+  background-size: 100% 100%;
+  margin: 0;
+  text-align: center;
+  color: #36357F;
+}
+<!-- add the following in about-->
+<div class="row">
+  <div class="col-lg-4">
+    <h3>First</h3>
+  </div>
+  <div class="col-lg-4">
+    <h3>Second</h3>
+  </div>
+  <div class="col-lg-4">
+    <h3>Third</h3>
+  </div>
+</div>
+<!-- add the following in like section-->
+<div class="row">
+  <div class="col-lg-4">
+    <h3>First</h3>
+  </div>
+  <div class="col-lg-4">
+    <h3>Second</h3>
+  </div>
+  <div class="col-lg-4">
+    <h3>Third</h3>
+  </div>
+</div>
+<!-- we want everything to be centered so we can add this and remove all the centering tags-->
+* {
+  text-align: center;
+}
+<!-- show that text-align left overwrites the star style-->
+<!-- go online and get a google font -->
+<link href='https://fonts.googleapis.com/css?family=Orbitron:700' rel='stylesheet' type='text/css'>
+#about h3 {
+  font-family: 'Orbitron', sans-serif;
+}
+<!-- change first in likes to likes and dislikes-->
+<h3>Likes and dislikes</h3>
+<h4><i class="glyphicon glyphicon-thumbs-up"></i> Bootstrap</h4>
+<h4><i class="glyphicon glyphicon-thumbs-down"></i> White Walkers</h4>
+<h4><i class="glyphicon glyphicon-hand-right"></i> JavaScript</h4>
+<!-- change second in likes to learning to code resources-->
+<h3>Learning to Code resources</h3>
+<p><a class="btn btn-primary" href="http://www.codecademy.com">Codecademy</a></p>
+<p><a class="btn btn-success" href="http://www.freecodecamp.com">Free Code Camp</a></p>
+<p><a class="btn btn-info" href="http://www.udacity.com">Udacity</a></p>
+<p><a class="btn btn-danger" href="http://www.Coursera.com">Coursera</a></p>
+<!-- change third in likes to advice-->
+<h3>Advice</h3>
+<div class="alert alert-success" role="alert">To really learn to code work on projects</div>
+<div class="alert alert-danger" role="alert">Don't give up</div>
+<!-- change first in about to the workshop is-->
+<h3>The Workshop Is</h3>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+    <span>60% Complete</span>
+  </div>
+</div>
+
+
+
+
+
+--------
