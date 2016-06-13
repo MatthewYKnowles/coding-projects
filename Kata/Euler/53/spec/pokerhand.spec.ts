@@ -48,4 +48,24 @@ describe("PokerHand", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("AS QS QC QH TC 2D 3H 4D 5S 6C");
         expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
     });
+    it("should return the hand with the higher strait", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("TS 8S 9C 7H 6C 2D 3H 4D 5S 6C");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
+    it("should return tie with same strait", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("TS 8S 9C 7H 6C TD 9H 8D 7S 6C");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("tie");
+    });
+    it("should return the hand with the flush", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("TS 8S 9C 7H 6C 6D 8D 2D TD 5D");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
+    it("should return the hand with the higher flush", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("TS 8S 2S 7S 6S 6D 8D 2D TD 5D");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
+    it("should return the hand with the full house", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("TS 8S 2S 7S 6S 6D 6C 6H TD TH");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
 });

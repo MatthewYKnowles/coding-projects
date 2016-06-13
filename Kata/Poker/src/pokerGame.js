@@ -167,7 +167,6 @@ function hasAStrait(hand) {
     var consecutiveNumbers = 1;
     for (var i = 0; i < cards.length - 1; i++) {
         if (cards[i][cardValue] - 1 === cards[i + 1][cardValue]) {
-            console.log(cards[i + 1][cardValue]);
             consecutiveNumbers += 1;
         }
     }

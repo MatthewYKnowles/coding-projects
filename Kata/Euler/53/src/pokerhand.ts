@@ -23,10 +23,10 @@ class PokerHandNoPlayer {
     }
     createHands() {
         let separatedHand = this._gameString.split(" ");
-        let handOneWithFacecards = this.createHandArray(separatedHand.slice(0, 5));
-        let handTwoWithFacecards = this.createHandArray(separatedHand.slice(5, 10));
-        this._handOne = this.convertFaceCardsToIntegers(handOneWithFacecards);
-        this._handTwo = this.convertFaceCardsToIntegers(handTwoWithFacecards);
+        let handOneWithFaceCards = this.createHandArray(separatedHand.slice(0, 5));
+        let handTwoWithFaceCards = this.createHandArray(separatedHand.slice(5, 10));
+        this._handOne = this.convertFaceCardsToIntegers(handOneWithFaceCards);
+        this._handTwo = this.convertFaceCardsToIntegers(handTwoWithFaceCards);
     }
 
     sortHands(){
@@ -36,10 +36,10 @@ class PokerHandNoPlayer {
 
     createHandArray(hand) {
         let handArray = [];
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < hand.length; i++){
             let card = [];
             card.push(hand[i][0]);
-            card.push(hand[i][0]);
+            card.push(hand[i][1]);
             handArray.push(card);
         }
         return handArray;
@@ -81,15 +81,20 @@ class RatePokerHand {
     constructor(hand1: any, hand2: any){
         this._hand1 = hand1;
         this._hand2 = hand2;
+        this.determineWinningArray();
     }
 
     getWinningArray() {
-        this.determineWinningArray();
         return this._winningArray;
     }
 
     determineWinningArray() {
-        this.threeOfAKindWins();
+        console.log(this._hand1);
+        console.log(this._hand2);
+        this.fullHouseWins();
+        if(this._winningArray.length == 0){this.flushWins();}
+        if(this._winningArray.length == 0){this.straitWins();}
+        if(this._winningArray.length == 0){this.threeOfAKindWins();}
         if(this._winningArray.length == 0){this.twoPairWins();}
         if(this._winningArray.length == 0){this.highCardWins();}
     }
@@ -100,7 +105,10 @@ class RatePokerHand {
         var hand2HighestCard = this._hand2[0][this._cardValue];
         if (hand1HighestCard > hand2HighestCard){this._winningArray = ["hand1", ruleName, hand1HighestCard];}
         else if (hand2HighestCard > hand1HighestCard){this._winningArray = ["hand2", ruleName, hand2HighestCard];}
-        else{this.checkNextHighestCard();}
+        else{
+            this.checkNextHighestCard();
+            if (this._winningArray.length === 0){this.highCardWins();}
+        }
     }
 
     highPairWins(){
@@ -126,7 +134,82 @@ class RatePokerHand {
         let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
         if (hand1ThreeOfAKind > hand2ThreeOfAKind) {this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];}
         if (hand2ThreeOfAKind > hand1ThreeOfAKind) {this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];}
+    }
 
+    straitWins(){
+        let ruleName = "Strait";
+        let hand1Strait = this.hasAStrait(this._hand1);
+        let hand2Strait = this.hasAStrait(this._hand2);
+        if (hand1Strait){this._winningArray = ["hand1", ruleName, this.highestCard(this._hand1)]}
+        if (hand2Strait){this._winningArray = ["hand2", ruleName, this.highestCard(this._hand2)]}
+        if (hand1Strait && hand2Strait){this.higherStraitWins(ruleName);}
+    }
+
+    higherStraitWins(ruleName) {
+        let hand1HighCard = this.highestCard(this._hand1);
+        let hand2HighCard = this.highestCard(this._hand2);
+        if (hand1HighCard > hand2HighCard){this._winningArray = ["hand1", ruleName, hand1HighCard]}
+        if (hand2HighCard > hand1HighCard){this._winningArray = ["hand2", ruleName, hand2HighCard]}
+        if (hand1HighCard === hand2HighCard) {this._winningArray = "tie"}
+    }
+
+    flushWins(){
+        let ruleName = "Flush";
+        let hand1Flush = this.hasAFlush(this._hand1);
+        let hand2Flush = this.hasAFlush(this._hand2);
+        if (hand1Flush && !hand2Flush){this._winningArray = ["hand1", ruleName, this.highestCard(this._hand1)]}
+        if (hand2Flush && !hand1Flush){this._winningArray = ["hand2", ruleName, this.highestCard(this._hand2)]}
+        if (hand1Flush && hand2Flush){this.higherFlushWins();}
+    }
+
+    fullHouseWins() {
+        let ruleName = "Full House";
+        let hand1FullHouse = this.hasAFullHouse(this._hand1);
+        let hand2FullHouse = this.hasAFullHouse(this._hand2);
+        if (hand1FullHouse && !hand2FullHouse){this._winningArray = ["hand1", ruleName, 99]}
+        if (hand2FullHouse && !hand1FullHouse){this._winningArray = ["hand2", ruleName, 99]}
+        if (hand1FullHouse && hand2FullHouse){this.higherFlushWins();}
+    }
+
+    hasAFullHouse(hand){
+        console.log(hand);
+        let threeOfAKindValue = this.threeOfAKindValue(hand);
+        console.log(threeOfAKindValue);
+        if (threeOfAKindValue > 0){
+            let handWithoutThreeOfAKind = hand.filter((a)=> a[0] != threeOfAKindValue);
+            console.log(handWithoutThreeOfAKind);
+            let pairValue = this.valueOfPairInHand(handWithoutThreeOfAKind);
+            console.log(pairValue);
+        }
+        return threeOfAKindValue > 0;
+    }
+
+    higherFlushWins(){
+        let ruleName = "Flush";
+        let hand1HighCard = this.highestCard(this._hand1);
+        let hand2HighCard = this.highestCard(this._hand2);
+        if (hand1HighCard > hand2HighCard){this._winningArray = ["hand1", ruleName, hand1HighCard]}
+        else if (hand2HighCard > hand1HighCard){this._winningArray = ["hand2", ruleName, hand2HighCard]}
+        else {
+            this.checkNextHighestCard();
+            if (this._winningArray.length === 0){this.higherFlushWins();}
+        }
+    }
+
+    hasAFlush(hand){
+        let cardsWithSameSuit = 1;
+        for (let i = 1; i < 5; i++){
+            if (hand[0][this._suitValue] === hand[i][this._suitValue]){cardsWithSameSuit += 1;}}
+        return cardsWithSameSuit === 5;
+    }
+
+    hasAStrait(hand){
+        let consecutiveNumbers = 1;
+        for (let i = 0; i < 4;i++){
+            if (hand[i][this._cardValue] - 1 === hand[i + 1][this._cardValue]){
+                consecutiveNumbers += 1;}
+        }
+        return consecutiveNumbers === 5;
     }
 
     threeOfAKindValue(hand) {
@@ -146,10 +229,15 @@ class RatePokerHand {
 
     checkForSecondPair(hand, firstPair){
         let handWithoutFirstPair = hand.filter((a)=> a[0] != firstPair);
+        console.log(handWithoutFirstPair);
         if (this.valueOfPairInHand(handWithoutFirstPair) > 0){
             return [this.valueOfPairInHand(handWithoutFirstPair), firstPair];
         }
         return [firstPair];
+    }
+
+    highestCard(hand) {
+        return hand[0][this._cardValue];
     }
 
     valueOfPairInHand (cardsInHand: any){
@@ -167,7 +255,6 @@ class RatePokerHand {
         this._hand1.shift();
         this._hand2.shift();
         if (this._hand1.length === 0){this._winningArray = "tie";}
-        else {this.highCardWins();}
     }
 }
 
