@@ -77,6 +77,14 @@ System.register(["src/pokerhand"], function(exports_1, context_1) {
                     let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("TS 8S 2S 7S 6S 6D 6C 6H TD TH");
                     expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
                 });
+                it("should return the other hand with its full house", () => {
+                    let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("8C 8S 7D 7C 7S 6D 6C 6H QD TH");
+                    expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+                });
+                it("should return the other hand with the higher full house", () => {
+                    let pokerHandNoPlayer = new pokerhand_1.PokerHandNoPlayer("8C 8S 7D 7C 7S 6D 6C 6H TD TH");
+                    expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+                });
             });
         }
     }

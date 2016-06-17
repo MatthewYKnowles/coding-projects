@@ -81,6 +81,7 @@ System.register([], function(exports_1, context_1) {
                     this._hand1 = hand1;
                     this._hand2 = hand2;
                     this.determineWinningArray();
+                    console.log(this._winningArray);
                 }
                 getWinningArray() {
                     return this._winningArray;
@@ -149,13 +150,17 @@ System.register([], function(exports_1, context_1) {
                 }
                 threeOfAKindWins() {
                     let ruleName = "3 of a Kind";
+                    this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
+                    this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                }
+                higherThreeOfAKindWins(hand1, hand2) {
                     let hand1ThreeOfAKind = this.threeOfAKindValue(this._hand1);
                     let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
                     if (hand1ThreeOfAKind > hand2ThreeOfAKind) {
-                        this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                        return "hand1";
                     }
                     if (hand2ThreeOfAKind > hand1ThreeOfAKind) {
-                        this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
+                        return "hand2";
                     }
                 }
                 straitWins() {
@@ -202,6 +207,7 @@ System.register([], function(exports_1, context_1) {
                 fullHouseWins() {
                     let ruleName = "Full House";
                     let hand1FullHouse = this.hasAFullHouse(this._hand1);
+                    console.log(hand1FullHouse);
                     let hand2FullHouse = this.hasAFullHouse(this._hand2);
                     if (hand1FullHouse && !hand2FullHouse) {
                         this._winningArray = ["hand1", ruleName, 99];
@@ -214,16 +220,18 @@ System.register([], function(exports_1, context_1) {
                     }
                 }
                 hasAFullHouse(hand) {
-                    console.log(hand);
-                    let threeOfAKindValue = this.threeOfAKindValue(hand);
+                    let temporaryHand = hand;
+                    let threeOfAKindValue = this.threeOfAKindValue(temporaryHand);
+                    let pairValue = 0;
                     console.log(threeOfAKindValue);
                     if (threeOfAKindValue > 0) {
-                        let handWithoutThreeOfAKind = hand.filter((a) => a[0] != threeOfAKindValue);
+                        function notThreeOfAKindValue(value) { return value[0] != threeOfAKindValue; }
+                        let handWithoutThreeOfAKind = temporaryHand.filter(notThreeOfAKindValue);
                         console.log(handWithoutThreeOfAKind);
-                        let pairValue = this.valueOfPairInHand(handWithoutThreeOfAKind);
+                        pairValue = this.valueOfPairInHand(handWithoutThreeOfAKind);
                         console.log(pairValue);
                     }
-                    return threeOfAKindValue > 0;
+                    return pairValue > 0;
                 }
                 higherFlushWins() {
                     let ruleName = "Flush";
@@ -252,6 +260,7 @@ System.register([], function(exports_1, context_1) {
                     return cardsWithSameSuit === 5;
                 }
                 hasAStrait(hand) {
+                    console.log(hand);
                     let consecutiveNumbers = 1;
                     for (let i = 0; i < 4; i++) {
                         if (hand[i][this._cardValue] - 1 === hand[i + 1][this._cardValue]) {
@@ -286,7 +295,9 @@ System.register([], function(exports_1, context_1) {
                 }
                 valueOfPairInHand(cardsInHand) {
                     var handPairValue = 0;
-                    for (let i = cardsInHand.length - 1; i > 1; i--) {
+                    console.log("whoop");
+                    console.log(cardsInHand.length - 1);
+                    for (let i = cardsInHand.length - 1; i >= 1; i--) {
                         if (this.areTwoConsecutiveCardsTheSame(cardsInHand, i)) {
                             handPairValue = cardsInHand[i][this._cardValue];
                         }
@@ -294,6 +305,8 @@ System.register([], function(exports_1, context_1) {
                     return handPairValue;
                 }
                 areTwoConsecutiveCardsTheSame(hand, index) {
+                    console.log(hand[index][this._cardValue]);
+                    console.log(hand[index - 1][this._cardValue]);
                     return hand[index][this._cardValue] === hand[index - 1][this._cardValue];
                 }
                 checkNextHighestCard() {
