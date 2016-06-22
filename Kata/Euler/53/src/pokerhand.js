@@ -89,7 +89,10 @@ System.register([], function(exports_1, context_1) {
                 determineWinningArray() {
                     console.log(this._hand1);
                     console.log(this._hand2);
-                    this.fullHouseWins();
+                    this.fourOfAKindWins();
+                    if (this._winningArray.length == 0) {
+                        this.fullHouseWins();
+                    }
                     if (this._winningArray.length == 0) {
                         this.flushWins();
                     }
@@ -150,17 +153,13 @@ System.register([], function(exports_1, context_1) {
                 }
                 threeOfAKindWins() {
                     let ruleName = "3 of a Kind";
-                    this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
-                    this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
-                }
-                higherThreeOfAKindWins(hand1, hand2) {
                     let hand1ThreeOfAKind = this.threeOfAKindValue(this._hand1);
                     let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
                     if (hand1ThreeOfAKind > hand2ThreeOfAKind) {
-                        return "hand1";
+                        this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
                     }
                     if (hand2ThreeOfAKind > hand1ThreeOfAKind) {
-                        return "hand2";
+                        this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
                     }
                 }
                 straitWins() {
@@ -175,19 +174,6 @@ System.register([], function(exports_1, context_1) {
                     }
                     if (hand1Strait && hand2Strait) {
                         this.higherStraitWins(ruleName);
-                    }
-                }
-                higherStraitWins(ruleName) {
-                    let hand1HighCard = this.highestCard(this._hand1);
-                    let hand2HighCard = this.highestCard(this._hand2);
-                    if (hand1HighCard > hand2HighCard) {
-                        this._winningArray = ["hand1", ruleName, hand1HighCard];
-                    }
-                    if (hand2HighCard > hand1HighCard) {
-                        this._winningArray = ["hand2", ruleName, hand2HighCard];
-                    }
-                    if (hand1HighCard === hand2HighCard) {
-                        this._winningArray = "tie";
                     }
                 }
                 flushWins() {
@@ -207,31 +193,78 @@ System.register([], function(exports_1, context_1) {
                 fullHouseWins() {
                     let ruleName = "Full House";
                     let hand1FullHouse = this.hasAFullHouse(this._hand1);
-                    console.log(hand1FullHouse);
                     let hand2FullHouse = this.hasAFullHouse(this._hand2);
+                    let hand1ThreeOfAKind = this.threeOfAKindValue(this._hand1);
+                    let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
                     if (hand1FullHouse && !hand2FullHouse) {
-                        this._winningArray = ["hand1", ruleName, 99];
+                        this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
                     }
                     if (hand2FullHouse && !hand1FullHouse) {
-                        this._winningArray = ["hand2", ruleName, 99];
+                        this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
                     }
-                    if (hand1FullHouse && hand2FullHouse) {
-                        this.higherFlushWins();
+                    if (this._winningArray === "") {
+                        if (hand1ThreeOfAKind > hand2ThreeOfAKind) {
+                            this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                        }
+                        if (hand2ThreeOfAKind > hand1ThreeOfAKind) {
+                            this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                        }
                     }
+                }
+                fourOfAKindWins() {
+                    let ruleName = "4 of a Kind";
+                    let hand1FourOfKindValue = this.fourOfAKindValue(this._hand1);
+                    let hand2FourOfKindValue = this.fourOfAKindValue(this._hand2);
+                    if (hand1FourOfKindValue > hand2FourOfKindValue) {
+                        this._winningArray = ["hand1", ruleName, hand1FourOfKindValue];
+                    }
+                    if (hand2FourOfKindValue > hand1FourOfKindValue) {
+                        this._winningArray = ["hand2", ruleName, hand2FourOfKindValue];
+                    }
+                }
+                fourOfAKindValue(hand) {
+                    let fourOfAKindValue = 0;
+                    if (hand[0][this._cardValue] === hand[3][this._cardValue] || hand[1][this._cardValue] === hand[4][this._cardValue]) {
+                        fourOfAKindValue = hand[2][this._cardValue];
+                    }
+                    return fourOfAKindValue;
                 }
                 hasAFullHouse(hand) {
                     let temporaryHand = hand;
                     let threeOfAKindValue = this.threeOfAKindValue(temporaryHand);
                     let pairValue = 0;
-                    console.log(threeOfAKindValue);
                     if (threeOfAKindValue > 0) {
                         function notThreeOfAKindValue(value) { return value[0] != threeOfAKindValue; }
                         let handWithoutThreeOfAKind = temporaryHand.filter(notThreeOfAKindValue);
-                        console.log(handWithoutThreeOfAKind);
                         pairValue = this.valueOfPairInHand(handWithoutThreeOfAKind);
-                        console.log(pairValue);
                     }
                     return pairValue > 0;
+                }
+                higherStraitWins(ruleName) {
+                    let hand1HighCard = this.highestCard(this._hand1);
+                    let hand2HighCard = this.highestCard(this._hand2);
+                    if (hand1HighCard > hand2HighCard) {
+                        this._winningArray = ["hand1", ruleName, hand1HighCard];
+                    }
+                    if (hand2HighCard > hand1HighCard) {
+                        this._winningArray = ["hand2", ruleName, hand2HighCard];
+                    }
+                    if (hand1HighCard === hand2HighCard) {
+                        this._winningArray = "tie";
+                    }
+                }
+                higherStraitWins(ruleName) {
+                    let hand1HighCard = this.highestCard(this._hand1);
+                    let hand2HighCard = this.highestCard(this._hand2);
+                    if (hand1HighCard > hand2HighCard) {
+                        this._winningArray = ["hand1", ruleName, hand1HighCard];
+                    }
+                    if (hand2HighCard > hand1HighCard) {
+                        this._winningArray = ["hand2", ruleName, hand2HighCard];
+                    }
+                    if (hand1HighCard === hand2HighCard) {
+                        this._winningArray = "tie";
+                    }
                 }
                 higherFlushWins() {
                     let ruleName = "Flush";

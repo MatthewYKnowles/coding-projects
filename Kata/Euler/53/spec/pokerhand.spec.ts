@@ -76,4 +76,12 @@ describe("PokerHand", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C 8S 7D 7C 7S 6D 6C 6H TD TH");
         expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
     });
+    it("should return the hand with the 4 of a kind", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C 8S 8D 8H 7S 6D 6C 6H TD TH");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
+    it("should return the hand with the higher 4 of a kind", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C 8S 8D 8H 7S 6D 6C 6H 6S TH");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
 });
