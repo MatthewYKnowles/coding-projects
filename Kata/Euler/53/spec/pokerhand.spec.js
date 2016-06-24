@@ -108,10 +108,16 @@ System.register(["src/pokerhand"], function(exports_1, context_1) {
             });
             describe("CountWinningHands", () => {
                 it("should count 1 win for hand 1", () => {
-                    let countWinningHands = new pokerhand_1.CountWinningHands();
-                    countWinningHands.readTextFile("poker.txt");
-                    console.log;
-                    expect(countWinningHands.pokerHands).toEqual("hand2");
+                    let countWinningHands = new pokerhand_1.CountWinningHands("poker.txt");
+                    expect(countWinningHands.winningSummaryArray[0]).toEqual(376);
+                });
+                it("should count 1 win for hand 2", () => {
+                    let countWinningHands = new pokerhand_1.CountWinningHands("poker.txt");
+                    expect(countWinningHands.winningSummaryArray[1]).toEqual(624);
+                });
+                it("should count 1 tie", () => {
+                    let countWinningHands = new pokerhand_1.CountWinningHands("poker.txt");
+                    expect(countWinningHands.winningSummaryArray[2]).toEqual(0);
                 });
             });
         }

@@ -1,3 +1,4 @@
+import textSpanIsEmpty = ts.textSpanIsEmpty;
 class PokerHandNoPlayer {
     private _gameString: string;
     private _handOne: any;
@@ -74,6 +75,12 @@ class PokerHandNoPlayer {
 
 class CountWinningHands {
     public pokerHands;
+    public winningSummaryArray;
+
+    constructor(file) {
+        this.pokerHands = this.readTextFile(file);
+        this.winningSummaryArray = this.calculateWinningHands();
+    }
 
     readTextFile(file) {
         let rawFile = new XMLHttpRequest();
@@ -83,7 +90,22 @@ class CountWinningHands {
             text += rawFile.responseText;
         };
         rawFile.send(null);
-        this.pokerHands = text;
+        return text;
+    }
+
+    private calculateWinningHands() {
+        let hand1Wins = 0;
+        let hand2Wins = 0;
+        let ties = 0;
+        for (let i = 0; i < 1000; i++){
+            let currentHands = this.pokerHands.slice(i*30, (i+1)*30);
+            let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer(currentHands);
+            let winningString = pokerHandNoPlayer.getWinningString();
+            if (winningString === "hand1") {hand1Wins += 1;}
+            if (winningString === "hand2") {hand2Wins += 1;}
+            if (winningString === "tie") {ties += 1;}
+        }
+        return [hand1Wins, hand2Wins, ties]
     }
 }
 
@@ -263,7 +285,6 @@ class RatePokerHand {
     }
 
     hasAStrait(hand){
-        console.log(hand);
         let consecutiveNumbers = 1;
         for (let i = 0; i < 4;i++){
             if (hand[i][this._cardValue] - 1 === hand[i + 1][this._cardValue]){
@@ -289,7 +310,6 @@ class RatePokerHand {
 
     checkForSecondPair(hand, firstPair){
         let handWithoutFirstPair = hand.filter((a)=> a[0] != firstPair);
-        console.log(handWithoutFirstPair);
         if (this.valueOfPairInHand(handWithoutFirstPair) > 0){
             return [this.valueOfPairInHand(handWithoutFirstPair), firstPair];
         }
@@ -302,16 +322,12 @@ class RatePokerHand {
 
     valueOfPairInHand (cardsInHand: any){
         var handPairValue = 0;
-        console.log("whoop");
-        console.log(cardsInHand.length - 1);
         for (let i = cardsInHand.length - 1; i >= 1; i--) {
             if (this.areTwoConsecutiveCardsTheSame(cardsInHand, i)) {handPairValue = cardsInHand[i][this._cardValue];}}
         return handPairValue;
     }
 
     areTwoConsecutiveCardsTheSame(hand: any, index: number){
-        console.log(hand[index][this._cardValue]);
-        console.log(hand[index - 1][this._cardValue]);
         return hand[index][this._cardValue] === hand[index - 1][this._cardValue];
     }
 

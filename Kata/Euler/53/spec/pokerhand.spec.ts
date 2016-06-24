@@ -100,9 +100,15 @@ describe("PokerHand", ()=> {
 
 describe("CountWinningHands", ()=> {
     it("should count 1 win for hand 1", ()=> {
-        let countWinningHands: CountWinningHands = new CountWinningHands();
-        countWinningHands.readTextFile("poker.txt");
-        console.log
-        expect(countWinningHands.pokerHands).toEqual("hand2");
+        let countWinningHands: CountWinningHands = new CountWinningHands("poker.txt");
+        expect(countWinningHands.winningSummaryArray[0]).toEqual(376);
+    });
+    it("should count 1 win for hand 2", ()=> {
+        let countWinningHands: CountWinningHands = new CountWinningHands("poker.txt");
+        expect(countWinningHands.winningSummaryArray[1]).toEqual(624);
+    });
+    it("should count 1 tie", ()=> {
+        let countWinningHands: CountWinningHands = new CountWinningHands("poker.txt");
+        expect(countWinningHands.winningSummaryArray[2]).toEqual(0);
     });
 });
