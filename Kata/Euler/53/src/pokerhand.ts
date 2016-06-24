@@ -72,6 +72,21 @@ class PokerHandNoPlayer {
     }
 }
 
+class CountWinningHands {
+    public pokerHands;
+
+    readTextFile(file) {
+        let rawFile = new XMLHttpRequest();
+        let text = "";
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function () {
+            text += rawFile.responseText;
+        };
+        rawFile.send(null);
+        this.pokerHands = text;
+    }
+}
+
 class RatePokerHand {
     private _hand1: any;
     private _hand2: any;
@@ -82,7 +97,6 @@ class RatePokerHand {
         this._hand1 = hand1;
         this._hand2 = hand2;
         this.determineWinningArray();
-        console.log(this._winningArray);
     }
 
     getWinningArray() {
@@ -90,9 +104,8 @@ class RatePokerHand {
     }
 
     determineWinningArray() {
-        console.log(this._hand1);
-        console.log(this._hand2);
-        this.fourOfAKindWins();
+        this.straitFlushWins();
+        if(this._winningArray.length == 0){this.fourOfAKindWins();}
         if(this._winningArray.length == 0){this.fullHouseWins();}
         if(this._winningArray.length == 0){this.flushWins();}
         if(this._winningArray.length == 0){this.straitWins();}
@@ -164,9 +177,9 @@ class RatePokerHand {
         let hand2ThreeOfAKind = this.threeOfAKindValue(this._hand2);
         if (hand1FullHouse && !hand2FullHouse){this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind]}
         if (hand2FullHouse && !hand1FullHouse){this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind]}
-        if (this._winningArray === ""){
+        if (hand1FullHouse && hand2FullHouse){
             if (hand1ThreeOfAKind > hand2ThreeOfAKind){this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];}
-            if (hand2ThreeOfAKind > hand1ThreeOfAKind){this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];}
+            if (hand2ThreeOfAKind > hand1ThreeOfAKind){this._winningArray = ["hand2", ruleName, hand1ThreeOfAKind];}
         }
     }
 
@@ -176,6 +189,21 @@ class RatePokerHand {
         let hand2FourOfKindValue = this.fourOfAKindValue(this._hand2);
         if (hand1FourOfKindValue > hand2FourOfKindValue){this._winningArray = ["hand1", ruleName, hand1FourOfKindValue]}
         if (hand2FourOfKindValue > hand1FourOfKindValue){this._winningArray = ["hand2", ruleName, hand2FourOfKindValue]}
+    }
+
+    straitFlushWins() {
+        let ruleName = "strait flush";
+        let hand1HasAStraitFlush = this.hasAStraitFlush(this._hand1);
+        let hand2HasAStraitFlush = this.hasAStraitFlush(this._hand2);
+        let hand1HighestCard = this.highestCard(this._hand1);
+        let hand2HighestCard = this.highestCard(this._hand2);
+        if (hand1HasAStraitFlush && !hand2HasAStraitFlush){this._winningArray = ["hand1", ruleName, hand1HighestCard];}
+        if (hand2HasAStraitFlush && !hand1HasAStraitFlush){this._winningArray = ["hand2", ruleName, hand2HighestCard];}
+        if (hand1HasAStraitFlush && hand2HasAStraitFlush){this.highCardWins();}
+    }
+    
+    hasAStraitFlush(hand) {
+        return this.hasAFlush(hand) && this.hasAStrait(hand);
     }
 
     fourOfAKindValue(hand) {
@@ -294,5 +322,5 @@ class RatePokerHand {
     }
 }
 
-export {PokerHandNoPlayer};
+export {PokerHandNoPlayer, CountWinningHands};
 

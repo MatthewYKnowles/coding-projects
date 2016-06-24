@@ -1,7 +1,7 @@
 System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var PokerHandNoPlayer, RatePokerHand;
+    var PokerHandNoPlayer, CountWinningHands, RatePokerHand;
     return {
         setters:[],
         execute: function() {
@@ -73,6 +73,18 @@ System.register([], function(exports_1, context_1) {
                     return hand;
                 }
             }
+            class CountWinningHands {
+                readTextFile(file) {
+                    let rawFile = new XMLHttpRequest();
+                    let text = "";
+                    rawFile.open("GET", file, false);
+                    rawFile.onreadystatechange = function () {
+                        text += rawFile.responseText;
+                    };
+                    rawFile.send(null);
+                    this.pokerHands = text;
+                }
+            }
             class RatePokerHand {
                 constructor(hand1, hand2) {
                     this._winningArray = [];
@@ -81,15 +93,15 @@ System.register([], function(exports_1, context_1) {
                     this._hand1 = hand1;
                     this._hand2 = hand2;
                     this.determineWinningArray();
-                    console.log(this._winningArray);
                 }
                 getWinningArray() {
                     return this._winningArray;
                 }
                 determineWinningArray() {
-                    console.log(this._hand1);
-                    console.log(this._hand2);
-                    this.fourOfAKindWins();
+                    this.straitFlushWins();
+                    if (this._winningArray.length == 0) {
+                        this.fourOfAKindWins();
+                    }
                     if (this._winningArray.length == 0) {
                         this.fullHouseWins();
                     }
@@ -202,12 +214,12 @@ System.register([], function(exports_1, context_1) {
                     if (hand2FullHouse && !hand1FullHouse) {
                         this._winningArray = ["hand2", ruleName, hand2ThreeOfAKind];
                     }
-                    if (this._winningArray === "") {
+                    if (hand1FullHouse && hand2FullHouse) {
                         if (hand1ThreeOfAKind > hand2ThreeOfAKind) {
                             this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
                         }
                         if (hand2ThreeOfAKind > hand1ThreeOfAKind) {
-                            this._winningArray = ["hand1", ruleName, hand1ThreeOfAKind];
+                            this._winningArray = ["hand2", ruleName, hand1ThreeOfAKind];
                         }
                     }
                 }
@@ -221,6 +233,25 @@ System.register([], function(exports_1, context_1) {
                     if (hand2FourOfKindValue > hand1FourOfKindValue) {
                         this._winningArray = ["hand2", ruleName, hand2FourOfKindValue];
                     }
+                }
+                straitFlushWins() {
+                    let ruleName = "strait flush";
+                    let hand1HasAStraitFlush = this.hasAStraitFlush(this._hand1);
+                    let hand2HasAStraitFlush = this.hasAStraitFlush(this._hand2);
+                    let hand1HighestCard = this.highestCard(this._hand1);
+                    let hand2HighestCard = this.highestCard(this._hand2);
+                    if (hand1HasAStraitFlush && !hand2HasAStraitFlush) {
+                        this._winningArray = ["hand1", ruleName, hand1HighestCard];
+                    }
+                    if (hand2HasAStraitFlush && !hand1HasAStraitFlush) {
+                        this._winningArray = ["hand2", ruleName, hand2HighestCard];
+                    }
+                    if (hand1HasAStraitFlush && hand2HasAStraitFlush) {
+                        this.highCardWins();
+                    }
+                }
+                hasAStraitFlush(hand) {
+                    return this.hasAFlush(hand) && this.hasAStrait(hand);
                 }
                 fourOfAKindValue(hand) {
                     let fourOfAKindValue = 0;
@@ -351,6 +382,7 @@ System.register([], function(exports_1, context_1) {
                 }
             }
             exports_1("PokerHandNoPlayer", PokerHandNoPlayer);
+            exports_1("CountWinningHands", CountWinningHands);
         }
     }
 });

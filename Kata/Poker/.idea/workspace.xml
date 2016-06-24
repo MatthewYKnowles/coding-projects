@@ -21,21 +21,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pokerGameSpec.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pokerGameSpec.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/pokerGameSpec.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1836">
+            <state relative-caret-position="577">
               <caret line="108" column="7" selection-start-line="108" selection-start-column="7" selection-end-line="108" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pokerGame.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pokerGame.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="48" selection-end-column="1" />
+            <state relative-caret-position="255">
+              <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -109,7 +109,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -159,6 +158,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -310,11 +310,12 @@
       <workItem from="1465819874430" duration="8778000" />
       <workItem from="1466083693755" duration="2117000" />
       <workItem from="1466534110993" duration="1427000" />
+      <workItem from="1466722366832" duration="3034000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119129000" />
+    <option name="totallyTimeSpent" value="122163000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -629,18 +630,18 @@
     <entry file="file://$PROJECT_DIR$/src/Spec.js" />
     <entry file="file://$PROJECT_DIR$/index.html" />
     <entry file="file://$PROJECT_DIR$/.gitignore" />
-    <entry file="file://$PROJECT_DIR$/spec/pokerGameSpec.ts">
+    <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="108" column="7" selection-start-line="108" selection-start-column="7" selection-end-line="108" selection-end-column="7" />
+        <state relative-caret-position="255">
+          <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pokerGame.ts">
+    <entry file="file://$PROJECT_DIR$/spec/pokerGameSpec.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="48" selection-end-column="1" />
+        <state relative-caret-position="577">
+          <caret line="108" column="7" selection-start-line="108" selection-start-column="7" selection-end-line="108" selection-end-column="7" />
           <folding />
         </state>
       </provider>

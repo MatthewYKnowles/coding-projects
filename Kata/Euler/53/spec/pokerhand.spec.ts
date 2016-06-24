@@ -1,4 +1,4 @@
-import {PokerHandNoPlayer} from "src/pokerhand"
+import {PokerHandNoPlayer, CountWinningHands} from "src/pokerhand"
 describe("PokerHand", ()=> {
     it("should split the hand and return higher card", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C TS KC 9H 4S 7D 2S 5D 3S AC");
@@ -83,5 +83,26 @@ describe("PokerHand", ()=> {
     it("should return the hand with the higher 4 of a kind", ()=> {
         let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C 8S 8D 8H 7S 6D 6C 6H 6S TH");
         expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
+    it("should return the hand with the strait flush", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("8C 8S 8D 8H 7S 6D 7D 9D 8D TD");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
+    it("should return the other hand with the strait flush", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("6D 7D 9D 8D TD 8C 8S 8D 8H 7S");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand1");
+    });
+    it("should return the higher  strait flush", ()=> {
+        let pokerHandNoPlayer: PokerHandNoPlayer = new PokerHandNoPlayer("6D 7D 9D 8D TD JS 7S 9S 8S TS");
+        expect(pokerHandNoPlayer.getWinningString()).toEqual("hand2");
+    });
+});
+
+describe("CountWinningHands", ()=> {
+    it("should count 1 win for hand 1", ()=> {
+        let countWinningHands: CountWinningHands = new CountWinningHands();
+        countWinningHands.readTextFile("poker.txt");
+        console.log
+        expect(countWinningHands.pokerHands).toEqual("hand2");
     });
 });
