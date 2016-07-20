@@ -44,6 +44,7 @@ System.register([], function(exports_1, context_1) {
                         card.push(hand[i][1]);
                         handArray.push(card);
                     }
+                    console.log(handArray);
                     return handArray;
                 }
                 convertFaceCardsToIntegers(hand) {
