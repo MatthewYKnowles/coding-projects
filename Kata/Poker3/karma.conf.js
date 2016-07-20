@@ -5,6 +5,7 @@ module.exports = function(config) {
         files: ['spec/*.js', 'src/*.js'],
         systemjs: {configFile: 'system.config.js'},
         browsers: ['Chrome'],
-        singleRun: true
+        singleRun: false,
+        autoWatch: true
     })
 };
