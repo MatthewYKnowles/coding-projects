@@ -2,6 +2,11 @@
   "name": "sample",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "karma start",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
   "dependencies": {
     "systemjs": "^0.19.27",
     "typescript": "^1.8.10"
