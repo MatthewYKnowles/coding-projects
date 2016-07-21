@@ -36,6 +36,15 @@ System.register(["src/poker"], function(exports_1, context_1) {
                 it("should return black wins with a pair of 8s", () => {
                     expect(poker_1.Poker.getWinner("Black: 4C KC AS 8D 8H White: 4H QC KH JS AC")).toBe("Black wins. - with pair: 8");
                 });
+                it("should return white wins with a pair of 9s", () => {
+                    expect(poker_1.Poker.getWinner("Black: 4C KC AS 7D 8H White: 4H QC KH 9S 9C")).toBe("White wins. - with pair: 9");
+                });
+                it("should return black wins with a pair of Tens", () => {
+                    expect(poker_1.Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH 8S 9C")).toBe("Black wins. - with pair: Ten");
+                });
+                it("should return white wins with the higher pair of jacks", () => {
+                    expect(poker_1.Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH JS JC")).toBe("White wins. - with pair: Jack");
+                });
             });
             describe("Hand", () => {
                 it("should take in the string pokerhand and set playerColor", () => {

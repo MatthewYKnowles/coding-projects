@@ -27,6 +27,15 @@ describe("Poker", ()=> {
     it("should return black wins with a pair of 8s", ()=> {
         expect(Poker.getWinner("Black: 4C KC AS 8D 8H White: 4H QC KH JS AC")).toBe("Black wins. - with pair: 8");
     });
+    it("should return white wins with a pair of 9s", ()=> {
+        expect(Poker.getWinner("Black: 4C KC AS 7D 8H White: 4H QC KH 9S 9C")).toBe("White wins. - with pair: 9");
+    });
+    it("should return black wins with a pair of Tens", ()=> {
+        expect(Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH 8S 9C")).toBe("Black wins. - with pair: Ten");
+    });
+    it("should return white wins with the higher pair of jacks", ()=> {
+        expect(Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH JS JC")).toBe("White wins. - with pair: Jack");
+    });
 });
 
 describe("Hand", ()=> {
