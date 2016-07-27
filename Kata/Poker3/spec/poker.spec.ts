@@ -36,6 +36,9 @@ describe("Poker", ()=> {
     it("should return white wins with the higher pair of jacks", ()=> {
         expect(Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH JS JC")).toBe("White wins. - with pair: Jack");
     });
+    it("should return white wins with the highest card since both pairs are the same", ()=> {
+        expect(Poker.getWinner("Black: 4C KC 6S JD JH White: 4H QC KH JS JC")).toBe("White wins. - with high card: Queen");
+    });
 });
 
 describe("Hand", ()=> {

@@ -45,6 +45,9 @@ System.register(["src/poker"], function(exports_1, context_1) {
                 it("should return white wins with the higher pair of jacks", () => {
                     expect(poker_1.Poker.getWinner("Black: 4C KC AS TD TH White: 4H QC KH JS JC")).toBe("White wins. - with pair: Jack");
                 });
+                it("should return white wins with the highest card since both pairs are the same", () => {
+                    expect(poker_1.Poker.getWinner("Black: 4C KC 6S JD JH White: 4H QC KH JS JC")).toBe("White wins. - with high card: Queen");
+                });
             });
             describe("Hand", () => {
                 it("should take in the string pokerhand and set playerColor", () => {

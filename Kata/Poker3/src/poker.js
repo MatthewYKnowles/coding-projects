@@ -20,13 +20,21 @@ System.register([], function(exports_1, context_1) {
                 }
                 static bothHandsHaveSameWinningCondition(hand1, hand2) {
                     let winningString = "";
+                    winningString += this.highPairWins(hand1, hand2);
                     if (winningString === "") {
                         winningString += this.highCardWins(hand1, hand2);
                     }
-                    if (winningString === "") {
-                        return "tie.";
-                    }
                     return winningString;
+                }
+                //refactor this
+                static highPairWins(hand1, hand2) {
+                    if (hand1.pairValue > hand2.pairValue) {
+                        return hand1.winningString;
+                    }
+                    if (hand2.pairValue > hand1.pairValue) {
+                        return hand2.winningString;
+                    }
+                    return "";
                 }
                 static highCardWins(hand1, hand2) {
                     let rule = "high card";
@@ -38,7 +46,7 @@ System.register([], function(exports_1, context_1) {
                             return hand2.getWinningString(rule, i);
                         }
                     }
-                    return "";
+                    return "tie.";
                 }
             }
             Poker.ruleObject = { "high card": 0, "pair": 1 };

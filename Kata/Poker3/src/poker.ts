@@ -16,13 +16,23 @@ class Poker {
 
     static bothHandsHaveSameWinningCondition(hand1, hand2) {
         let winningString: string = "";
+        winningString += this.highPairWins(hand1, hand2);
+
         if (winningString === "") {
             winningString += this.highCardWins(hand1, hand2);
         }
-        if (winningString === "") {
-            return "tie.";
-        }
         return winningString;
+    }
+
+    //refactor this
+    static highPairWins(hand1, hand2) {
+        if (hand1.pairValue > hand2.pairValue) {
+            return hand1.winningString;
+        }
+        if (hand2.pairValue > hand1.pairValue) {
+            return hand2.winningString;
+        }
+        return "";
     }
 
     static highCardWins(hand1, hand2) {
@@ -35,7 +45,7 @@ class Poker {
                 return hand2.getWinningString(rule, i)
             }
         }
-        return "";
+        return "tie.";
     }
 }
 
