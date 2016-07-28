@@ -8,8 +8,7 @@
     "tsc:w": "tsc -w"
   },
   "dependencies": {
-    "systemjs": "^0.19.27",
-    "typescript": "^1.8.10"
+    "systemjs": "^0.19.27"
   },
   "devDependencies": {
     "jasmine-core": "^2.4.1",
