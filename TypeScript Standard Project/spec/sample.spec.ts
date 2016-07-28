@@ -1,4 +1,4 @@
-import {Sample} from "src/sample"
+import {Sample} from "../src/sample"
 describe("function name", ()=> {
     it("should return true", ()=> {
         expect(true).toBe(true);
