@@ -5,8 +5,6 @@ var Poker = (function () {
     Poker.getWinner = function (pokerHands) {
         var hand1 = new Hand(pokerHands.slice(0, 21));
         var hand2 = new Hand(pokerHands.slice(22, 43));
-        console.log(hand1.winningRule + " hand1");
-        console.log(hand2.winningRule + " hand2");
         if (hand1.winningRule != hand2.winningRule) {
             return this.handsHaveDifferentWinningConditions(hand1, hand2);
         }
@@ -18,6 +16,7 @@ var Poker = (function () {
     };
     Poker.bothHandsHaveSameWinningCondition = function (hand1, hand2) {
         var winningString = "";
+        winningString += this.higherStraitWins(hand1, hand2);
         if (winningString === "") {
             winningString += this.highTwoPairWins(hand1, hand2);
         }
@@ -42,13 +41,10 @@ var Poker = (function () {
         return "tie.";
     };
     Poker.highPairWins = function (hand1, hand2) {
-        if (hand1.pairValue > hand2.pairValue) {
-            return hand1.winningString;
-        }
-        if (hand2.pairValue > hand1.pairValue) {
-            return hand2.winningString;
-        }
-        return "";
+        return this.higherSpecialCardWins(hand1.pairValue, hand2.pairValue, hand1, hand2);
+    };
+    Poker.higherStraitWins = function (hand1, hand2) {
+        return this.higherSpecialCardWins(hand1.straitHighCard, hand2.straitHighCard, hand1, hand2);
     };
     Poker.highTwoPairWins = function (hand1, hand2) {
         var rule = "two pair";
@@ -58,6 +54,15 @@ var Poker = (function () {
         }
         if (hand2.secondPairValue > hand1.secondPairValue) {
             hand2.setWinningString(rule, hand2.secondPairValue);
+            return hand2.winningString;
+        }
+        return "";
+    };
+    Poker.higherSpecialCardWins = function (hand1Card, hand2Card, hand1, hand2) {
+        if (hand1Card > hand2Card) {
+            return hand1.winningString;
+        }
+        if (hand2Card > hand1Card) {
             return hand2.winningString;
         }
         return "";
@@ -126,16 +131,34 @@ var Hand = (function () {
     };
     Hand.prototype.setStraitHighCard = function () {
         var consecutiveNumbers = 1;
+        if (this.hasAceNextToFive()) {
+            consecutiveNumbers++;
+        }
         for (var i = 0; i < 4; i++) {
             if (this.twoConsecutiveNumbersAreTheSame(i)) {
                 consecutiveNumbers++;
             }
         }
-        if (consecutiveNumbers === 5) {
-            this.straitHighCard = this.hand[0][0];
-            this.winningRule = "strait";
-            this.setWinningString(this.winningRule, this.straitHighCard);
+        if (this.containsAStrait(consecutiveNumbers)) {
+            this.setStraitAsTheWinningHand();
         }
+    };
+    Hand.prototype.setStraitAsTheWinningHand = function () {
+        this.straitHighCard = this.hand[0][0];
+        if (this.isAFiveHighStrait()) {
+            this.straitHighCard = 5;
+        }
+        this.winningRule = "strait";
+        this.setWinningString(this.winningRule, this.straitHighCard);
+    };
+    Hand.prototype.containsAStrait = function (consecutiveNumbers) {
+        return consecutiveNumbers === 5;
+    };
+    Hand.prototype.isAFiveHighStrait = function () {
+        return this.hand[1][0] === 5;
+    };
+    Hand.prototype.hasAceNextToFive = function () {
+        return this.hand[0][0] === 14 && this.hand[1][0] === 5;
     };
     Hand.prototype.getCardNumberAtIndex = function (index) {
         return this.hand[index][0];

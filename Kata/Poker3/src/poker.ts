@@ -3,8 +3,6 @@ class Poker {
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
-        console.log(hand1.winningRule + " hand1");
-        console.log(hand2.winningRule + " hand2");
         if (hand1.winningRule != hand2.winningRule){
             return this.handsHaveDifferentWinningConditions(hand1, hand2);
         }
@@ -18,6 +16,7 @@ class Poker {
 
     static bothHandsHaveSameWinningCondition(hand1, hand2) {
         let winningString: string = "";
+        winningString += this.higherStraitWins(hand1, hand2);
         if (winningString === "") {winningString += this.highTwoPairWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highPairWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highCardWins(hand1, hand2);}
@@ -38,13 +37,11 @@ class Poker {
     }
 
     static highPairWins(hand1, hand2) {
-        if (hand1.pairValue > hand2.pairValue) {
-            return hand1.winningString;
-        }
-        if (hand2.pairValue > hand1.pairValue) {
-            return hand2.winningString;
-        }
-        return "";
+        return this.higherSpecialCardWins(hand1.pairValue, hand2.pairValue, hand1, hand2);
+    }
+
+    private static higherStraitWins(hand1:any, hand2:any) {
+        return this.higherSpecialCardWins(hand1.straitHighCard, hand2.straitHighCard, hand1, hand2);
     }
 
     private static highTwoPairWins(hand1:any, hand2:any) {
@@ -55,6 +52,16 @@ class Poker {
         }
         if (hand2.secondPairValue > hand1.secondPairValue) {
             hand2.setWinningString(rule, hand2.secondPairValue);
+            return hand2.winningString;
+        }
+        return "";
+    }
+
+    static higherSpecialCardWins(hand1Card, hand2Card, hand1, hand2){
+        if (hand1Card > hand2Card) {
+            return hand1.winningString;
+        }
+        if (hand2Card > hand1Card) {
             return hand2.winningString;
         }
         return "";
@@ -123,16 +130,38 @@ class Hand {
 
     private setStraitHighCard() {
         let consecutiveNumbers: number = 1;
+        if (this.hasAceNextToFive()){
+            consecutiveNumbers++;
+        }
         for (let i = 0; i < 4; i++) {
             if (this.twoConsecutiveNumbersAreTheSame(i)){
                 consecutiveNumbers++;
             }
         }
-        if (consecutiveNumbers === 5) {
-            this.straitHighCard = this.hand[0][0];
-            this.winningRule = "strait";
-            this.setWinningString(this.winningRule, this.straitHighCard);
+        if (this.containsAStrait(consecutiveNumbers)) {
+            this.setStraitAsTheWinningHand();
         }
+    }
+
+    private setStraitAsTheWinningHand() {
+        this.straitHighCard = this.hand[0][0];
+        if (this.isAFiveHighStrait()) {
+            this.straitHighCard = 5;
+        }
+        this.winningRule = "strait";
+        this.setWinningString(this.winningRule, this.straitHighCard);
+    }
+
+    private containsAStrait(consecutiveNumbers:number) {
+        return consecutiveNumbers === 5;
+    }
+
+    private isAFiveHighStrait() {
+        return this.hand[1][0] === 5;
+    }
+
+    private hasAceNextToFive() {
+        return this.hand[0][0] === 14 && this.hand[1][0] === 5;
     }
 
     getCardNumberAtIndex(index) {

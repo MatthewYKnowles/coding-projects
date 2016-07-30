@@ -73,6 +73,12 @@ describe("Poker", function () {
     it("should return black wins with a strait", function () {
         expect(poker_1.Poker.getWinner("Black: QC JC 8S TD 9H White: 8H 7C 8C 9S TD")).toBe("Black wins. - with strait: Queen");
     });
+    it("should return white wins with a strait with Ace as a low card", function () {
+        expect(poker_1.Poker.getWinner("Black: QC JC TS TD 9H White: 2H 3C 5C 4S AD")).toBe("White wins. - with strait: 5");
+    });
+    it("should return black wins with a higher strait", function () {
+        expect(poker_1.Poker.getWinner("Black: QC JC 8S TD 9H White: 2H 3C 5C 4S AD")).toBe("Black wins. - with strait: Queen");
+    });
     it("should return tie when both hands have the same strait", function () {
         expect(poker_1.Poker.getWinner("Black: 6C 7C 8S TD 9H White: 6H 7C 8C 9S TD")).toBe("tie.");
     });
