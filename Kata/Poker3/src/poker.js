@@ -16,13 +16,17 @@ var Poker = (function () {
     };
     Poker.bothHandsHaveSameWinningCondition = function (hand1, hand2) {
         var winningString = "";
-        winningString += this.highPairWins(hand1, hand2);
+        if (winningString === "") {
+            winningString += this.highTwoPairWins(hand1, hand2);
+        }
+        if (winningString === "") {
+            winningString += this.highPairWins(hand1, hand2);
+        }
         if (winningString === "") {
             winningString += this.highCardWins(hand1, hand2);
         }
         return winningString;
     };
-    //refactor this
     Poker.highPairWins = function (hand1, hand2) {
         if (hand1.pairValue > hand2.pairValue) {
             return hand1.winningString;
@@ -44,7 +48,19 @@ var Poker = (function () {
         }
         return "tie.";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1 };
+    Poker.highTwoPairWins = function (hand1, hand2) {
+        var rule = "two pair";
+        if (hand1.secondPairValue > hand2.secondPairValue) {
+            hand1.setWinningString(rule, hand1.secondPairValue);
+            return hand1.winningString;
+        }
+        if (hand2.secondPairValue > hand1.secondPairValue) {
+            hand2.setWinningString(rule, hand2.secondPairValue);
+            return hand2.winningString;
+        }
+        return "";
+    };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -53,16 +69,15 @@ var Hand = (function () {
         this.hand = [];
         this.cardValueToNumberObject = { "A": 14, "K": 13, "Q": 12, "J": 11, "T": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2 };
         this.cardNumberToStringObject = { 14: "Ace", 13: "King", 12: "Queen", 11: "Jack", 10: "Ten", 9: "9", 8: "8", 7: "7", 6: "6", 5: "5", 4: "4", 3: "3", 2: "2" };
-        this.ruleObject = { 0: "high card", 1: "pair" };
         this.winningRule = "high card";
         this.pairValue = 0;
+        this.secondPairValue = 0;
         this.playerColor = pokerHand.slice(0, 5);
         var handString = pokerHand.slice(7, 30);
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function (a, b) { return b[0] - a[0]; });
-        this.setPairValue();
-        this.determineBestHand();
+        this.setPairValues();
     }
     Hand.prototype.createHandArray = function (hand) {
         for (var i = 0; i < 5; i++) {
@@ -77,18 +92,28 @@ var Hand = (function () {
             this.hand[i][0] = this.cardValueToNumberObject[this.hand[i][0]];
         }
     };
-    Hand.prototype.determineBestHand = function () {
-        if (this.pairValue > 0) {
-            this.winningRule = "pair";
-        }
-    };
-    Hand.prototype.setPairValue = function () {
+    Hand.prototype.setPairValues = function () {
         for (var i = 0; i < this.hand.length - 1; i++) {
-            if (this.hand[i][0] === this.hand[i + 1][0]) {
+            if (this.isSecondPair(i)) {
+                this.secondPairValue = this.hand[i][0];
+                this.winningRule = "two pair";
+                this.setWinningString(this.winningRule, this.pairValue);
+            }
+            if (this.isFirstPair(i)) {
                 this.pairValue = this.hand[i][0];
-                this.setWinningString("pair", this.pairValue);
+                this.winningRule = "pair";
+                this.setWinningString(this.winningRule, this.pairValue);
             }
         }
+        console.log(this.winningRule);
+        console.log(this.pairValue + " pair value");
+        console.log(this.secondPairValue + " 2 pair value");
+    };
+    Hand.prototype.isFirstPair = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue === 0;
+    };
+    Hand.prototype.isSecondPair = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
     };
     Hand.prototype.getCardNumberAtIndex = function (index) {
         return this.hand[index][0];
