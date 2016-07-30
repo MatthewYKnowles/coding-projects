@@ -1,4 +1,4 @@
-import {Poker, Hand} from "src/poker"
+import {Poker, Hand} from "../src/poker"
 describe("Poker", ()=> {
     it("should return Black wins with high card 9", ()=> {
         expect(Poker.getWinner("Black: 9H 8C 6S 5D 4H White: 8H 7C 5H 4S 3C")).toBe("Black wins. - with high card: 9");
