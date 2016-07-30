@@ -5,6 +5,8 @@ var Poker = (function () {
     Poker.getWinner = function (pokerHands) {
         var hand1 = new Hand(pokerHands.slice(0, 21));
         var hand2 = new Hand(pokerHands.slice(22, 43));
+        console.log(hand1.winningRule + " hand1");
+        console.log(hand2.winningRule + " hand2");
         if (hand1.winningRule != hand2.winningRule) {
             return this.handsHaveDifferentWinningConditions(hand1, hand2);
         }
@@ -60,7 +62,7 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -74,11 +76,13 @@ var Hand = (function () {
         this.pairValue = 0;
         this.secondPairValue = 0;
         this.threeOfAKindValue = 0;
+        this.straitHighCard = 0;
         this.playerColor = pokerHand.slice(0, 5);
         var handString = pokerHand.slice(7, 30);
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function (a, b) { return b[0] - a[0]; });
+        this.setStraitHighCard();
         this.setThreeOfAKindValue();
         if (this.winningString === "") {
             this.setPairValues();
@@ -113,11 +117,24 @@ var Hand = (function () {
     };
     Hand.prototype.setThreeOfAKindValue = function () {
         for (var i = 0; i < this.hand.length - 2; i++) {
-            if (this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0]) {
+            if (this.containsThreeOfAKind(i)) {
                 this.threeOfAKindValue = this.hand[i][0];
                 this.winningRule = "three of a kind";
                 this.setWinningString(this.winningRule, this.threeOfAKindValue);
             }
+        }
+    };
+    Hand.prototype.setStraitHighCard = function () {
+        var consecutiveNumbers = 1;
+        for (var i = 0; i < 4; i++) {
+            if (this.twoConsecutiveNumbersAreTheSame(i)) {
+                consecutiveNumbers++;
+            }
+        }
+        if (consecutiveNumbers === 5) {
+            this.straitHighCard = this.hand[0][0];
+            this.winningRule = "strait";
+            this.setWinningString(this.winningRule, this.straitHighCard);
         }
     };
     Hand.prototype.getCardNumberAtIndex = function (index) {
@@ -137,6 +154,12 @@ var Hand = (function () {
     };
     Hand.prototype.isSecondPair = function (i) {
         return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
+    };
+    Hand.prototype.containsThreeOfAKind = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0];
+    };
+    Hand.prototype.twoConsecutiveNumbersAreTheSame = function (i) {
+        return this.hand[i][0] - 1 === this.hand[i + 1][0];
     };
     return Hand;
 }());

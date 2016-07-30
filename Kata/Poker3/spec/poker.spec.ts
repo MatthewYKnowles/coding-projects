@@ -66,6 +66,15 @@ describe("Poker", ()=> {
     it("should return black wins with a three of a kind", ()=> {
         expect(Poker.getWinner("Black: 4C 6C 6S 6D 9H White: 6H QC 6C 9S 9D")).toBe("Black wins. - with three of a kind: 6");
     });
+    it("should return white wins with a strait", ()=> {
+        expect(Poker.getWinner("Black: 4C 6C 6S 6D 9H White: 6H 7C 8C 9S TD")).toBe("White wins. - with strait: Ten");
+    });
+    it("should return black wins with a strait", ()=> {
+        expect(Poker.getWinner("Black: QC JC 8S TD 9H White: 8H 7C 8C 9S TD")).toBe("Black wins. - with strait: Queen");
+    });
+    it("should return tie when both hands have the same strait", ()=> {
+        expect(Poker.getWinner("Black: 6C 7C 8S TD 9H White: 6H 7C 8C 9S TD")).toBe("tie.");
+    });
 });
 
 describe("Hand", ()=> {

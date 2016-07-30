@@ -1,8 +1,10 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4};
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
+        console.log(hand1.winningRule + " hand1");
+        console.log(hand2.winningRule + " hand2");
         if (hand1.winningRule != hand2.winningRule){
             return this.handsHaveDifferentWinningConditions(hand1, hand2);
         }
@@ -69,6 +71,7 @@ class Hand {
     pairValue: number = 0;
     secondPairValue: number = 0;
     threeOfAKindValue: number = 0;
+    straitHighCard: number = 0;
 
     constructor(pokerHand) {
         this.playerColor = pokerHand.slice(0, 5);
@@ -76,6 +79,7 @@ class Hand {
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function(a,b) {return b[0] - a[0]});
+        this.setStraitHighCard();
         this.setThreeOfAKindValue();
         if (this.winningString === ""){this.setPairValues();}
     }
@@ -109,11 +113,25 @@ class Hand {
 
     private setThreeOfAKindValue() {
         for (let i = 0; i < this.hand.length - 2; i++) {
-            if (this.hand[i][0] === this.hand[i + 1][0]  && this.hand[i][0] === this.hand[i + 2][0]){
+            if (this.containsThreeOfAKind(i)){
                 this.threeOfAKindValue = this.hand[i][0];
                 this.winningRule = "three of a kind";
                 this.setWinningString(this.winningRule, this.threeOfAKindValue);
             }
+        }
+    }
+
+    private setStraitHighCard() {
+        let consecutiveNumbers: number = 1;
+        for (let i = 0; i < 4; i++) {
+            if (this.twoConsecutiveNumbersAreTheSame(i)){
+                consecutiveNumbers++;
+            }
+        }
+        if (consecutiveNumbers === 5) {
+            this.straitHighCard = this.hand[0][0];
+            this.winningRule = "strait";
+            this.setWinningString(this.winningRule, this.straitHighCard);
         }
     }
 
@@ -134,6 +152,12 @@ class Hand {
     }
     private isSecondPair(i:number) {
         return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
+    }
+    private containsThreeOfAKind(i:number) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0];
+    }
+    private twoConsecutiveNumbersAreTheSame(i:number) {
+        return this.hand[i][0] - 1 === this.hand[i + 1][0];
     }
 }
 
