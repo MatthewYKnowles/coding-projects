@@ -27,15 +27,6 @@ var Poker = (function () {
         }
         return winningString;
     };
-    Poker.highPairWins = function (hand1, hand2) {
-        if (hand1.pairValue > hand2.pairValue) {
-            return hand1.winningString;
-        }
-        if (hand2.pairValue > hand1.pairValue) {
-            return hand2.winningString;
-        }
-        return "";
-    };
     Poker.highCardWins = function (hand1, hand2) {
         var rule = "high card";
         for (var i = 0; i < 5; i++) {
@@ -47,6 +38,15 @@ var Poker = (function () {
             }
         }
         return "tie.";
+    };
+    Poker.highPairWins = function (hand1, hand2) {
+        if (hand1.pairValue > hand2.pairValue) {
+            return hand1.winningString;
+        }
+        if (hand2.pairValue > hand1.pairValue) {
+            return hand2.winningString;
+        }
+        return "";
     };
     Poker.highTwoPairWins = function (hand1, hand2) {
         var rule = "two pair";
@@ -60,7 +60,7 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -70,14 +70,19 @@ var Hand = (function () {
         this.cardValueToNumberObject = { "A": 14, "K": 13, "Q": 12, "J": 11, "T": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2 };
         this.cardNumberToStringObject = { 14: "Ace", 13: "King", 12: "Queen", 11: "Jack", 10: "Ten", 9: "9", 8: "8", 7: "7", 6: "6", 5: "5", 4: "4", 3: "3", 2: "2" };
         this.winningRule = "high card";
+        this.winningString = "";
         this.pairValue = 0;
         this.secondPairValue = 0;
+        this.threeOfAKindValue = 0;
         this.playerColor = pokerHand.slice(0, 5);
         var handString = pokerHand.slice(7, 30);
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function (a, b) { return b[0] - a[0]; });
-        this.setPairValues();
+        this.setThreeOfAKindValue();
+        if (this.winningString === "") {
+            this.setPairValues();
+        }
     }
     Hand.prototype.createHandArray = function (hand) {
         for (var i = 0; i < 5; i++) {
@@ -105,15 +110,15 @@ var Hand = (function () {
                 this.setWinningString(this.winningRule, this.pairValue);
             }
         }
-        console.log(this.winningRule);
-        console.log(this.pairValue + " pair value");
-        console.log(this.secondPairValue + " 2 pair value");
     };
-    Hand.prototype.isFirstPair = function (i) {
-        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue === 0;
-    };
-    Hand.prototype.isSecondPair = function (i) {
-        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
+    Hand.prototype.setThreeOfAKindValue = function () {
+        for (var i = 0; i < this.hand.length - 2; i++) {
+            if (this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0]) {
+                this.threeOfAKindValue = this.hand[i][0];
+                this.winningRule = "three of a kind";
+                this.setWinningString(this.winningRule, this.threeOfAKindValue);
+            }
+        }
     };
     Hand.prototype.getCardNumberAtIndex = function (index) {
         return this.hand[index][0];
@@ -126,6 +131,12 @@ var Hand = (function () {
     };
     Hand.prototype.setWinningString = function (winningRule, value) {
         this.winningString = this.playerColor + " wins. - with " + winningRule + ": " + this.cardNumberToStringObject[value];
+    };
+    Hand.prototype.isFirstPair = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue === 0;
+    };
+    Hand.prototype.isSecondPair = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
     };
     return Hand;
 }());

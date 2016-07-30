@@ -1,5 +1,5 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3};
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
@@ -22,16 +22,6 @@ class Poker {
         return winningString;
     }
 
-    static highPairWins(hand1, hand2) {
-        if (hand1.pairValue > hand2.pairValue) {
-            return hand1.winningString;
-        }
-        if (hand2.pairValue > hand1.pairValue) {
-            return hand2.winningString;
-        }
-        return "";
-    }
-
     static highCardWins(hand1, hand2) {
         let rule: string = "high card";
         for (let i = 0; i < 5; i++) {
@@ -43,6 +33,16 @@ class Poker {
             }
         }
         return "tie.";
+    }
+
+    static highPairWins(hand1, hand2) {
+        if (hand1.pairValue > hand2.pairValue) {
+            return hand1.winningString;
+        }
+        if (hand2.pairValue > hand1.pairValue) {
+            return hand2.winningString;
+        }
+        return "";
     }
 
     private static highTwoPairWins(hand1:any, hand2:any) {
@@ -65,9 +65,10 @@ class Hand {
     cardValueToNumberObject: any = {"A": 14, "K": 13, "Q": 12, "J": 11, "T": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2};
     cardNumberToStringObject: any = {14: "Ace", 13: "King", 12: "Queen", 11: "Jack", 10: "Ten", 9: "9", 8: "8", 7: "7", 6: "6", 5: "5", 4: "4", 3: "3", 2: "2"};
     winningRule: string = "high card";
-    winningString: string;
+    winningString: string = "";
     pairValue: number = 0;
     secondPairValue: number = 0;
+    threeOfAKindValue: number = 0;
 
     constructor(pokerHand) {
         this.playerColor = pokerHand.slice(0, 5);
@@ -75,7 +76,8 @@ class Hand {
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function(a,b) {return b[0] - a[0]});
-        this.setPairValues();
+        this.setThreeOfAKindValue();
+        if (this.winningString === ""){this.setPairValues();}
     }
 
     createHandArray(hand) {
@@ -103,18 +105,18 @@ class Hand {
                 this.setWinningString(this.winningRule, this.pairValue);
             }
         }
-        console.log(this.winningRule);
-        console.log(this.pairValue + " pair value");
-        console.log(this.secondPairValue + " 2 pair value");
     }
 
-    private isFirstPair(i:number) {
-        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue === 0;
+    private setThreeOfAKindValue() {
+        for (let i = 0; i < this.hand.length - 2; i++) {
+            if (this.hand[i][0] === this.hand[i + 1][0]  && this.hand[i][0] === this.hand[i + 2][0]){
+                this.threeOfAKindValue = this.hand[i][0];
+                this.winningRule = "three of a kind";
+                this.setWinningString(this.winningRule, this.threeOfAKindValue);
+            }
+        }
     }
 
-    private isSecondPair(i:number) {
-        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
-    }
     getCardNumberAtIndex(index) {
         return this.hand[index][0];
     }
@@ -126,6 +128,12 @@ class Hand {
     }
     setWinningString(winningRule, value){
         this.winningString = this.playerColor + " wins. - with " + winningRule + ": " + this.cardNumberToStringObject[value];
+    }
+    private isFirstPair(i:number) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue === 0;
+    }
+    private isSecondPair(i:number) {
+        return this.hand[i][0] === this.hand[i + 1][0] && this.pairValue != 0;
     }
 }
 

@@ -57,6 +57,15 @@ describe("Poker", ()=> {
     it("should return white wins with a high card since both hands have same two pair", ()=> {
         expect(Poker.getWinner("Black: 4C 6C 6S 9D 9H White: 6H QC 9C 9S 6D")).toBe("White wins. - with high card: Queen");
     });
+    it("should return white wins with a high card since both hands have same two pair", ()=> {
+        expect(Poker.getWinner("Black: 4C 6C 6S 9D 9H White: 6H QC 9C 9S 6D")).toBe("White wins. - with high card: Queen");
+    });
+    it("should return white wins with a three of a kind", ()=> {
+        expect(Poker.getWinner("Black: 4C 6C 6S 9D 9H White: 6H QC 9C 9S 9D")).toBe("White wins. - with three of a kind: 9");
+    });
+    it("should return black wins with a three of a kind", ()=> {
+        expect(Poker.getWinner("Black: 4C 6C 6S 6D 9H White: 6H QC 6C 9S 9D")).toBe("Black wins. - with three of a kind: 6");
+    });
 });
 
 describe("Hand", ()=> {
