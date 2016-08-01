@@ -1,5 +1,5 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6};
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
@@ -16,15 +16,16 @@ class Poker {
 
     static bothHandsHaveSameWinningCondition(hand1, hand2) {
         let winningString: string = "";
+        winningString += this.higherFullHouseWins(hand1, hand2);
+        if (hand1.flush === true) {winningString += this.handWithHigherCardWins(hand1, hand2, "flush");}
         if (winningString === "") {winningString += this.higherStraitWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highTwoPairWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highPairWins(hand1, hand2);}
-        if (winningString === "") {winningString += this.highCardWins(hand1, hand2);}
+        if (winningString === "") {winningString += this.handWithHigherCardWins(hand1, hand2, "high card");}
         return winningString;
     }
 
-    static highCardWins(hand1, hand2) {
-        let rule: string = "high card";
+    static handWithHigherCardWins(hand1, hand2, rule) {
         for (let i = 0; i < 5; i++) {
             if (hand1.getCardNumberAtIndex(i) > hand2.getCardNumberAtIndex(i)) {
                 return hand1.getWinningString(rule, i)
@@ -57,6 +58,10 @@ class Poker {
         return "";
     }
 
+    static higherFullHouseWins(hand1, hand2) {
+        return this.higherSpecialCardWins(hand1.threeOfAKindValue, hand2.threeOfAKindValue, hand1, hand2);
+    }
+
     static higherSpecialCardWins(hand1Card, hand2Card, hand1, hand2){
         if (hand1Card > hand2Card) {
             return hand1.winningString;
@@ -80,6 +85,7 @@ class Hand {
     threeOfAKindValue: number = 0;
     straitHighCard: number = 0;
     flush: boolean = false;
+    fullHouse: boolean = false;
 
     constructor(pokerHand) {
         this.playerColor = pokerHand.slice(0, 5);
@@ -90,6 +96,7 @@ class Hand {
         this.checkForFlush();
         this.setStraitHighCard();
         this.setThreeOfAKindValue();
+        this.checkForFullHouse();
         if (this.winningString === ""){this.setPairValues();}
     }
 
@@ -136,7 +143,7 @@ class Hand {
             consecutiveNumbers++;
         }
         for (let i = 0; i < 4; i++) {
-            if (this.twoConsecutiveNumbersAreTheSame(i)){
+            if (this.secondNumberIsOneLessThanPreviousNumber(i)){
                 consecutiveNumbers++;
             }
         }
@@ -157,7 +164,18 @@ class Hand {
             this.winningRule = "flush";
             this.setWinningString(this.winningRule, this.hand[0][0])
         }
-        console.log(sameSuit);
+    }
+
+    checkForFullHouse() {
+        if (this.threeOfAKindValue > 0) {
+            for (let i = 0; i < 4; i++){
+                if (this.areConsecutiveNumbersTheSame(i) && this.hand[i][0] != this.threeOfAKindValue){
+                    this.fullHouse = true;
+                    this.winningRule = "full house";
+                    this.setWinningString(this.winningRule, this.threeOfAKindValue);
+                }
+            }
+        }
     }
 
     private setStraitAsTheWinningHand() {
@@ -202,8 +220,11 @@ class Hand {
     private containsThreeOfAKind(i:number) {
         return this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0];
     }
-    private twoConsecutiveNumbersAreTheSame(i:number) {
+    private secondNumberIsOneLessThanPreviousNumber(i:number) {
         return this.hand[i][0] - 1 === this.hand[i + 1][0];
+    }
+    private areConsecutiveNumbersTheSame(i:number) {
+        return this.hand[i][0] === this.hand[i + 1][0];
     }
 }
 

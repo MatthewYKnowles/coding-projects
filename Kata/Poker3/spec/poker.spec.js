@@ -91,6 +91,18 @@ describe("Poker", function () {
     it("should return black wins with a flush with a higher card", function () {
         expect(poker_1.Poker.getWinner("Black: 6S 2S AS TS 9S White: 2H 7H 8H 9H TH")).toBe("Black wins. - with flush: Ace");
     });
+    it("should return tie since both hands have same flush", function () {
+        expect(poker_1.Poker.getWinner("Black: 7S 2S 8S TS 9S White: 2H 7H 8H 9H TH")).toBe("tie.");
+    });
+    it("should return white wins with a full house", function () {
+        expect(poker_1.Poker.getWinner("Black: 6S 2S AS TS 9S White: 2H 2S 2C 9H 9C")).toBe("White wins. - with full house: 2");
+    });
+    it("should return black wins with a full house", function () {
+        expect(poker_1.Poker.getWinner("Black: 6S 6C 6H TS TH White: 2H 5S 2C 9H 9C")).toBe("Black wins. - with full house: 6");
+    });
+    it("should return white wins with a higher full house", function () {
+        expect(poker_1.Poker.getWinner("Black: 6S 6C 6H TS TH White: 7H 7S 7C 9H 9C")).toBe("White wins. - with full house: 7");
+    });
 });
 describe("Hand", function () {
     it("should take in the string pokerhand and set playerColor", function () {

@@ -16,6 +16,10 @@ var Poker = (function () {
     };
     Poker.bothHandsHaveSameWinningCondition = function (hand1, hand2) {
         var winningString = "";
+        winningString += this.higherFullHouseWins(hand1, hand2);
+        if (hand1.flush === true) {
+            winningString += this.handWithHigherCardWins(hand1, hand2, "flush");
+        }
         if (winningString === "") {
             winningString += this.higherStraitWins(hand1, hand2);
         }
@@ -26,12 +30,11 @@ var Poker = (function () {
             winningString += this.highPairWins(hand1, hand2);
         }
         if (winningString === "") {
-            winningString += this.highCardWins(hand1, hand2);
+            winningString += this.handWithHigherCardWins(hand1, hand2, "high card");
         }
         return winningString;
     };
-    Poker.highCardWins = function (hand1, hand2) {
-        var rule = "high card";
+    Poker.handWithHigherCardWins = function (hand1, hand2, rule) {
         for (var i = 0; i < 5; i++) {
             if (hand1.getCardNumberAtIndex(i) > hand2.getCardNumberAtIndex(i)) {
                 return hand1.getWinningString(rule, i);
@@ -60,6 +63,9 @@ var Poker = (function () {
         }
         return "";
     };
+    Poker.higherFullHouseWins = function (hand1, hand2) {
+        return this.higherSpecialCardWins(hand1.threeOfAKindValue, hand2.threeOfAKindValue, hand1, hand2);
+    };
     Poker.higherSpecialCardWins = function (hand1Card, hand2Card, hand1, hand2) {
         if (hand1Card > hand2Card) {
             return hand1.winningString;
@@ -69,7 +75,7 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -85,6 +91,7 @@ var Hand = (function () {
         this.threeOfAKindValue = 0;
         this.straitHighCard = 0;
         this.flush = false;
+        this.fullHouse = false;
         this.playerColor = pokerHand.slice(0, 5);
         var handString = pokerHand.slice(7, 30);
         this.createHandArray(handString.split(" "));
@@ -93,6 +100,7 @@ var Hand = (function () {
         this.checkForFlush();
         this.setStraitHighCard();
         this.setThreeOfAKindValue();
+        this.checkForFullHouse();
         if (this.winningString === "") {
             this.setPairValues();
         }
@@ -139,7 +147,7 @@ var Hand = (function () {
             consecutiveNumbers++;
         }
         for (var i = 0; i < 4; i++) {
-            if (this.twoConsecutiveNumbersAreTheSame(i)) {
+            if (this.secondNumberIsOneLessThanPreviousNumber(i)) {
                 consecutiveNumbers++;
             }
         }
@@ -159,7 +167,17 @@ var Hand = (function () {
             this.winningRule = "flush";
             this.setWinningString(this.winningRule, this.hand[0][0]);
         }
-        console.log(sameSuit);
+    };
+    Hand.prototype.checkForFullHouse = function () {
+        if (this.threeOfAKindValue > 0) {
+            for (var i = 0; i < 4; i++) {
+                if (this.areConsecutiveNumbersTheSame(i) && this.hand[i][0] != this.threeOfAKindValue) {
+                    this.fullHouse = true;
+                    this.winningRule = "full house";
+                    this.setWinningString(this.winningRule, this.threeOfAKindValue);
+                }
+            }
+        }
     };
     Hand.prototype.setStraitAsTheWinningHand = function () {
         this.straitHighCard = this.hand[0][0];
@@ -199,8 +217,11 @@ var Hand = (function () {
     Hand.prototype.containsThreeOfAKind = function (i) {
         return this.hand[i][0] === this.hand[i + 1][0] && this.hand[i][0] === this.hand[i + 2][0];
     };
-    Hand.prototype.twoConsecutiveNumbersAreTheSame = function (i) {
+    Hand.prototype.secondNumberIsOneLessThanPreviousNumber = function (i) {
         return this.hand[i][0] - 1 === this.hand[i + 1][0];
+    };
+    Hand.prototype.areConsecutiveNumbersTheSame = function (i) {
+        return this.hand[i][0] === this.hand[i + 1][0];
     };
     return Hand;
 }());
