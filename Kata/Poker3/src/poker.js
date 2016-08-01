@@ -75,7 +75,7 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6, "four of a kind": 7 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -89,6 +89,7 @@ var Hand = (function () {
         this.pairValue = 0;
         this.secondPairValue = 0;
         this.threeOfAKindValue = 0;
+        this.fourOfAKindValue = 0;
         this.straitHighCard = 0;
         this.flush = false;
         this.fullHouse = false;
@@ -99,7 +100,10 @@ var Hand = (function () {
         this.hand.sort(function (a, b) { return b[0] - a[0]; });
         this.checkForFlush();
         this.setStraitHighCard();
-        this.setThreeOfAKindValue();
+        this.setFourOfAKindValue();
+        if (this.winningString === "") {
+            this.setThreeOfAKindValue();
+        }
         this.checkForFullHouse();
         if (this.winningString === "") {
             this.setPairValues();
@@ -139,6 +143,13 @@ var Hand = (function () {
                 this.winningRule = "three of a kind";
                 this.setWinningString(this.winningRule, this.threeOfAKindValue);
             }
+        }
+    };
+    Hand.prototype.setFourOfAKindValue = function () {
+        if (this.hand[1][0] === this.hand[3][0] && (this.hand[2][0] === this.hand[0][0] || this.hand[2][0] === this.hand[4][0])) {
+            this.fourOfAKindValue = this.hand[2][0];
+            this.winningRule = "four of a kind";
+            this.setWinningString(this.winningRule, this.fourOfAKindValue);
         }
     };
     Hand.prototype.setStraitHighCard = function () {

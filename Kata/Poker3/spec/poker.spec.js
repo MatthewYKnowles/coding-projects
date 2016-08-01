@@ -103,6 +103,15 @@ describe("Poker", function () {
     it("should return white wins with a higher full house", function () {
         expect(poker_1.Poker.getWinner("Black: 6S 6C 6H TS TH White: 7H 7S 7C 9H 9C")).toBe("White wins. - with full house: 7");
     });
+    it("should return black wins with a four of a kind", function () {
+        expect(poker_1.Poker.getWinner("Black: QS QC QH QD TH White: 7H 7S 7C 9H 9C")).toBe("Black wins. - with four of a kind: Queen");
+    });
+    it("should return white wins with a four of a kind", function () {
+        expect(poker_1.Poker.getWinner("Black: QS QC JH QD TH White: 7H 7S 7C 7D 9C")).toBe("White wins. - with four of a kind: 7");
+    });
+    it("should return black wins with the higher four of a kind", function () {
+        expect(poker_1.Poker.getWinner("Black: JS JC JH JD TH White: 7H 7S 7C 7D 9C")).toBe("White wins. - with four of a kind: Jack");
+    });
 });
 describe("Hand", function () {
     it("should take in the string pokerhand and set playerColor", function () {

@@ -3,7 +3,8 @@ var Sample = (function () {
     function Sample() {
     }
     Sample.prototype.true = function () {
-        return true;
+        var x = null;
+        return x.sort;
     };
     return Sample;
 }());

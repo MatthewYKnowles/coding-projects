@@ -1,5 +1,5 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6, "four of a kind": 7};
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
@@ -83,6 +83,7 @@ class Hand {
     pairValue: number = 0;
     secondPairValue: number = 0;
     threeOfAKindValue: number = 0;
+    fourOfAKindValue: number = 0;
     straitHighCard: number = 0;
     flush: boolean = false;
     fullHouse: boolean = false;
@@ -95,7 +96,8 @@ class Hand {
         this.hand.sort(function(a,b) {return b[0] - a[0]});
         this.checkForFlush();
         this.setStraitHighCard();
-        this.setThreeOfAKindValue();
+        this.setFourOfAKindValue();
+        if (this.winningString === ""){this.setThreeOfAKindValue();}
         this.checkForFullHouse();
         if (this.winningString === ""){this.setPairValues();}
     }
@@ -134,6 +136,14 @@ class Hand {
                 this.winningRule = "three of a kind";
                 this.setWinningString(this.winningRule, this.threeOfAKindValue);
             }
+        }
+    }
+
+    setFourOfAKindValue() {
+        if(this.hand[1][0] === this.hand[3][0] && (this.hand[2][0] === this.hand[0][0] || this.hand[2][0] === this.hand[4][0]) ) {
+            this.fourOfAKindValue = this.hand[2][0];
+            this.winningRule = "four of a kind";
+            this.setWinningString(this.winningRule, this.fourOfAKindValue);
         }
     }
 
