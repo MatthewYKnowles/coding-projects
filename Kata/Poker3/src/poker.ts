@@ -1,5 +1,5 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5};
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
@@ -16,7 +16,7 @@ class Poker {
 
     static bothHandsHaveSameWinningCondition(hand1, hand2) {
         let winningString: string = "";
-        winningString += this.higherStraitWins(hand1, hand2);
+        if (winningString === "") {winningString += this.higherStraitWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highTwoPairWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highPairWins(hand1, hand2);}
         if (winningString === "") {winningString += this.highCardWins(hand1, hand2);}
@@ -79,6 +79,7 @@ class Hand {
     secondPairValue: number = 0;
     threeOfAKindValue: number = 0;
     straitHighCard: number = 0;
+    flush: boolean = false;
 
     constructor(pokerHand) {
         this.playerColor = pokerHand.slice(0, 5);
@@ -86,6 +87,7 @@ class Hand {
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function(a,b) {return b[0] - a[0]});
+        this.checkForFlush();
         this.setStraitHighCard();
         this.setThreeOfAKindValue();
         if (this.winningString === ""){this.setPairValues();}
@@ -141,6 +143,21 @@ class Hand {
         if (this.containsAStrait(consecutiveNumbers)) {
             this.setStraitAsTheWinningHand();
         }
+    }
+
+    checkForFlush() {
+        let sameSuit = 1;
+        for (let i = 0; i < 4; i++) {
+            if (this.hand[i][1] === this.hand[i + 1][1]){
+                sameSuit ++;
+            }
+        }
+        if (sameSuit === 5) {
+            this.flush = true;
+            this.winningRule = "flush";
+            this.setWinningString(this.winningRule, this.hand[0][0])
+        }
+        console.log(sameSuit);
     }
 
     private setStraitAsTheWinningHand() {

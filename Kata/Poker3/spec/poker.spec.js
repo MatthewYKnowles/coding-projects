@@ -82,6 +82,15 @@ describe("Poker", function () {
     it("should return tie when both hands have the same strait", function () {
         expect(poker_1.Poker.getWinner("Black: 6C 7C 8S TD 9H White: 6H 7C 8C 9S TD")).toBe("tie.");
     });
+    it("should return white wins with a flush", function () {
+        expect(poker_1.Poker.getWinner("Black: 6C 7C 8S TD 9H White: 2H 7H 8H 9H TH")).toBe("White wins. - with flush: Ten");
+    });
+    it("should return black wins with a flush", function () {
+        expect(poker_1.Poker.getWinner("Black: 6S 2S QS TS 9S White: 2C 7H 8H 9H TH")).toBe("Black wins. - with flush: Queen");
+    });
+    it("should return black wins with a flush with a higher card", function () {
+        expect(poker_1.Poker.getWinner("Black: 6S 2S AS TS 9S White: 2H 7H 8H 9H TH")).toBe("Black wins. - with flush: Ace");
+    });
 });
 describe("Hand", function () {
     it("should take in the string pokerhand and set playerColor", function () {

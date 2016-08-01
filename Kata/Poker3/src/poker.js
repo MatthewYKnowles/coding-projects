@@ -16,7 +16,9 @@ var Poker = (function () {
     };
     Poker.bothHandsHaveSameWinningCondition = function (hand1, hand2) {
         var winningString = "";
-        winningString += this.higherStraitWins(hand1, hand2);
+        if (winningString === "") {
+            winningString += this.higherStraitWins(hand1, hand2);
+        }
         if (winningString === "") {
             winningString += this.highTwoPairWins(hand1, hand2);
         }
@@ -67,7 +69,7 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -82,11 +84,13 @@ var Hand = (function () {
         this.secondPairValue = 0;
         this.threeOfAKindValue = 0;
         this.straitHighCard = 0;
+        this.flush = false;
         this.playerColor = pokerHand.slice(0, 5);
         var handString = pokerHand.slice(7, 30);
         this.createHandArray(handString.split(" "));
         this.convertFaceCardsToIntegers();
         this.hand.sort(function (a, b) { return b[0] - a[0]; });
+        this.checkForFlush();
         this.setStraitHighCard();
         this.setThreeOfAKindValue();
         if (this.winningString === "") {
@@ -142,6 +146,20 @@ var Hand = (function () {
         if (this.containsAStrait(consecutiveNumbers)) {
             this.setStraitAsTheWinningHand();
         }
+    };
+    Hand.prototype.checkForFlush = function () {
+        var sameSuit = 1;
+        for (var i = 0; i < 4; i++) {
+            if (this.hand[i][1] === this.hand[i + 1][1]) {
+                sameSuit++;
+            }
+        }
+        if (sameSuit === 5) {
+            this.flush = true;
+            this.winningRule = "flush";
+            this.setWinningString(this.winningRule, this.hand[0][0]);
+        }
+        console.log(sameSuit);
     };
     Hand.prototype.setStraitAsTheWinningHand = function () {
         this.straitHighCard = this.hand[0][0];
