@@ -5,30 +5,23 @@ var Poker = (function () {
     Poker.getWinner = function (pokerHands) {
         var hand1 = new Hand(pokerHands.slice(0, 21));
         var hand2 = new Hand(pokerHands.slice(22, 43));
-        if (hand1.winningRule != hand2.winningRule) {
-            return this.handsHaveDifferentWinningConditions(hand1, hand2);
-        }
-        return this.bothHandsHaveSameWinningCondition(hand1, hand2);
+        return hand1.winningRule != hand2.winningRule
+            ? this.differentWinningConditions(hand1, hand2) : this.sameWinningCondition(hand1, hand2);
     };
-    Poker.handsHaveDifferentWinningConditions = function (hand1, hand2) {
+    Poker.differentWinningConditions = function (hand1, hand2) {
         return this.ruleObject[hand1.winningRule] > this.ruleObject[hand2.winningRule]
             ? hand1.winningString : hand2.winningString;
     };
-    Poker.bothHandsHaveSameWinningCondition = function (hand1, hand2) {
+    Poker.sameWinningCondition = function (hand1, hand2) {
         var winningString = "";
+        winningString += this.higherFourOfAKindWins(hand1, hand2);
         winningString += this.higherFullHouseWins(hand1, hand2);
-        if (hand1.flush === true) {
+        winningString += this.higherStraitWins(hand1, hand2);
+        if (hand1.flush === true && winningString === "") {
             winningString += this.handWithHigherCardWins(hand1, hand2, "flush");
         }
-        if (winningString === "") {
-            winningString += this.higherStraitWins(hand1, hand2);
-        }
-        if (winningString === "") {
-            winningString += this.highTwoPairWins(hand1, hand2);
-        }
-        if (winningString === "") {
-            winningString += this.highPairWins(hand1, hand2);
-        }
+        winningString += this.highTwoPairWins(hand1, hand2);
+        winningString += this.highPairWins(hand1, hand2);
         if (winningString === "") {
             winningString += this.handWithHigherCardWins(hand1, hand2, "high card");
         }
@@ -47,6 +40,9 @@ var Poker = (function () {
     };
     Poker.highPairWins = function (hand1, hand2) {
         return this.higherSpecialCardWins(hand1.pairValue, hand2.pairValue, hand1, hand2);
+    };
+    Poker.higherFourOfAKindWins = function (hand1, hand2) {
+        return this.higherSpecialCardWins(hand1.fourOfAKindValue, hand2.fourOfAKindValue, hand1, hand2);
     };
     Poker.higherStraitWins = function (hand1, hand2) {
         return this.higherSpecialCardWins(hand1.straitHighCard, hand2.straitHighCard, hand1, hand2);
@@ -75,7 +71,8 @@ var Poker = (function () {
         }
         return "";
     };
-    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6, "four of a kind": 7 };
+    Poker.ruleObject = { "high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5,
+        "full house": 6, "four of a kind": 7, "strait flush": 8 };
     return Poker;
 }());
 exports.Poker = Poker;
@@ -107,6 +104,9 @@ var Hand = (function () {
         this.checkForFullHouse();
         if (this.winningString === "") {
             this.setPairValues();
+        }
+        if (this.flush && this.straitHighCard > 0) {
+            this.setStraitFlush();
         }
     }
     Hand.prototype.createHandArray = function (hand) {
@@ -189,6 +189,10 @@ var Hand = (function () {
                 }
             }
         }
+    };
+    Hand.prototype.setStraitFlush = function () {
+        this.winningRule = "strait flush";
+        this.setWinningString(this.winningRule, this.straitHighCard);
     };
     Hand.prototype.setStraitAsTheWinningHand = function () {
         this.straitHighCard = this.hand[0][0];

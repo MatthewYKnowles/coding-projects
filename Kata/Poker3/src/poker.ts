@@ -1,26 +1,27 @@
 class Poker {
-    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5, "full house": 6, "four of a kind": 7};
+    static ruleObject: any = {"high card": 0, "pair": 1, "two pair": 2, "three of a kind": 3, "strait": 4, "flush": 5,
+        "full house": 6, "four of a kind": 7, "strait flush": 8};
+
     static getWinner(pokerHands): string {
         let hand1: Hand = new Hand(pokerHands.slice(0, 21));
         let hand2: Hand = new Hand(pokerHands.slice(22, 43));
-        if (hand1.winningRule != hand2.winningRule){
-            return this.handsHaveDifferentWinningConditions(hand1, hand2);
-        }
-        return this.bothHandsHaveSameWinningCondition(hand1, hand2);
+        return hand1.winningRule != hand2.winningRule
+            ? this.differentWinningConditions(hand1, hand2) : this.sameWinningCondition(hand1, hand2);
     }
 
-    static handsHaveDifferentWinningConditions(hand1, hand2) {
+    static differentWinningConditions(hand1, hand2) {
         return this.ruleObject[hand1.winningRule] > this.ruleObject[hand2.winningRule]
             ? hand1.winningString : hand2.winningString;
     }
 
-    static bothHandsHaveSameWinningCondition(hand1, hand2) {
+    static sameWinningCondition(hand1, hand2) {
         let winningString: string = "";
+        winningString += this.higherFourOfAKindWins(hand1, hand2);
         winningString += this.higherFullHouseWins(hand1, hand2);
-        if (hand1.flush === true) {winningString += this.handWithHigherCardWins(hand1, hand2, "flush");}
-        if (winningString === "") {winningString += this.higherStraitWins(hand1, hand2);}
-        if (winningString === "") {winningString += this.highTwoPairWins(hand1, hand2);}
-        if (winningString === "") {winningString += this.highPairWins(hand1, hand2);}
+        winningString += this.higherStraitWins(hand1, hand2);
+        if (hand1.flush === true && winningString === "") {winningString += this.handWithHigherCardWins(hand1, hand2, "flush");}
+        winningString += this.highTwoPairWins(hand1, hand2);
+        winningString += this.highPairWins(hand1, hand2);
         if (winningString === "") {winningString += this.handWithHigherCardWins(hand1, hand2, "high card");}
         return winningString;
     }
@@ -39,6 +40,10 @@ class Poker {
 
     static highPairWins(hand1, hand2) {
         return this.higherSpecialCardWins(hand1.pairValue, hand2.pairValue, hand1, hand2);
+    }
+
+    static higherFourOfAKindWins(hand1, hand2) {
+        return this.higherSpecialCardWins(hand1.fourOfAKindValue, hand2.fourOfAKindValue, hand1, hand2);
     }
 
     private static higherStraitWins(hand1:any, hand2:any) {
@@ -100,6 +105,7 @@ class Hand {
         if (this.winningString === ""){this.setThreeOfAKindValue();}
         this.checkForFullHouse();
         if (this.winningString === ""){this.setPairValues();}
+        if (this.flush && this.straitHighCard > 0){this.setStraitFlush();}
     }
 
     createHandArray(hand) {
@@ -186,6 +192,11 @@ class Hand {
                 }
             }
         }
+    }
+
+    setStraitFlush() {
+        this.winningRule = "strait flush";
+        this.setWinningString(this.winningRule, this.straitHighCard);
     }
 
     private setStraitAsTheWinningHand() {

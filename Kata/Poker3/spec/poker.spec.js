@@ -110,7 +110,16 @@ describe("Poker", function () {
         expect(poker_1.Poker.getWinner("Black: QS QC JH QD TH White: 7H 7S 7C 7D 9C")).toBe("White wins. - with four of a kind: 7");
     });
     it("should return black wins with the higher four of a kind", function () {
-        expect(poker_1.Poker.getWinner("Black: JS JC JH JD TH White: 7H 7S 7C 7D 9C")).toBe("White wins. - with four of a kind: Jack");
+        expect(poker_1.Poker.getWinner("Black: JS JC JH JD TH White: 7H 7S 7C 7D 9C")).toBe("Black wins. - with four of a kind: Jack");
+    });
+    it("should return white wins with a strait flush", function () {
+        expect(poker_1.Poker.getWinner("Black: JS JC JH JD TH White: 7H 8H 9H JH TH")).toBe("White wins. - with strait flush: Jack");
+    });
+    it("should return black wins with a strait flush", function () {
+        expect(poker_1.Poker.getWinner("Black: JS TS 9S QS KS White: 7H 8H 9C JH TH")).toBe("Black wins. - with strait flush: King");
+    });
+    it("should return black wins with a higher strait flush", function () {
+        expect(poker_1.Poker.getWinner("Black: JS TS 9S QS KS White: 7H 8H 9H JH TH")).toBe("Black wins. - with strait flush: King");
     });
 });
 describe("Hand", function () {
