@@ -1,29 +1,30 @@
 export class NumberToLCD {
-    convert(number): string {
-        let numberAsAString = number.toString();
-        let tempArray = [];
+
+    static convert(inputNumber): string {
+        let input: string = inputNumber.toString();
+        let tempArray: any = [];
         for (let i = 0; i < 3; i++) {
-            tempArray.push(this.buildRow(numberAsAString, i));
+            tempArray.push(this.buildRow(input, i));
         }
         return tempArray.join("\n");
     }
-    buildRow(numberAsAString, currentRowIndex) {
+    static buildRow(numberAsAString, currentRowIndex) {
         let lcdLookUp: LcdLookUp = new LcdLookUp();
         let currentRow: string = "";
         for (let i = 0; i < numberAsAString.length; i++){
-            currentRow += lcdLookUp.LcdString(numberAsAString.charAt(i), currentRowIndex);
+            currentRow += lcdLookUp.getLcdRowOfNumber(numberAsAString.charAt(i), currentRowIndex);
         }
         return currentRow;
     }
 }
 
 class LcdLookUp {
-    numberToLCDLookUp: any;
+    private numberToLCDLookUp: any;
     constructor() {
         this.createLcdLookUp();
     };
 
-    createLcdLookUp() {
+    private createLcdLookUp(): void {
         let empty: string = "   ";
         let rightBar: string = "  |";
         let bottomBar: string = " _ ";
@@ -45,7 +46,7 @@ class LcdLookUp {
         };
     }
 
-    LcdString(number: string, section: number) {
-        return this.numberToLCDLookUp[number][section];
+    public getLcdRowOfNumber(number: string, row: number): string {
+        return this.numberToLCDLookUp[number][row];
     }
 }

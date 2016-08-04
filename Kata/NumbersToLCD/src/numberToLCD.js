@@ -2,19 +2,19 @@
 var NumberToLCD = (function () {
     function NumberToLCD() {
     }
-    NumberToLCD.prototype.convert = function (number) {
-        var numberAsAString = number.toString();
+    NumberToLCD.convert = function (inputNumber) {
+        var input = inputNumber.toString();
         var tempArray = [];
         for (var i = 0; i < 3; i++) {
-            tempArray.push(this.buildRow(numberAsAString, i));
+            tempArray.push(this.buildRow(input, i));
         }
         return tempArray.join("\n");
     };
-    NumberToLCD.prototype.buildRow = function (numberAsAString, currentRowIndex) {
+    NumberToLCD.buildRow = function (numberAsAString, currentRowIndex) {
         var lcdLookUp = new LcdLookUp();
         var currentRow = "";
         for (var i = 0; i < numberAsAString.length; i++) {
-            currentRow += lcdLookUp.LcdString(numberAsAString.charAt(i), currentRowIndex);
+            currentRow += lcdLookUp.getLcdRowOfNumber(numberAsAString.charAt(i), currentRowIndex);
         }
         return currentRow;
     };
@@ -47,8 +47,8 @@ var LcdLookUp = (function () {
             0: [bottomBar, arms, cup]
         };
     };
-    LcdLookUp.prototype.LcdString = function (number, section) {
-        return this.numberToLCDLookUp[number][section];
+    LcdLookUp.prototype.getLcdRowOfNumber = function (number, row) {
+        return this.numberToLCDLookUp[number][row];
     };
     return LcdLookUp;
 }());
