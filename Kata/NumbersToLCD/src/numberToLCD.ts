@@ -2,19 +2,14 @@ export class NumberToLCD {
 
     static convert(inputNumber): string {
         let input: string = inputNumber.toString();
-        let tempArray: any = [];
-        for (let i = 0; i < 3; i++) {
-            tempArray.push(this.buildRow(input, i));
+        let lcdLookUp: LcdLookUp = new LcdLookUp();
+        let tempArray: any = ["","",""];
+        for (let currentNumber = 0; currentNumber < input.length; currentNumber++) {
+            for (let rowIndex = 0; rowIndex < 3; rowIndex++){
+                tempArray[rowIndex] += lcdLookUp.getLcdRowOfNumber(input.charAt(currentNumber), rowIndex);
+            }
         }
         return tempArray.join("\n");
-    }
-    static buildRow(numberAsAString, currentRowIndex) {
-        let lcdLookUp: LcdLookUp = new LcdLookUp();
-        let currentRow: string = "";
-        for (let i = 0; i < numberAsAString.length; i++){
-            currentRow += lcdLookUp.getLcdRowOfNumber(numberAsAString.charAt(i), currentRowIndex);
-        }
-        return currentRow;
     }
 }
 

@@ -4,19 +4,14 @@ var NumberToLCD = (function () {
     }
     NumberToLCD.convert = function (inputNumber) {
         var input = inputNumber.toString();
-        var tempArray = [];
-        for (var i = 0; i < 3; i++) {
-            tempArray.push(this.buildRow(input, i));
+        var lcdLookUp = new LcdLookUp();
+        var tempArray = ["", "", ""];
+        for (var currentNumber = 0; currentNumber < input.length; currentNumber++) {
+            for (var rowIndex = 0; rowIndex < 3; rowIndex++) {
+                tempArray[rowIndex] += lcdLookUp.getLcdRowOfNumber(input.charAt(currentNumber), rowIndex);
+            }
         }
         return tempArray.join("\n");
-    };
-    NumberToLCD.buildRow = function (numberAsAString, currentRowIndex) {
-        var lcdLookUp = new LcdLookUp();
-        var currentRow = "";
-        for (var i = 0; i < numberAsAString.length; i++) {
-            currentRow += lcdLookUp.getLcdRowOfNumber(numberAsAString.charAt(i), currentRowIndex);
-        }
-        return currentRow;
     };
     return NumberToLCD;
 }());
