@@ -1,22 +1,17 @@
 function destroyer(arr){
   var passedInArguments = [];
-  var i = 0;
-  while (i < arguments.length){
+  for (var i = 0; i < arguments.length; i++){
     passedInArguments.push(arguments[i]);
-    i++;
   }
-  var answerArray = passedInArguments[0];
-  function toBeDestroyed(value){
-    return value != passedInArguments[1];
+
+  var answerArray = arguments[0];
+
+  for (let i = 1; i < arguments.length; i++){
+    function toBeDestroyed(value){
+      return value != passedInArguments[i];
+    }
+    answerArray = answerArray.filter(toBeDestroyed);
   }
-  var answer = answerArray.filter(toBeDestroyed);
-  function toBeDestroyed2(value){
-    return value != passedInArguments[2];
-  }
-  var answer = answer.filter(toBeDestroyed2);
-  function toBeDestroyed3(value){
-    return value != passedInArguments[3];
-  }
-  var answer = answer.filter(toBeDestroyed3);
-  return answer;
+
+  return answerArray;
 }
