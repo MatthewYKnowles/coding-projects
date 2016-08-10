@@ -9,6 +9,6 @@ export class Fraction {
     }
 
     intValue() {
-        return 0;
+        return this.integerValue;
     }
 }

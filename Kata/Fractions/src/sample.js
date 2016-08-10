@@ -7,7 +7,7 @@ var Fraction = (function () {
         return this;
     };
     Fraction.prototype.intValue = function () {
-        return 0;
+        return this.integerValue;
     };
     return Fraction;
 }());
