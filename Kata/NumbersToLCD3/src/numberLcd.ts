@@ -1,20 +1,20 @@
-export class NumberToLCD {
+export class NumberToLcd {
+    lcdObject = {
+        1: ["   ", "  |", "  |"],
+        2: [" _ ", " _|", "|_ "]
+    };
 
     convert(number:number) {
-        let numberToLcd = {
-            1: ["   ", "  |", "  |"],
-            2: [" _ "," _|","|_ "]
-        };
-        var bottomRow:string = "";
-        var topRow:string = "";
-        var middleRow:string = "";
+        let numberAsString = number.toString();
         var newLine = "\n";
-        let stringOfNumber = number.toString();
-        for (let i = 0; i < stringOfNumber.length; i++){
-            topRow += numberToLcd[stringOfNumber[i]][0];
-            middleRow += numberToLcd[stringOfNumber[i]][1];
-            bottomRow += numberToLcd[stringOfNumber[i]][2];
+        var top: string = "";
+        var middle: string = "";
+        var bottom: string = "";
+        for (let i = 0; i < numberAsString.length; i++){
+            top += this.lcdObject[numberAsString[i]][0];
+            middle += this.lcdObject[numberAsString[i]][1];
+            bottom += this.lcdObject[numberAsString[i]][2];
         }
-        return topRow + newLine + middleRow + newLine + bottomRow;
+        return top + newLine + middle + newLine + bottom;
     }
 }
