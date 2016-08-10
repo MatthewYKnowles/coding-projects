@@ -1,12 +1,9 @@
 "use strict";
 var sample_1 = require("../src/sample");
-describe("function name", function () {
-    it("should return true", function () {
-        expect(true).toBe(true);
-    });
-    it("should return true", function () {
-        var sample = new sample_1.Sample();
-        expect(sample.true()).toBe(true);
+describe("AddFractions", function () {
+    it("should return zero + zero", function () {
+        var sum = new sample_1.Fraction(0).plus(new sample_1.Fraction(0));
+        expect(sum.intValue()).toBe(0);
     });
 });
 //# sourceMappingURL=sample.spec.js.map

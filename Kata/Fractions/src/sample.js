@@ -1,12 +1,15 @@
 "use strict";
-var Sample = (function () {
-    function Sample() {
+var Fraction = (function () {
+    function Fraction(integerValue) {
+        this.integerValue = integerValue;
     }
-    Sample.prototype.true = function () {
-        var x = null;
-        return x.sort;
+    Fraction.prototype.plus = function (fraction) {
+        return this;
     };
-    return Sample;
+    Fraction.prototype.intValue = function () {
+        return 0;
+    };
+    return Fraction;
 }());
-exports.Sample = Sample;
+exports.Fraction = Fraction;
 //# sourceMappingURL=sample.js.map
