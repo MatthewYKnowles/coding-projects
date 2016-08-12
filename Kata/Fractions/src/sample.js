@@ -4,6 +4,9 @@ var Fraction = (function () {
         this.integerValue = integerValue;
     }
     Fraction.prototype.plus = function (fraction) {
+        if (fraction.integerValue > 0) {
+            return fraction;
+        }
         return this;
     };
     Fraction.prototype.intValue = function () {

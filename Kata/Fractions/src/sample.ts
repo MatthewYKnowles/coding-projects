@@ -5,6 +5,9 @@ export class Fraction {
     }
 
     plus(fraction: Fraction) {
+        if (fraction.integerValue > 0) {
+            return fraction;
+        }
         return this;
     }
 

@@ -4,8 +4,12 @@ describe("AddFractions", ()=> {
         var sum: Fraction = new Fraction(0).plus(new Fraction(0));
         expect(sum.intValue()).toBe(0);
     });
-    it("should return three for three + zero", ()=> {
+    it("should return non-zero for non-zero + zero", ()=> {
         var sum: Fraction = new Fraction(3).plus(new Fraction(0));
         expect(sum.intValue()).toBe(3);
+    });
+    it("should return non-zero for zero + non-zero", ()=> {
+        var sum: Fraction = new Fraction(0).plus(new Fraction(5));
+        expect(sum.intValue()).toBe(5);
     });
 });

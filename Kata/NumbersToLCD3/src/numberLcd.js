@@ -1,25 +1,25 @@
 "use strict";
-var NumberToLcd = (function () {
-    function NumberToLcd() {
-        this.lcdObject = {
+var LcdConverter = (function () {
+    function LcdConverter() {
+    }
+    LcdConverter.prototype.convert = function (number) {
+        var lcdObject = {
             1: ["   ", "  |", "  |"],
             2: [" _ ", " _|", "|_ "]
         };
-    }
-    NumberToLcd.prototype.convert = function (number) {
-        var numberAsString = number.toString();
+        var numberString = number.toString();
         var newLine = "\n";
-        var top = "";
-        var middle = "";
-        var bottom = "";
-        for (var i = 0; i < numberAsString.length; i++) {
-            top += this.lcdObject[numberAsString[i]][0];
-            middle += this.lcdObject[numberAsString[i]][1];
-            bottom += this.lcdObject[numberAsString[i]][2];
+        var topLine = "";
+        var middleLine = "";
+        var bottomLine = "";
+        for (var i = 0; i < numberString.length; i++) {
+            topLine += lcdObject[numberString[i]][0];
+            middleLine += lcdObject[numberString[i]][1];
+            bottomLine += lcdObject[numberString[i]][2];
         }
-        return top + newLine + middle + newLine + bottom;
+        return topLine + newLine + middleLine + newLine + bottomLine;
     };
-    return NumberToLcd;
+    return LcdConverter;
 }());
-exports.NumberToLcd = NumberToLcd;
+exports.LcdConverter = LcdConverter;
 //# sourceMappingURL=numberLcd.js.map
