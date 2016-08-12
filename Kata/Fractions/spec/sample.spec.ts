@@ -12,4 +12,8 @@ describe("AddFractions", ()=> {
         var sum: Fraction = new Fraction(0).plus(new Fraction(5));
         expect(sum.intValue()).toBe(5);
     });
+    it("should return non-zero for non-zero + non-zero", ()=> {
+        var sum: Fraction = new Fraction(3).plus(new Fraction(4));
+        expect(sum.intValue()).toBe(7);
+    });
 });

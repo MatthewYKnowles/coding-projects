@@ -5,7 +5,7 @@ var Fraction = (function () {
     }
     Fraction.prototype.plus = function (fraction) {
         if (fraction.integerValue > 0) {
-            return fraction;
+            return new Fraction(this.integerValue + fraction.integerValue);
         }
         return this;
     };
