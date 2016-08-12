@@ -4,10 +4,7 @@ var Fraction = (function () {
         this.integerValue = integerValue;
     }
     Fraction.prototype.plus = function (fraction) {
-        if (fraction.integerValue > 0) {
-            return new Fraction(this.integerValue + fraction.integerValue);
-        }
-        return this;
+        return new Fraction(this.integerValue + fraction.integerValue);
     };
     Fraction.prototype.intValue = function () {
         return this.integerValue;

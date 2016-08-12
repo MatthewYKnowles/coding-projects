@@ -5,10 +5,7 @@ export class Fraction {
     }
 
     plus(fraction: Fraction) {
-        if (fraction.integerValue > 0) {
-            return new Fraction(this.integerValue + fraction.integerValue);
-        }
-        return this;
+        return new Fraction(this.integerValue + fraction.integerValue);
     }
 
     intValue() {
