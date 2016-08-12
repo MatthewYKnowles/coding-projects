@@ -16,4 +16,8 @@ describe("AddFractions", ()=> {
         var sum: Fraction = new Fraction(3).plus(new Fraction(4));
         expect(sum.intValue()).toBe(7);
     });
+    it("should return positive 2 for negative 3 + positive 1", ()=> {
+        var sum: Fraction = new Fraction(-3).plus(new Fraction(1));
+        expect(sum.intValue()).toBe(-2);
+    });
 });

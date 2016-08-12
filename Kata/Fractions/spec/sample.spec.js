@@ -17,5 +17,9 @@ describe("AddFractions", function () {
         var sum = new sample_1.Fraction(3).plus(new sample_1.Fraction(4));
         expect(sum.intValue()).toBe(7);
     });
+    it("should return positive 2 for negative 3 + positive 1", function () {
+        var sum = new sample_1.Fraction(-3).plus(new sample_1.Fraction(1));
+        expect(sum.intValue()).toBe(-2);
+    });
 });
 //# sourceMappingURL=sample.spec.js.map
