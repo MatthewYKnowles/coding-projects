@@ -35,7 +35,13 @@ var Hand = (function () {
         return this.handArray[0].getValue();
     };
     Hand.prototype.getWinningRule = function () {
-        if (this.handArray[0].getValue() === this.handArray[1].getValue()) {
+        if (this.hasStrait() && this.hasFlush()) {
+            return "Strait Flush";
+        }
+        if (this.hasStrait()) {
+            return "Strait";
+        }
+        if (this.hasTwoPair()) {
             return "Two Pair";
         }
         if (this.hasFlush()) {
@@ -45,6 +51,20 @@ var Hand = (function () {
             return "Pair";
         }
         return "High Card";
+    };
+    Hand.prototype.hasTwoPair = function () {
+        var hasAPair = false;
+        for (var i = 0; i < this.handArray.length - 1; i++) {
+            if (this.twoConsecutiveNumbersAreTheSame(i) && hasAPair) {
+                return true;
+            }
+            if (this.twoConsecutiveNumbersAreTheSame(i)) {
+                hasAPair = true;
+            }
+        }
+    };
+    Hand.prototype.twoConsecutiveNumbersAreTheSame = function (i) {
+        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
     };
     Hand.prototype.hasFlush = function () {
         var sameSuit = 1;
@@ -61,6 +81,18 @@ var Hand = (function () {
                 return true;
             }
         }
+    };
+    Hand.prototype.hasStrait = function () {
+        var consecutiveNumbers = 1;
+        for (var i = 0; i < this.handArray.length - 1; i++) {
+            if (this.twoNumbersAreConsecutive(i)) {
+                consecutiveNumbers++;
+            }
+        }
+        return consecutiveNumbers === 5;
+    };
+    Hand.prototype.twoNumbersAreConsecutive = function (i) {
+        return this.handArray[i].getValue() === (this.handArray[i + 1].getValue() + 1);
     };
     return Hand;
 }());

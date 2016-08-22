@@ -40,7 +40,13 @@ export class Hand {
     }
 
     getWinningRule() {
-        if (this.handArray[0].getValue() === this.handArray[1].getValue()) {
+        if (this.hasStrait() && this.hasFlush()){
+            return "Strait Flush";
+        }
+        if (this.hasStrait()) {
+            return "Strait";
+        }
+        if (this.hasTwoPair()) {
             return "Two Pair";
         }
         if (this.hasFlush()){
@@ -52,6 +58,22 @@ export class Hand {
         return "High Card";
     }
 
+    private hasTwoPair() {
+        let hasAPair = false;
+        for(let i = 0; i < this.handArray.length - 1; i++){
+            if (this.twoConsecutiveNumbersAreTheSame(i) && hasAPair){
+                return true;
+            }
+            if (this.twoConsecutiveNumbersAreTheSame(i)){
+                hasAPair = true;
+            }
+        }
+    }
+
+    private twoConsecutiveNumbersAreTheSame(i: number) {
+        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
+    }
+
     private hasFlush() {
         let sameSuit = 1;
         for (let i = 0; i < this.handArray.length - 1; i++){
@@ -61,11 +83,25 @@ export class Hand {
         }
         return sameSuit === 5;
     }
-    hasAPair() {
+    private hasAPair() {
         for(let i = 0; i < this.handArray.length - 1; i++){
             if(this.handArray[i].getValue() === this.handArray[i+1].getValue()){
                 return true;
             }
         }
+    }
+
+    private hasStrait() {
+        let consecutiveNumbers = 1;
+        for (let i = 0; i < this.handArray.length - 1; i++) {
+            if (this.twoNumbersAreConsecutive(i)){
+                consecutiveNumbers++;
+            }
+        }
+        return consecutiveNumbers === 5;
+    }
+
+    private twoNumbersAreConsecutive(i: number) {
+        return this.handArray[i].getValue() === (this.handArray[i + 1].getValue() + 1);
     }
 }

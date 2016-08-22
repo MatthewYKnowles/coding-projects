@@ -47,5 +47,17 @@ describe("Hand", function () {
         var hand = new Poker_1.Hand("8D 8C 9D 9C KC");
         expect(hand.getWinningRule()).toEqual("Two Pair");
     });
+    it("should return the winning rule of two pair", function () {
+        var hand = new Poker_1.Hand("8D 8C 9D KC KC");
+        expect(hand.getWinningRule()).toEqual("Two Pair");
+    });
+    it("should return the winning rule of strait", function () {
+        var hand = new Poker_1.Hand("8D 9C JD TC QC");
+        expect(hand.getWinningRule()).toEqual("Strait");
+    });
+    it("should return the winning rule of strait flush", function () {
+        var hand = new Poker_1.Hand("8D 9D JD TD QD");
+        expect(hand.getWinningRule()).toEqual("Strait Flush");
+    });
 });
 //# sourceMappingURL=Poker.spec.js.map
