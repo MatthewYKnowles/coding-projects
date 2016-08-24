@@ -1,107 +1,88 @@
 export class Card {
-    value: number;
-    private faceCardToInt: any = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13, "A": 14};
-    private suit;
+    private value: number;
+    private specialToValueObject: any = {"T": 10, "J": 11};
+    private suit: string;
+
     constructor(card: string) {
-        this.value = this.faceCardToInt[card[0]];
+        this.value = (card[0] <=9) ? parseInt(card[0]) : this.specialToValueObject[card[0]];
         this.suit = card[1];
     }
-    getValue() {
+    getValue(): number {
         return this.value;
     }
 
-    getSuit() {
+    getSuit(): string {
         return this.suit;
     }
 }
 
 export class Hand {
-    handArray: any = [];
+    private hand: string;
+    private handArray: any = [];
+    private specialToNameObject: any = {10: "Ten", 11: "Jack"};
 
     constructor(hand: string){
-        this.createHandObject(hand);
-        this.sortHandArray();
-    }
-
-    private sortHandArray() {
-        this.handArray.sort(function (a, b) {
-            return b.getValue() - a.getValue();
-        });
-    }
-
-    private createHandObject(hand: string) {
-        let handOfCards = hand.split(" ");
-        for (let i = 0; i < 5; i++) {
-            this.handArray.push(new Card(handOfCards[i]))
+        this.hand = hand;
+        let splitHand = hand.split(" ");
+        for (let i = 0; i < splitHand.length; i++){
+            this.handArray.push(new Card(splitHand[i]));
         }
-    }
-    getHighestValue() {
-        return this.handArray[0].getValue();
+        this.handArray.sort(function(a, b){return b.getValue() - a.getValue()})
     }
 
-    getWinningRule() {
-        if (this.hasStrait() && this.hasFlush()){
+    getHighCard(): string {
+        if (this.handArray[0].getValue() >= 10) {
+            return this.specialToNameObject[this.handArray[0].getValue()];
+        }
+        return this.handArray[0].getValue().toString();
+    }
+
+    getWinningRule(): string {
+        if (this.hasStrait()){
             return "Strait Flush";
-        }
-        if (this.hasStrait()) {
-            return "Strait";
-        }
-        if (this.hasTwoPair()) {
-            return "Two Pair";
         }
         if (this.hasFlush()){
             return "Flush";
         }
-        if(this.hasAPair()){
-            return "Pair";
+        if (this.hasTwoPair()){
+            return "Two Pair Wins";
         }
-        return "High Card";
-    }
-
-    private hasTwoPair() {
-        let hasAPair = false;
-        for(let i = 0; i < this.handArray.length - 1; i++){
-            if (this.twoConsecutiveNumbersAreTheSame(i) && hasAPair){
-                return true;
-            }
-            if (this.twoConsecutiveNumbersAreTheSame(i)){
-                hasAPair = true;
-            }
-        }
-    }
-
-    private twoConsecutiveNumbersAreTheSame(i: number) {
-        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
-    }
-
-    private hasFlush() {
-        let sameSuit = 1;
-        for (let i = 0; i < this.handArray.length - 1; i++){
-            if (this.handArray[i].getSuit() === this.handArray[i+1].getSuit()) {
-                sameSuit++
-            }
-        }
-        return sameSuit === 5;
-    }
-    private hasAPair() {
-        for(let i = 0; i < this.handArray.length - 1; i++){
-            if(this.handArray[i].getValue() === this.handArray[i+1].getValue()){
-                return true;
-            }
-        }
+        return "High Card Wins: " + this.getHighCard();
     }
 
     private hasStrait() {
         let consecutiveNumbers = 1;
-        for (let i = 0; i < this.handArray.length - 1; i++) {
-            if (this.twoNumbersAreConsecutive(i)){
+        for (let i = 0; i < this.handArray.length - 1; i++){
+            if (this.handArray[i].getValue() - this.handArray[i+1].getValue() === 1){
                 consecutiveNumbers++;
             }
         }
         return consecutiveNumbers === 5;
     }
 
-    private twoNumbersAreConsecutive(i: number) {
-        return this.handArray[i].getValue() === (this.handArray[i + 1].getValue() + 1);
+    private hasFlush() {
+        let sameSuitCount = 1;
+        for (let i = 0; i < this.handArray.length - 1; i++){
+            if (this.handArray[i].getSuit() === this.handArray[i+1].getSuit()){
+                sameSuitCount++;
+            }
+        }
+        return sameSuitCount === 5;
+    }
+
+    private hasTwoPair() {
+        let hasPair: boolean = false;
+        for (let i = 0; i < this.handArray.length - 1; i++){
+            if (this.twoConsecutiveNumbersAreTheSame(i) && hasPair){
+                return true;
+            }
+            if (this.twoConsecutiveNumbersAreTheSame(i)){
+                hasPair = true;
+            }
+        }
+    }
+
+    private twoConsecutiveNumbersAreTheSame(i: number) {
+        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
     }
 }

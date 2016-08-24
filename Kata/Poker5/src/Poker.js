@@ -1,8 +1,8 @@
 "use strict";
 var Card = (function () {
     function Card(card) {
-        this.faceCardToInt = { "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13, "A": 14 };
-        this.value = this.faceCardToInt[card[0]];
+        this.specialToValueObject = { "T": 10, "J": 11 };
+        this.value = (card[0] <= 9) ? parseInt(card[0]) : this.specialToValueObject[card[0]];
         this.suit = card[1];
     }
     Card.prototype.getValue = function () {
@@ -17,82 +17,63 @@ exports.Card = Card;
 var Hand = (function () {
     function Hand(hand) {
         this.handArray = [];
-        this.createHandObject(hand);
-        this.sortHandArray();
-    }
-    Hand.prototype.sortHandArray = function () {
-        this.handArray.sort(function (a, b) {
-            return b.getValue() - a.getValue();
-        });
-    };
-    Hand.prototype.createHandObject = function (hand) {
-        var handOfCards = hand.split(" ");
-        for (var i = 0; i < 5; i++) {
-            this.handArray.push(new Card(handOfCards[i]));
+        this.specialToNameObject = { 10: "Ten", 11: "Jack" };
+        this.hand = hand;
+        var splitHand = hand.split(" ");
+        for (var i = 0; i < splitHand.length; i++) {
+            this.handArray.push(new Card(splitHand[i]));
         }
-    };
-    Hand.prototype.getHighestValue = function () {
-        return this.handArray[0].getValue();
+        this.handArray.sort(function (a, b) { return b.getValue() - a.getValue(); });
+    }
+    Hand.prototype.getHighCard = function () {
+        if (this.handArray[0].getValue() >= 10) {
+            return this.specialToNameObject[this.handArray[0].getValue()];
+        }
+        return this.handArray[0].getValue().toString();
     };
     Hand.prototype.getWinningRule = function () {
-        if (this.hasStrait() && this.hasFlush()) {
-            return "Strait Flush";
-        }
         if (this.hasStrait()) {
-            return "Strait";
-        }
-        if (this.hasTwoPair()) {
-            return "Two Pair";
+            return "Strait Flush";
         }
         if (this.hasFlush()) {
             return "Flush";
         }
-        if (this.hasAPair()) {
-            return "Pair";
+        if (this.hasTwoPair()) {
+            return "Two Pair Wins";
         }
-        return "High Card";
-    };
-    Hand.prototype.hasTwoPair = function () {
-        var hasAPair = false;
-        for (var i = 0; i < this.handArray.length - 1; i++) {
-            if (this.twoConsecutiveNumbersAreTheSame(i) && hasAPair) {
-                return true;
-            }
-            if (this.twoConsecutiveNumbersAreTheSame(i)) {
-                hasAPair = true;
-            }
-        }
-    };
-    Hand.prototype.twoConsecutiveNumbersAreTheSame = function (i) {
-        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
-    };
-    Hand.prototype.hasFlush = function () {
-        var sameSuit = 1;
-        for (var i = 0; i < this.handArray.length - 1; i++) {
-            if (this.handArray[i].getSuit() === this.handArray[i + 1].getSuit()) {
-                sameSuit++;
-            }
-        }
-        return sameSuit === 5;
-    };
-    Hand.prototype.hasAPair = function () {
-        for (var i = 0; i < this.handArray.length - 1; i++) {
-            if (this.handArray[i].getValue() === this.handArray[i + 1].getValue()) {
-                return true;
-            }
-        }
+        return "High Card Wins: " + this.getHighCard();
     };
     Hand.prototype.hasStrait = function () {
         var consecutiveNumbers = 1;
         for (var i = 0; i < this.handArray.length - 1; i++) {
-            if (this.twoNumbersAreConsecutive(i)) {
+            if (this.handArray[i].getValue() - this.handArray[i + 1].getValue() === 1) {
                 consecutiveNumbers++;
             }
         }
         return consecutiveNumbers === 5;
     };
-    Hand.prototype.twoNumbersAreConsecutive = function (i) {
-        return this.handArray[i].getValue() === (this.handArray[i + 1].getValue() + 1);
+    Hand.prototype.hasFlush = function () {
+        var sameSuitCount = 1;
+        for (var i = 0; i < this.handArray.length - 1; i++) {
+            if (this.handArray[i].getSuit() === this.handArray[i + 1].getSuit()) {
+                sameSuitCount++;
+            }
+        }
+        return sameSuitCount === 5;
+    };
+    Hand.prototype.hasTwoPair = function () {
+        var hasPair = false;
+        for (var i = 0; i < this.handArray.length - 1; i++) {
+            if (this.twoConsecutiveNumbersAreTheSame(i) && hasPair) {
+                return true;
+            }
+            if (this.twoConsecutiveNumbersAreTheSame(i)) {
+                hasPair = true;
+            }
+        }
+    };
+    Hand.prototype.twoConsecutiveNumbersAreTheSame = function (i) {
+        return this.handArray[i].getValue() === this.handArray[i + 1].getValue();
     };
     return Hand;
 }());
