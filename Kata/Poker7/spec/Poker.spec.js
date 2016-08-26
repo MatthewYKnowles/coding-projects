@@ -1,59 +1,59 @@
 "use strict";
 var Poker_1 = require("../src/Poker");
 describe("Card", function () {
-    it("should return its own value of 5", function () {
-        var card = new Poker_1.Card("5C");
-        expect(card.getValue()).toEqual(5);
-    });
-    it("should return its own value of 6", function () {
+    it("should return the value of the card 6", function () {
         var card = new Poker_1.Card("6C");
         expect(card.getValue()).toEqual(6);
     });
-    it("should return a value of 10 for T", function () {
+    it("should return the value of the card 7", function () {
+        var card = new Poker_1.Card("7C");
+        expect(card.getValue()).toEqual(7);
+    });
+    it("should return the value of the card 10 for T", function () {
         var card = new Poker_1.Card("TC");
         expect(card.getValue()).toEqual(10);
     });
-    it("should return a value of 11 for J", function () {
-        var card = new Poker_1.Card("JC");
-        expect(card.getValue()).toEqual(11);
+});
+describe("Full House", function () {
+    it("Should return full house", function () {
+        var hand = new Poker_1.Hand("6S 6H 6C 8C 8H");
+        expect(hand.getWinningRule()).toEqual("Full House");
     });
-    it("should return a value of 12 for Q", function () {
-        var card = new Poker_1.Card("QC");
-        expect(card.getValue()).toEqual(12);
+    it("Should not return full house", function () {
+        var hand = new Poker_1.Hand("5S 7H 7C 9C 9H");
+        expect(hand.getWinningRule()).not.toEqual("Full House");
+    });
+    it("Should return full house when the numbers are not sorted", function () {
+        var hand = new Poker_1.Hand("5S 7H 5C 7C 5H");
+        expect(hand.getWinningRule()).toEqual("Full House");
+    });
+    it("Should return full house when there is a ten", function () {
+        var hand = new Poker_1.Hand("TS 7H TC 7C TH");
+        expect(hand.getWinningRule()).toEqual("Full House");
+    });
+    it("Should return not full house when there is a three of a kind", function () {
+        var hand = new Poker_1.Hand("TS 7H 7C 7C 2H");
+        expect(hand.getWinningRule()).not.toEqual("Full House");
     });
 });
-describe("Hand", function () {
-    it("should return high card as the winning rule with the highest card for 9", function () {
-        var hand = new Poker_1.Hand("9C 8D 7C 5D 4S");
-        expect(hand.getWinningRule()).toEqual("High Card: 9");
+describe("Strait", function () {
+    it("Should return strait", function () {
+        var hand = new Poker_1.Hand("TS 9H 7C 8C 6H");
+        expect(hand.getWinningRule()).toEqual("Strait");
     });
-    it("should return high card as the winning rule with the highest card for 8", function () {
-        var hand = new Poker_1.Hand("8C 7D 6C 5D 3S");
-        expect(hand.getWinningRule()).toEqual("High Card: 8");
+    it("Should return not a strait", function () {
+        var hand = new Poker_1.Hand("TS 9H 2C 8C 6H");
+        expect(hand.getWinningRule()).not.toEqual("Strait");
     });
-    it("should return high card with Ten", function () {
-        var hand = new Poker_1.Hand("TC 7D 6C 5D 3S");
-        expect(hand.getWinningRule()).toEqual("High Card: Ten");
+});
+describe("Two Pair", function () {
+    it("Should return two pair", function () {
+        var hand = new Poker_1.Hand("TS TH 8C 8C 6H");
+        expect(hand.getWinningRule()).toEqual("Two Pair");
     });
-    it("should return high card with Jack", function () {
-        var hand = new Poker_1.Hand("JC 7D 6C 5D 3S");
-        expect(hand.getWinningRule()).toEqual("High Card: Jack");
-    });
-    it("should return the high card even when its not at the front", function () {
-        var hand = new Poker_1.Hand("7C JD 6C 5D 3S");
-        expect(hand.getWinningRule()).toEqual("High Card: Jack");
-    });
-    it("should return the high card even when its not at the front", function () {
-        var hand = new Poker_1.Hand("7C JD 6C 5D AS");
-        expect(hand.getWinningRule()).toEqual("High Card: Ace");
-    });
-    it("should return pair", function () {
-        var hand = new Poker_1.Hand("7C JD 6C AD AS");
-        expect(hand.getWinningRule()).toEqual("Pair");
-    });
-    it("should return pair", function () {
-        var hand = new Poker_1.Hand("7C 6D 6C QD AS");
-        expect(hand.getWinningRule()).toEqual("Pair");
+    it("Should return two pair", function () {
+        var hand = new Poker_1.Hand("TS QH 8C QC TH");
+        expect(hand.getWinningRule()).toEqual("Two Pair");
     });
 });
 //# sourceMappingURL=Poker.spec.js.map

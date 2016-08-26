@@ -1,43 +1,101 @@
 export class Card {
-    private value: number;
-    private letterToValueObject: any = {"T": 10, "J": 11, "Q": 12, "K": 13, "A": 14};
+    private _value: number;
+    private specialCardToValueObject: any = {"T": 10, "J": 11, "Q": 12, "K": 13, "A": 14};
 
-    constructor(hand: string) {
-        var valueCard = hand[0];
-        var integerValueOfCard = parseInt(valueCard);
-        this.value = (!integerValueOfCard) ? this.letterToValueObject[valueCard] : integerValueOfCard;
+    constructor(card: string) {
+        var cardValue = card[0];
+        this._value = parseInt(cardValue) ? parseInt(cardValue) : this.specialCardToValueObject[cardValue]
     }
+
     getValue() {
-        return this.value;
+        return this._value;
     }
 }
 
 export class Hand {
-    private hand;
-    private handArray = [];
-    private valueToStringObject: any = {10: "Ten", 11: "Jack", 12: "Queen", 13: "King", 14: "Ace"};
+    private _handArray: any = [];
+    private threeOfAKindValue: number;
 
     constructor(hand: string) {
-        this.hand = hand.split(" ");
-        for (let i = 0; i < this.hand.length; i++){
-            this.handArray.push(new Card(this.hand[i]));
-        }
-        this.handArray.sort(function (a, b) {return b.getValue() - a.getValue()})
+        this.createSortedHandArray(hand);
     }
 
-    getWinningRule() {
-        if (this.hasPair()){
-            return "Pair";
-        }
-        let highCard = (this.handArray[0].getValue() > 9) ? this.valueToStringObject[this.handArray[0].getValue()] : this.handArray[0].getValue();
-        return "High Card: " + highCard;
+    private createSortedHandArray(hand: string) {
+        let splitHand = hand.split(" ");
+        this._handArray = splitHand.map((card) => {return new Card(card);});
+        this.sortHandArray();
     }
 
-    private hasPair() {
-        for (let i = 0; i < this.handArray.length - 1; i++){
-            if (this.handArray[i].getValue() === this.handArray[i+1].getValue()){
-                return true;
+    private sortHandArray() {
+        this._handArray.sort((a, b)=> {return b.getValue() - a.getValue()});
+    }
+
+
+    getWinningRule(): string {
+        if (this.hasAStrait()){
+            return "Strait";
+        }
+        if (this.hasFullHouse()){
+            return "Full House";
+        }
+        if (this.hasTwoPair()){
+            return "Two Pair";
+        }
+        return "";
+    }
+
+    private hasAStrait() {
+        let consecutiveNumbers = 1;
+        for (let i = 0; i <  this._handArray.length - 1; i++){
+            if (this.cardValuesAreDecendingByOne(i)){
+                consecutiveNumbers++
             }
         }
+        return consecutiveNumbers === 5;
+    }
+
+    private cardValuesAreDecendingByOne(i: number) {
+        return this._handArray[i].getValue() === this._handArray[i + 1].getValue() + 1;
+    }
+
+    private hasFullHouse() {
+        return this.hasThreeOfAKind() && this.hasAPairWithDifferentValueThanThreeOfAKind();
+    }
+
+    private hasThreeOfAKind() {
+        let sameNumbers = this._handArray.reduce((acc, current)=> {
+            let newSameNumber = (acc.prev === current.getValue()) ? acc.sameNumber + 1 : acc.sameNumber;
+            return {prev: current.getValue(), sameNumber: newSameNumber};
+        }, {prev: 0, sameNumber: 0});
+        this.threeOfAKindValue = this._handArray[2].getValue();
+        return sameNumbers.sameNumber === 3;
+    }
+
+    private hasAPairWithDifferentValueThanThreeOfAKind() {
+        let sameNonThreeOfAKindNumbers = 0;
+        for (let i = 0; i < this._handArray.length - 1; i++){
+            if (this._handArray[i].getValue() === this._handArray[i+1].getValue() && this._handArray[i+1].getValue() !== this.threeOfAKindValue){
+                sameNonThreeOfAKindNumbers++
+            }
+        }
+        return sameNonThreeOfAKindNumbers === 1;
+    }
+
+    private hasTwoPair() {
+        let firstPair: boolean = false;
+        let twoPair: boolean = false;
+        for (let i = 0; i < this._handArray.length - 1; i++){
+            if (this.twoConsecutiveValuesAreTheSame(i) && firstPair === true){
+                twoPair = true;
+            }
+            if (this.twoConsecutiveValuesAreTheSame(i)){
+                firstPair = true;
+            }
+        }
+        return twoPair;
+    }
+
+    private twoConsecutiveValuesAreTheSame(i: number) {
+        return this._handArray[i].getValue() === this._handArray[i + 1].getValue();
     }
 }
