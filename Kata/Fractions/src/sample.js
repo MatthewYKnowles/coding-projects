@@ -8,15 +8,6 @@ var Fraction = (function () {
         var numerator = this._numerator + fraction._numerator;
         return new Fraction(numerator, this._denominator);
     };
-    Fraction.prototype.intValue = function () {
-        return this._numerator;
-    };
-    Fraction.prototype.getNumerator = function () {
-        return this._numerator;
-    };
-    Fraction.prototype.getDenominator = function () {
-        return this._denominator;
-    };
     Fraction.prototype.isEqual = function (object) {
         if (object instanceof Fraction) {
             console.log(object);

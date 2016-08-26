@@ -13,18 +13,6 @@ export class Fraction {
         return new Fraction(numerator, this._denominator);
     }
 
-    intValue() {
-        return this._numerator;
-    }
-
-    getNumerator() {
-        return this._numerator;
-    }
-
-    getDenominator() {
-        return this._denominator;
-    }
-
     isEqual(object: Object) {
         if (object instanceof Fraction) {
             console.log(object);
