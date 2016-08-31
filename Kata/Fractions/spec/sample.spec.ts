@@ -20,7 +20,6 @@ describe("AddFractions", ()=> {
     });
     it("should make sure that it can add with different denominators", ()=> {
         let sum: Fraction = new Fraction(1, 2).plus(new Fraction(1, 3));
-        console.log(sum);
         expect(sum.isEqual(new Fraction(5, 6))).toEqual(true);
     });
 });
@@ -39,5 +38,26 @@ describe("FractionsEqual", ()=> {
     });
     it("should make sure whole number does not equal different whole number", ()=> {
         expect(new Fraction(6).isEqual(new Fraction(5))).toEqual(false);
+    });
+});
+describe("Reduce Fraction Test", ()=> {
+    it("should make sure an unreduceable function stays the way it is", ()=> {
+        expect(new Fraction(3,4).isEqual(new Fraction(3,4))).toEqual(true);
+    });
+    xit("reduce to not whole number", ()=> {
+        expect(new Fraction(3,4).isEqual(new Fraction(6,8))).toEqual(true);
+    });
+});
+describe("Greatest Common Divisor Test", ()=> {
+    it("One and one", ()=> {
+        function gcd(a: number, b: number) {
+            while (b != 0) {
+                let t: number = b;
+                b = a % t;
+                a = t;
+            }
+            return a;
+        }
+        expect(gcd(1,1)).toEqual(1);
     });
 });
