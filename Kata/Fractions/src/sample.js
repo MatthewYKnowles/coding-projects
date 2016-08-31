@@ -3,7 +3,13 @@ var Fraction = (function () {
     function Fraction(numerator, denominator) {
         this._numerator = numerator;
         this._denominator = denominator || 1;
+        this.reduceFraction();
     }
+    Fraction.prototype.reduceFraction = function () {
+        var lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator);
+        this._numerator /= lowestCommonDenominator;
+        this._denominator /= lowestCommonDenominator;
+    };
     Fraction.prototype.plus = function (fraction) {
         if (this._denominator != fraction._denominator) {
             var newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
@@ -23,4 +29,17 @@ var Fraction = (function () {
     return Fraction;
 }());
 exports.Fraction = Fraction;
+var NumberTheory = (function () {
+    function NumberTheory() {
+    }
+    NumberTheory.gcd = function (a, b) {
+        while (b != 0) {
+            var t = b;
+            b = a % t;
+            a = t;
+        }
+        return Math.abs(a);
+    };
+    return NumberTheory;
+}());
 //# sourceMappingURL=sample.js.map

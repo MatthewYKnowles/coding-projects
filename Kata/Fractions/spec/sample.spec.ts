@@ -44,7 +44,7 @@ describe("Reduce Fraction Test", ()=> {
     it("should make sure an unreduceable function stays the way it is", ()=> {
         expect(new Fraction(3,4).isEqual(new Fraction(3,4))).toEqual(true);
     });
-    xit("reduce to not whole number", ()=> {
+    it("reduce to not whole number", ()=> {
         expect(new Fraction(3,4).isEqual(new Fraction(6,8))).toEqual(true);
     });
 });

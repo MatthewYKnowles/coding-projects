@@ -45,7 +45,7 @@ describe("Reduce Fraction Test", function () {
     it("should make sure an unreduceable function stays the way it is", function () {
         expect(new sample_1.Fraction(3, 4).isEqual(new sample_1.Fraction(3, 4))).toEqual(true);
     });
-    xit("reduce to not whole number", function () {
+    it("reduce to not whole number", function () {
         expect(new sample_1.Fraction(3, 4).isEqual(new sample_1.Fraction(6, 8))).toEqual(true);
     });
 });
