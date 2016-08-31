@@ -50,16 +50,36 @@ describe("Reduce Fraction Test", function () {
     });
 });
 describe("Greatest Common Divisor Test", function () {
-    it("One and one", function () {
-        function gcd(a, b) {
-            while (b != 0) {
-                var t = b;
-                b = a % t;
-                a = t;
-            }
-            return a;
+    function gcd(a, b) {
+        while (b != 0) {
+            var t = b;
+            b = a % t;
+            a = t;
         }
+        return a;
+    }
+    it("Reflexive", function () {
         expect(gcd(1, 1)).toEqual(1);
+        expect(gcd(2, 2)).toEqual(2);
+        expect(gcd(-1, -1)).toEqual(-1);
+    });
+    it("Relatively Prime", function () {
+        expect(gcd(2, 3)).toEqual(1);
+        expect(gcd(4, 7)).toEqual(1);
+        expect(gcd(-2, -3)).toEqual(-1);
+    });
+    it("One is multiple of the other", function () {
+        expect(gcd(3, 9)).toEqual(3);
+        expect(gcd(5, 30)).toEqual(5);
+    });
+    it("Common Factor", function () {
+        expect(gcd(6, 8)).toEqual(2);
+        expect(gcd(49, 315)).toEqual(7);
+        expect(gcd(-24, -28)).toEqual(-4);
+    });
+    it("Negatives", function () {
+        expect(gcd(24, -28)).toEqual(-4);
+        expect(gcd(-24, 28)).toEqual(4);
     });
 });
 //# sourceMappingURL=sample.spec.js.map
