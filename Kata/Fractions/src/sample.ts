@@ -13,7 +13,7 @@ export class Fraction {
         this._numerator /= lowestCommonDenominator;
         this._denominator /= lowestCommonDenominator;
     }
-    
+
     plus(fraction: Fraction) {
         if (this._denominator != fraction._denominator) {
             let newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;

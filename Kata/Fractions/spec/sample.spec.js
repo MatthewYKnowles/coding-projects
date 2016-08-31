@@ -23,6 +23,10 @@ describe("AddFractions", function () {
         var sum = new sample_1.Fraction(1, 2).plus(new sample_1.Fraction(1, 3));
         expect(sum.isEqual(new sample_1.Fraction(5, 6))).toEqual(true);
     });
+    it("should make sure that it can add and reduce to whole number", function () {
+        var sum = new sample_1.Fraction(1, 3).plus(new sample_1.Fraction(2, 3));
+        expect(sum.isEqual(new sample_1.Fraction(1))).toEqual(true);
+    });
 });
 describe("FractionsEqual", function () {
     it("should make sure equal fractions are equal", function () {
@@ -47,6 +51,12 @@ describe("Reduce Fraction Test", function () {
     });
     it("reduce to not whole number", function () {
         expect(new sample_1.Fraction(3, 4).isEqual(new sample_1.Fraction(6, 8))).toEqual(true);
+    });
+    it("reduce to whole number", function () {
+        expect(new sample_1.Fraction(6).isEqual(new sample_1.Fraction(24, 4))).toEqual(true);
+    });
+    it("reduce zero", function () {
+        expect(new sample_1.Fraction(0).isEqual(new sample_1.Fraction(0, 4))).toEqual(true);
     });
 });
 describe("Greatest Common Divisor Test", function () {

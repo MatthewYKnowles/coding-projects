@@ -22,6 +22,10 @@ describe("AddFractions", ()=> {
         let sum: Fraction = new Fraction(1, 2).plus(new Fraction(1, 3));
         expect(sum.isEqual(new Fraction(5, 6))).toEqual(true);
     });
+    it("should make sure that it can add and reduce to whole number", ()=> {
+        let sum: Fraction = new Fraction(1, 3).plus(new Fraction(2, 3));
+        expect(sum.isEqual(new Fraction(1))).toEqual(true);
+    });
 });
 describe("FractionsEqual", ()=> {
     it("should make sure equal fractions are equal", ()=> {
@@ -46,6 +50,12 @@ describe("Reduce Fraction Test", ()=> {
     });
     it("reduce to not whole number", ()=> {
         expect(new Fraction(3,4).isEqual(new Fraction(6,8))).toEqual(true);
+    });
+    it("reduce to whole number", ()=> {
+        expect(new Fraction(6).isEqual(new Fraction(24,4))).toEqual(true);
+    });
+    it("reduce zero", ()=> {
+        expect(new Fraction(0).isEqual(new Fraction(0,4))).toEqual(true);
     });
 });
 describe("Greatest Common Divisor Test", ()=> {
