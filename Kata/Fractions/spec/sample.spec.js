@@ -21,6 +21,7 @@ describe("AddFractions", function () {
     });
     it("should make sure that it can add with different denominators", function () {
         var sum = new sample_1.Fraction(1, 2).plus(new sample_1.Fraction(1, 3));
+        console.log(sum);
         expect(sum.isEqual(new sample_1.Fraction(5, 6))).toEqual(true);
     });
 });

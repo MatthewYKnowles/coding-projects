@@ -20,6 +20,7 @@ describe("AddFractions", ()=> {
     });
     it("should make sure that it can add with different denominators", ()=> {
         let sum: Fraction = new Fraction(1, 2).plus(new Fraction(1, 3));
+        console.log(sum);
         expect(sum.isEqual(new Fraction(5, 6))).toEqual(true);
     });
 });
