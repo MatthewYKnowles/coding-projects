@@ -12,13 +12,9 @@ var Fraction = (function () {
         this._denominator /= lowestCommonDenominator;
     };
     Fraction.prototype.plus = function (fraction) {
-        if (this._denominator != fraction._denominator) {
-            var newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
-            var newDenominator = this._denominator * fraction._denominator;
-            return new Fraction(newNumerator, newDenominator);
-        }
-        var numerator = this._numerator + fraction._numerator;
-        return new Fraction(numerator, this._denominator);
+        var newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
+        var newDenominator = this._denominator * fraction._denominator;
+        return new Fraction(newNumerator, newDenominator);
     };
     Fraction.prototype.isEqual = function (object) {
         if (object instanceof Fraction) {

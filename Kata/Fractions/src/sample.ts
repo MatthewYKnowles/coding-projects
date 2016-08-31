@@ -16,13 +16,9 @@ export class Fraction {
     }
 
     plus(fraction: Fraction) {
-        if (this._denominator != fraction._denominator) {
-            let newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
-            var newDenominator = this._denominator * fraction._denominator;
-            return new Fraction(newNumerator, newDenominator);
-        }
-        let numerator = this._numerator + fraction._numerator;
-        return new Fraction(numerator, this._denominator);
+        let newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
+        var newDenominator = this._denominator * fraction._denominator;
+        return new Fraction(newNumerator, newDenominator);
     }
 
     isEqual(object: Object) {

@@ -43,8 +43,8 @@ describe("AddFractions", function () {
         var sum = new sample_1.Fraction(-1, 4).plus(new sample_1.Fraction(3, 4));
         expect(sum.isEqual(new sample_1.Fraction(1, 2))).toEqual(true);
     });
-    xit("reduce when fractions have a lot of negatives", function () {
-        var sum = new sample_1.Fraction(-1, 4).plus(new sample_1.Fraction(3, 4));
+    it("reduce when fractions have a lot of negatives", function () {
+        var sum = new sample_1.Fraction(1, -4).plus(new sample_1.Fraction(-3, -4));
         expect(sum.isEqual(new sample_1.Fraction(1, 2))).toEqual(true);
     });
 });
@@ -116,6 +116,11 @@ describe("Greatest Common Divisor Test", function () {
     it("Negatives", function () {
         expect(gcd(24, -28)).toEqual(4);
         expect(gcd(-24, 28)).toEqual(4);
+    });
+    it("Zero", function () {
+        expect(gcd(1, 0)).toEqual(1);
+        expect(gcd(0, 5)).toEqual(5);
+        expect(gcd(0, 0)).toEqual(0);
     });
 });
 //# sourceMappingURL=sample.spec.js.map
