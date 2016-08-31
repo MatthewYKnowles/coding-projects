@@ -27,6 +27,26 @@ describe("AddFractions", function () {
         var sum = new sample_1.Fraction(1, 3).plus(new sample_1.Fraction(2, 3));
         expect(sum.isEqual(new sample_1.Fraction(1))).toEqual(true);
     });
+    it("should make sure that it can add and reduce to a fraction", function () {
+        var sum = new sample_1.Fraction(5, 8).plus(new sample_1.Fraction(3, 4));
+        expect(sum.isEqual(new sample_1.Fraction(11, 8))).toEqual(true);
+    });
+    it("should make sure that it can add and reduce to a fraction different denominators", function () {
+        var sum = new sample_1.Fraction(1, 6).plus(new sample_1.Fraction(4, 9));
+        expect(sum.isEqual(new sample_1.Fraction(11, 18))).toEqual(true);
+    });
+    it("reduce when fractions are the same", function () {
+        var sum = new sample_1.Fraction(3, 4).plus(new sample_1.Fraction(3, 4));
+        expect(sum.isEqual(new sample_1.Fraction(3, 2))).toEqual(true);
+    });
+    it("reduce when fractions have negatives", function () {
+        var sum = new sample_1.Fraction(-1, 4).plus(new sample_1.Fraction(3, 4));
+        expect(sum.isEqual(new sample_1.Fraction(1, 2))).toEqual(true);
+    });
+    xit("reduce when fractions have a lot of negatives", function () {
+        var sum = new sample_1.Fraction(-1, 4).plus(new sample_1.Fraction(3, 4));
+        expect(sum.isEqual(new sample_1.Fraction(1, 2))).toEqual(true);
+    });
 });
 describe("FractionsEqual", function () {
     it("should make sure equal fractions are equal", function () {
@@ -43,6 +63,12 @@ describe("FractionsEqual", function () {
     });
     it("should make sure whole number does not equal different whole number", function () {
         expect(new sample_1.Fraction(6).isEqual(new sample_1.Fraction(5))).toEqual(false);
+    });
+    it("provide equals through negative", function () {
+        expect(new sample_1.Fraction(1, 2).isEqual(new sample_1.Fraction(-1, -2))).toEqual(true);
+    });
+    it("provide equals switching negative still equal", function () {
+        expect(new sample_1.Fraction(-1, 2).isEqual(new sample_1.Fraction(1, -2))).toEqual(true);
     });
 });
 describe("Reduce Fraction Test", function () {

@@ -6,7 +6,8 @@ var Fraction = (function () {
         this.reduceFraction();
     }
     Fraction.prototype.reduceFraction = function () {
-        var lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator);
+        var signOfDenominator = this._denominator < 0 ? -1 : 1;
+        var lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
         this._numerator /= lowestCommonDenominator;
         this._denominator /= lowestCommonDenominator;
     };

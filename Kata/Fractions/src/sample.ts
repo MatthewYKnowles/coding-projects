@@ -9,7 +9,8 @@ export class Fraction {
     }
 
     private reduceFraction() {
-        let lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator);
+        let signOfDenominator: number = this._denominator < 0 ? -1 : 1;
+        let lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
         this._numerator /= lowestCommonDenominator;
         this._denominator /= lowestCommonDenominator;
     }

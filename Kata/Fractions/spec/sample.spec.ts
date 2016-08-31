@@ -26,6 +26,26 @@ describe("AddFractions", ()=> {
         let sum: Fraction = new Fraction(1, 3).plus(new Fraction(2, 3));
         expect(sum.isEqual(new Fraction(1))).toEqual(true);
     });
+    it("should make sure that it can add and reduce to a fraction", ()=> {
+        let sum: Fraction = new Fraction(5, 8).plus(new Fraction(3, 4));
+        expect(sum.isEqual(new Fraction(11, 8))).toEqual(true);
+    });
+    it("should make sure that it can add and reduce to a fraction different denominators", ()=> {
+        let sum: Fraction = new Fraction(1, 6).plus(new Fraction(4, 9));
+        expect(sum.isEqual(new Fraction(11, 18))).toEqual(true);
+    });
+    it("reduce when fractions are the same", ()=> {
+        let sum: Fraction = new Fraction(3, 4).plus(new Fraction(3, 4));
+        expect(sum.isEqual(new Fraction(3, 2))).toEqual(true);
+    });
+    it("reduce when fractions have negatives", ()=> {
+        let sum: Fraction = new Fraction(-1, 4).plus(new Fraction(3, 4));
+        expect(sum.isEqual(new Fraction(1, 2))).toEqual(true);
+    });
+    xit("reduce when fractions have a lot of negatives", ()=> {
+        let sum: Fraction = new Fraction(-1, 4).plus(new Fraction(3, 4));
+        expect(sum.isEqual(new Fraction(1, 2))).toEqual(true);
+    });
 });
 describe("FractionsEqual", ()=> {
     it("should make sure equal fractions are equal", ()=> {
@@ -42,6 +62,12 @@ describe("FractionsEqual", ()=> {
     });
     it("should make sure whole number does not equal different whole number", ()=> {
         expect(new Fraction(6).isEqual(new Fraction(5))).toEqual(false);
+    });
+    it("provide equals through negative", ()=> {
+        expect(new Fraction(1, 2).isEqual(new Fraction(-1, -2))).toEqual(true);
+    });
+    it("provide equals switching negative still equal", ()=> {
+        expect(new Fraction(-1, 2).isEqual(new Fraction(1, -2))).toEqual(true);
     });
 });
 describe("Reduce Fraction Test", ()=> {
