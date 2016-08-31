@@ -55,17 +55,17 @@ describe("Greatest Common Divisor Test", ()=> {
             b = a % t;
             a = t;
         }
-        return a;
+        return Math.abs(a);
     }
     it("Reflexive", ()=> {
         expect(gcd(1,1)).toEqual(1);
         expect(gcd(2,2)).toEqual(2);
-        expect(gcd(-1,-1)).toEqual(-1);
+        expect(gcd(-1,-1)).toEqual(1);
     });
     it("Relatively Prime", ()=> {
         expect(gcd(2,3)).toEqual(1);
         expect(gcd(4,7)).toEqual(1);
-        expect(gcd(-2,-3)).toEqual(-1);
+        expect(gcd(-2,-3)).toEqual(1);
     });
     it("One is multiple of the other", ()=> {
         expect(gcd(3,9)).toEqual(3);
@@ -74,10 +74,10 @@ describe("Greatest Common Divisor Test", ()=> {
     it("Common Factor", ()=> {
         expect(gcd(6,8)).toEqual(2);
         expect(gcd(49,315)).toEqual(7);
-        expect(gcd(-24,-28)).toEqual(-4);
+        expect(gcd(-24,-28)).toEqual(4);
     });
     it("Negatives", ()=> {
-        expect(gcd(24,-28)).toEqual(-4);
+        expect(gcd(24,-28)).toEqual(4);
         expect(gcd(-24,28)).toEqual(4);
     });
 });
