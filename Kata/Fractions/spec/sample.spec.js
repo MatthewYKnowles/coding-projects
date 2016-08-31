@@ -19,9 +19,9 @@ describe("AddFractions", function () {
     it("should return positive 2 for negative 3 + positive 1", function () {
         checkAddFractionsAsIntegers(-3, 2, -1);
     });
-    it("should return non trivia denominator", function () {
-        var sum = new sample_1.Fraction(1, 5).plus(new sample_1.Fraction(2, 5));
-        expect(sum.isEqual(new sample_1.Fraction(5))).toEqual(false);
+    it("should make sure that it can add with different denominators", function () {
+        var sum = new sample_1.Fraction(1, 2).plus(new sample_1.Fraction(1, 3));
+        expect(sum.isEqual(new sample_1.Fraction(5, 6))).toEqual(true);
     });
 });
 describe("FractionsEqual", function () {
