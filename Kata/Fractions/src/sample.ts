@@ -8,13 +8,6 @@ export class Fraction {
         this.reduceFraction();
     }
 
-    private reduceFraction() {
-        let signOfDenominator: number = this._denominator < 0 ? -1 : 1;
-        let lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
-        this._numerator /= lowestCommonDenominator;
-        this._denominator /= lowestCommonDenominator;
-    }
-
     plus(fraction: Fraction) {
         let newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
         var newDenominator = this._denominator * fraction._denominator;
@@ -27,6 +20,13 @@ export class Fraction {
                 && this._denominator === object._denominator;
         }
         return false;
+    }
+
+    private reduceFraction() {
+        let signOfDenominator: number = this._denominator < 0 ? -1 : 1;
+        let lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
+        this._numerator /= lowestCommonDenominator;
+        this._denominator /= lowestCommonDenominator;
     }
 }
 

@@ -5,12 +5,6 @@ var Fraction = (function () {
         this._denominator = denominator || 1;
         this.reduceFraction();
     }
-    Fraction.prototype.reduceFraction = function () {
-        var signOfDenominator = this._denominator < 0 ? -1 : 1;
-        var lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
-        this._numerator /= lowestCommonDenominator;
-        this._denominator /= lowestCommonDenominator;
-    };
     Fraction.prototype.plus = function (fraction) {
         var newNumerator = this._numerator * fraction._denominator + this._denominator * fraction._numerator;
         var newDenominator = this._denominator * fraction._denominator;
@@ -22,6 +16,12 @@ var Fraction = (function () {
                 && this._denominator === object._denominator;
         }
         return false;
+    };
+    Fraction.prototype.reduceFraction = function () {
+        var signOfDenominator = this._denominator < 0 ? -1 : 1;
+        var lowestCommonDenominator = NumberTheory.gcd(this._numerator, this._denominator) * signOfDenominator;
+        this._numerator /= lowestCommonDenominator;
+        this._denominator /= lowestCommonDenominator;
     };
     return Fraction;
 }());
