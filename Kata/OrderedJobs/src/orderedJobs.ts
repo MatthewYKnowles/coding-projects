@@ -1,43 +1,37 @@
 export class OrderedJobs {
+    orderedJobs: string = "";
 
     orderJobs(jobs: string): string {
         let orderedJobs: string = "";
         if (jobs === ""){return orderedJobs;}
         let unusedJobs = [];
         let splitJobs: any = jobs.split("\n");
-        for (let i = 0; i < splitJobs.length; i++){
-            if (this.hasDependency(splitJobs[i])) {
-                this.settleDependency(orderedJobs, splitJobs[i], unusedJobs);
-            } else {
-                orderedJobs += splitJobs[i][0];
+        splitJobs.map(function(job){
+            if (job.length > 5){
+                unusedJobs.push(job);
             }
-        }
+            else {
+                orderedJobs += job[0];
+            }
+        });
         splitJobs = unusedJobs;
-        console.log(splitJobs);
-        if (unusedJobs.length > 0) {
-            for (let i = 0; i < splitJobs.length; i++){
-                if (!this.alreadyHasDependency(orderedJobs, splitJobs[i])) {
-                    unusedJobs.push(splitJobs[i]);
+        unusedJobs = [];
+        while (splitJobs.length > 0) {
+            let jobsLeft = splitJobs.length;
+            splitJobs.map(function(job) {
+                if (orderedJobs.indexOf(job[5]) >= 0){
+                    orderedJobs += job[0];
                 } else {
-                    orderedJobs += splitJobs[i][0];
+                    unusedJobs.push(job);
                 }
+            });
+            splitJobs = unusedJobs;
+            if (splitJobs.length === jobsLeft){
+                return "error";
             }
+            unusedJobs = [];
         }
         return orderedJobs;
     }
 
-    private settleDependency(orderedJobs: string, splitJob, unusedJobs: Array) {
-        if (!this.alreadyHasDependency(orderedJobs, splitJob)) {
-            unusedJobs.push(splitJob);
-        }
-    }
-
-    private hasDependency(splitJobs: string) {
-        return splitJobs.length > 5;
-    }
-
-    private alreadyHasDependency(orderedJobs: string, splitJob: string) {
-        console.log(orderedJobs.indexOf(splitJob[5]) + " " + splitJob[5]);
-        return orderedJobs.indexOf(splitJob[5]) >= 0;
-    }
 }

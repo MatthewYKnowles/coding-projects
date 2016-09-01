@@ -29,5 +29,17 @@ describe("Ordered Jobs", function () {
         var orderedJobs = new orderedJobs_1.OrderedJobs();
         expect(orderedJobs.orderJobs("a => b\nb => c\nc =>")).toEqual("cba");
     });
+    it("should return correct order with two dependencies must iterate twice", function () {
+        var orderedJobs = new orderedJobs_1.OrderedJobs();
+        expect(orderedJobs.orderJobs("a => c\nb => a\nc =>")).toEqual("cab");
+    });
+    it("should return correct order 6 jobs and multiple dependencies", function () {
+        var orderedJobs = new orderedJobs_1.OrderedJobs();
+        expect(orderedJobs.orderJobs("a =>\nb => c\nc => f\nd => a\ne => b\nf =>")).toEqual("afcdbe");
+    });
+    it("should return error saying can't have circle dependencies", function () {
+        var orderedJobs = new orderedJobs_1.OrderedJobs();
+        expect(orderedJobs.orderJobs("a =>\nb => c\nc => f\nd => a\ne => b\nf => b")).toEqual("error");
+    });
 });
 //# sourceMappingURL=orderedJobs.spec.js.map
