@@ -11,12 +11,13 @@ var OrderedJobs = (function () {
         var splitJobs = jobs.split("\n");
         for (var i = 0; i < splitJobs.length; i++) {
             if (this.hasDependency(splitJobs[i])) {
-                this.settleDependency(orderedJobs, splitJobs, i, unusedJobs);
+                this.settleDependency(orderedJobs, splitJobs[i], unusedJobs);
             }
             else {
                 orderedJobs += splitJobs[i][0];
             }
         }
+        console.log(unusedJobs);
         if (unusedJobs.length > 0) {
             for (var i = 0; i < unusedJobs.length; i++) {
                 orderedJobs += unusedJobs[i][0];
@@ -24,12 +25,12 @@ var OrderedJobs = (function () {
         }
         return orderedJobs;
     };
-    OrderedJobs.prototype.settleDependency = function (orderedJobs, splitJobs, i, unusedJobs) {
-        if (this.alreadyHasDependency(orderedJobs, splitJobs[i])) {
-            orderedJobs += splitJobs[i][0];
+    OrderedJobs.prototype.settleDependency = function (orderedJobs, splitJob, unusedJobs) {
+        if (this.alreadyHasDependency(orderedJobs, splitJob)) {
+            orderedJobs += splitJob[0];
         }
         else {
-            unusedJobs.push(splitJobs[i]);
+            unusedJobs.push(splitJob);
         }
         return orderedJobs;
     };

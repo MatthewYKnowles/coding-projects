@@ -7,11 +7,12 @@ export class OrderedJobs {
         let splitJobs: any = jobs.split("\n");
         for (let i = 0; i < splitJobs.length; i++){
             if (this.hasDependency(splitJobs[i])) {
-                this.settleDependency(orderedJobs, splitJobs, i, unusedJobs);
+                this.settleDependency(orderedJobs, splitJobs[i], unusedJobs);
             } else {
                 orderedJobs += splitJobs[i][0];
             }
         }
+        console.log(unusedJobs);
         if (unusedJobs.length > 0) {
             for (let i = 0; i < unusedJobs.length; i++){
                 orderedJobs += unusedJobs[i][0];
@@ -20,11 +21,11 @@ export class OrderedJobs {
         return orderedJobs;
     }
 
-    private settleDependency(orderedJobs: string, splitJobs: any, i: number, unusedJobs: Array) {
-        if (this.alreadyHasDependency(orderedJobs, splitJobs[i])) {
-            orderedJobs += splitJobs[i][0];
+    private settleDependency(orderedJobs: string, splitJob, unusedJobs: Array) {
+        if (this.alreadyHasDependency(orderedJobs, splitJob)) {
+            orderedJobs += splitJob[0];
         } else {
-            unusedJobs.push(splitJobs[i]);
+            unusedJobs.push(splitJob);
         }
         return orderedJobs;
     }
