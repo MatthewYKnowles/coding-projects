@@ -16,6 +16,7 @@ var Hand = (function () {
     function Hand(hand) {
         this.handArray = [];
         this.valueToStringObject = { 10: "Ten", 11: "Jack", 12: "Queen", 13: "King", 14: "Ace" };
+        this.winningRule = "";
         this.hand = hand.split(" ");
         for (var i = 0; i < this.hand.length; i++) {
             this.handArray.push(new Card(this.hand[i]));
@@ -23,16 +24,29 @@ var Hand = (function () {
         this.handArray.sort(function (a, b) { return b.getValue() - a.getValue(); });
     }
     Hand.prototype.getWinningRule = function () {
-        if (this.hasPair()) {
-            return "Pair";
+        this.threeOfAKindWins();
+        if (this.winningRule === "") {
+            this.pairWins();
         }
-        var highCard = (this.handArray[0].getValue() > 9) ? this.valueToStringObject[this.handArray[0].getValue()] : this.handArray[0].getValue();
-        return "High Card: " + highCard;
+        if (this.winningRule === "") {
+            this.highCardWins();
+        }
+        return this.winningRule;
     };
-    Hand.prototype.hasPair = function () {
+    Hand.prototype.highCardWins = function () {
+        this.winningRule = "High Card: " + ((this.handArray[0].getValue() > 9) ? this.valueToStringObject[this.handArray[0].getValue()] : this.handArray[0].getValue());
+    };
+    Hand.prototype.threeOfAKindWins = function () {
+        for (var i = 0; i < this.handArray.length - 2; i++) {
+            if (this.handArray[i].getValue() === this.handArray[i + 1].getValue() && this.handArray[i].getValue() === this.handArray[i + 2].getValue()) {
+                this.winningRule = "Three of a Kind";
+            }
+        }
+    };
+    Hand.prototype.pairWins = function () {
         for (var i = 0; i < this.handArray.length - 1; i++) {
             if (this.handArray[i].getValue() === this.handArray[i + 1].getValue()) {
-                return true;
+                this.winningRule = "Pair";
             }
         }
     };

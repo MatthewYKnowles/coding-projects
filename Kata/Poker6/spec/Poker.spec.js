@@ -55,5 +55,9 @@ describe("Hand", function () {
         var hand = new Poker_1.Hand("7C 6D 6C QD AS");
         expect(hand.getWinningRule()).toEqual("Pair");
     });
+    it("should return three of a kind", function () {
+        var hand = new Poker_1.Hand("7C 6D 6C 6D AS");
+        expect(hand.getWinningRule()).toEqual("Three of a Kind");
+    });
 });
 //# sourceMappingURL=Poker.spec.js.map

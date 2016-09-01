@@ -54,4 +54,8 @@ describe("Hand", ()=> {
        let hand: Hand = new Hand("7C 6D 6C QD AS");
        expect(hand.getWinningRule()).toEqual("Pair");
    });
+   it("should return three of a kind", ()=> {
+       let hand: Hand = new Hand("7C 6D 6C 6D AS");
+       expect(hand.getWinningRule()).toEqual("Three of a Kind");
+   });
 });
