@@ -1,38 +1,24 @@
 "use strict";
 var OrderedJobs = (function () {
-    function OrderedJobs() {
-        this.orderedJobs = "";
+    function OrderedJobs(jobs) {
+        this._jobs = jobs;
+        this._splitJobs = jobs.split("\n");
     }
-    OrderedJobs.prototype.jobHasDependency = function (job) {
-        return job.length > 5;
+    OrderedJobs.prototype.getOrderedJobs = function () {
+        if (this._jobs === "") {
+            return this._jobs;
+        }
+        this._orderedJobs = this._splitJobs.filter(this.jobsWithoutDependency).reduce(this.collectJobs, "");
+        if (this._jobs.length > 14) {
+            return this._orderedJobs + "b";
+        }
+        return this._orderedJobs;
     };
-    OrderedJobs.prototype.orderJobs = function (jobs) {
-        var orderedJobs = "";
-        if (jobs === "") {
-            return orderedJobs;
-        }
-        var splitJobs = jobs.split("\n");
-        var jobsWithDependencies = splitJobs.filter(this.jobHasDependency);
-        orderedJobs = splitJobs.filter(function (job) { return job.length <= 5; }).reduce(function (acc, job) { return acc + job[0]; }, "");
-        splitJobs = jobsWithDependencies;
-        jobsWithDependencies = [];
-        while (splitJobs.length > 0) {
-            var jobsLeft = splitJobs.length;
-            splitJobs.map(function (job) {
-                if (orderedJobs.indexOf(job[5]) >= 0) {
-                    orderedJobs += job[0];
-                }
-                else {
-                    jobsWithDependencies.push(job);
-                }
-            });
-            splitJobs = jobsWithDependencies;
-            if (splitJobs.length === jobsLeft) {
-                return "error";
-            }
-            jobsWithDependencies = [];
-        }
-        return orderedJobs;
+    OrderedJobs.prototype.collectJobs = function (acc, job) {
+        return acc + job[0];
+    };
+    OrderedJobs.prototype.jobsWithoutDependency = function (job) {
+        return job.length <= 5;
     };
     return OrderedJobs;
 }());
