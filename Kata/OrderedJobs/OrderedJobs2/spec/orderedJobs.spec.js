@@ -21,5 +21,9 @@ describe("Ordered Jobs", function () {
         var orderedJobs = new orderedJobs_1.OrderedJobs("a =>\nb => c\nc =>");
         expect(orderedJobs.getOrderedJobs()).toEqual("acb");
     });
+    it("should work with multiple dependencies", function () {
+        var orderedJobs = new orderedJobs_1.OrderedJobs("a =>\nb => c\nc => f\nd => a\ne => b\nf =>");
+        expect(orderedJobs.getOrderedJobs()).toEqual("afcdbe");
+    });
 });
 //# sourceMappingURL=orderedJobs.spec.js.map
