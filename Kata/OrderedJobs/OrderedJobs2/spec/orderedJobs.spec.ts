@@ -25,4 +25,12 @@ describe("Ordered Jobs", ()=> {
         let orderedJobs: OrderedJobs = new OrderedJobs("a =>\nb => c\nc => f\nd => a\ne => b\nf =>");
         expect(orderedJobs.getOrderedJobs()).toEqual("afcdbe")
     });
+    it("should return error when job dependency is itself", ()=> {
+        let orderedJobs: OrderedJobs = new OrderedJobs("a =>\nb =>\nc => c");
+        expect(()=> {orderedJobs.getOrderedJobs()}).toThrow(new Error("job references self"))
+    });
+    it("should return error when dependencies are in a circle", ()=> {
+        let orderedJobs: OrderedJobs = new OrderedJobs("a =>\nb => c\nc => f\nd => a\ne =>\nf => b");
+        expect(()=> {orderedJobs.getOrderedJobs()}).toThrow()
+    });
 });
