@@ -16,7 +16,10 @@ var Sale = (function () {
         this._display = display;
     }
     Sale.prototype.onBarcode = function (barcode) {
-        if (barcode === "12345") {
+        if (barcode === "") {
+            this._display.setText("Scanning error: empty barcode");
+        }
+        else if (barcode === "12345") {
             this._display.setText("$7.95");
         }
         else if (barcode === "23456") {

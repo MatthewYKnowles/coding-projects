@@ -17,7 +17,10 @@ export class Sale {
         this._display = display;
     }
     onBarcode(barcode: string) {
-        if (barcode === "12345"){
+        if (barcode === ""){
+            this._display.setText("Scanning error: empty barcode");
+        }
+        else if (barcode === "12345"){
             this._display.setText("$7.95");
         }
         else if (barcode === "23456") {

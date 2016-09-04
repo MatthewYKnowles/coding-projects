@@ -19,5 +19,11 @@ describe("Sell One Item", function () {
         sale.onBarcode("99999");
         expect(display.getText()).toBe("Product not found for 99999");
     });
+    it("should show empty barcode when no barcode passed in", function () {
+        var display = new pos_1.Display();
+        var sale = new pos_1.Sale(display);
+        sale.onBarcode("");
+        expect(display.getText()).toBe("Scanning error: empty barcode");
+    });
 });
 //# sourceMappingURL=pos.spec.js.map
