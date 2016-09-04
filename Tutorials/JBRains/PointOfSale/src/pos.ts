@@ -21,11 +21,8 @@ export class Sale {
         if (barcode === ""){
             this._display.setText("Scanning error: empty barcode");
         }
-        else if (barcode === "12345"){
-            this._display.setText(pricesByBarcode["12345"]);
-        }
-        else if (barcode === "23456") {
-            this._display.setText(pricesByBarcode["23456"]);
+        else if (pricesByBarcode.hasOwnProperty(barcode)){
+            this._display.setText(pricesByBarcode[barcode]);
         }
         else {
             this._display.setText("Product not found for " + barcode);
