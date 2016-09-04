@@ -23,7 +23,7 @@ var Sale = (function () {
             this._display.setText("$12.50");
         }
         else {
-            this._display.setText("Product not found for 99999");
+            this._display.setText("Product not found for " + barcode);
         }
     };
     return Sale;
