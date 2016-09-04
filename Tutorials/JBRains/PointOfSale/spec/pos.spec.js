@@ -13,5 +13,11 @@ describe("Sell One Item", function () {
         sale.onBarcode("23456");
         expect(display.getText()).toBe("$12.50");
     });
+    it("should show product not found", function () {
+        var display = new pos_1.Display();
+        var sale = new pos_1.Sale(display);
+        sale.onBarcode("99999");
+        expect(display.getText()).toBe("Product not found for 99999");
+    });
 });
 //# sourceMappingURL=pos.spec.js.map

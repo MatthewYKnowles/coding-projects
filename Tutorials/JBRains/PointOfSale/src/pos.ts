@@ -23,5 +23,8 @@ export class Sale {
         else if (barcode === "23456") {
             this._display.setText("$12.50");
         }
+        else {
+            this._display.setText("Product not found for 99999");
+        }
     }
 }
