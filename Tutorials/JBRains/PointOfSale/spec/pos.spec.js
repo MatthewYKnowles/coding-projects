@@ -7,7 +7,7 @@ describe("Sell One Item", function () {
         sale.onBarcode("12345");
         expect(display.getText()).toBe("$7.95");
     });
-    xit("should find another product", function () {
+    it("should find another product", function () {
         var display = new pos_1.Display();
         var sale = new pos_1.Sale(display);
         sale.onBarcode("23456");

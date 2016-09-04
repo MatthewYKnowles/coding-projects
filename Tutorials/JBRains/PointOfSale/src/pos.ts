@@ -17,6 +17,10 @@ export class Sale {
         this._display = display;
     }
     onBarcode(barcode: string) {
-        this._display.setText("$7.95")
+        if (barcode === "12345"){
+            this._display.setText("$7.95");
+        } else {
+            this._display.setText("$12.50");
+        }
     }
 }

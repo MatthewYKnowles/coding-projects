@@ -16,7 +16,12 @@ var Sale = (function () {
         this._display = display;
     }
     Sale.prototype.onBarcode = function (barcode) {
-        this._display.setText("$7.95");
+        if (barcode === "12345") {
+            this._display.setText("$7.95");
+        }
+        else {
+            this._display.setText("$12.50");
+        }
     };
     return Sale;
 }());
