@@ -1,12 +1,19 @@
 "use strict";
-var Sample = (function () {
-    function Sample() {
+var Sale = (function () {
+    function Sale() {
     }
-    Sample.prototype.true = function () {
-        var x = null;
-        return x.sort;
+    Sale.prototype.onBarcode = function (barcode) {
     };
-    return Sample;
+    return Sale;
 }());
-exports.Sample = Sample;
-//# sourceMappingURL=sample.js.map
+exports.Sale = Sale;
+var Display = (function () {
+    function Display() {
+    }
+    Display.prototype.getText = function () {
+        return "$7.95";
+    };
+    return Display;
+}());
+exports.Display = Display;
+//# sourceMappingURL=pos.js.map

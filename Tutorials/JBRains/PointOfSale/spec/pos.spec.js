@@ -1,12 +1,11 @@
 "use strict";
-var sample_1 = require("../src/sample");
-describe("function name", function () {
-    it("should return true", function () {
-        expect(true).toBe(true);
-    });
-    it("should return true", function () {
-        var sample = new sample_1.Sample();
-        expect(sample.true()).toBe(true);
+var pos_1 = require("../src/pos");
+describe("Sell One Item", function () {
+    it("should find the product", function () {
+        var display = new pos_1.Display();
+        var sale = new pos_1.Sale();
+        sale.onBarcode("12345");
+        expect(display.getText()).toBe("$7.95");
     });
 });
-//# sourceMappingURL=sample.spec.js.map
+//# sourceMappingURL=pos.spec.js.map

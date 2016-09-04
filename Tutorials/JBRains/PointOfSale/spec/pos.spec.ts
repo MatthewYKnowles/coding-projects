@@ -1,10 +1,9 @@
-import {Sample} from "../src/sample"
-describe("function name", ()=> {
-    it("should return true", ()=> {
-        expect(true).toBe(true);
-    });
-    it("should return true", ()=> {
-        let sample: Sample = new Sample();
-        expect(sample.true()).toBe(true);
+import {Display, Sale} from "../src/pos";
+describe("Sell One Item", ()=> {
+    it("should find the product", ()=> {
+        let display: Display = new Display();
+        let sale: Sale = new Sale();
+        sale.onBarcode("12345");
+        expect(display.getText()).toBe("$7.95");
     });
 });
