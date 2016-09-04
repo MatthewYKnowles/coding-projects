@@ -1,13 +1,22 @@
-export class Sale {
+export class Display {
 
-    onBarcode(barcode: string) {
+    private _text: string;
 
+    getText(): string {
+        return this._text;
+    }
+    setText(text: string): void {
+        this._text = text;
     }
 }
 
-export class Display {
+export class Sale {
+    private _display: Display;
 
-    getText(): string {
-        return "$7.95";
+    constructor(display) {
+        this._display = display;
+    }
+    onBarcode(barcode: string) {
+        this._display.setText("$7.95")
     }
 }
