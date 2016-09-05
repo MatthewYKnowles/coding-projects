@@ -20,14 +20,22 @@ export class Sale {
     }
     onBarcode(barcode: string) {
         if (barcode === ""){
-            this._display.setText("Scanning error: empty barcode");
+            this.displayEmptyBarcodeMessage();
             return;
         }
         if (this._pricesByBarcode.hasOwnProperty(barcode)){
             this._display.setText(this._pricesByBarcode[barcode]);
         }
         else {
-            this._display.setText("Product not found for " + barcode);
+            this.displayProductNotFoundMessage(barcode);
         }
+    }
+
+    private displayProductNotFoundMessage(barcode: string) {
+        this._display.setText("Product not found for " + barcode);
+    }
+
+    private displayEmptyBarcodeMessage() {
+        this._display.setText("Scanning error: empty barcode");
     }
 }

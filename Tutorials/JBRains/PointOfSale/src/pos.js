@@ -18,15 +18,21 @@ var Sale = (function () {
     }
     Sale.prototype.onBarcode = function (barcode) {
         if (barcode === "") {
-            this._display.setText("Scanning error: empty barcode");
+            this.displayEmptyBarcodeMessage();
             return;
         }
         if (this._pricesByBarcode.hasOwnProperty(barcode)) {
             this._display.setText(this._pricesByBarcode[barcode]);
         }
         else {
-            this._display.setText("Product not found for " + barcode);
+            this.displayProductNotFoundMessage(barcode);
         }
+    };
+    Sale.prototype.displayProductNotFoundMessage = function (barcode) {
+        this._display.setText("Product not found for " + barcode);
+    };
+    Sale.prototype.displayEmptyBarcodeMessage = function () {
+        this._display.setText("Scanning error: empty barcode");
     };
     return Sale;
 }());
