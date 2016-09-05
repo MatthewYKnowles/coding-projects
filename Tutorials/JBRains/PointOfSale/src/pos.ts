@@ -21,8 +21,9 @@ export class Sale {
     onBarcode(barcode: string) {
         if (barcode === ""){
             this._display.setText("Scanning error: empty barcode");
+            return;
         }
-        else if (this._pricesByBarcode.hasOwnProperty(barcode)){
+        if (this._pricesByBarcode.hasOwnProperty(barcode)){
             this._display.setText(this._pricesByBarcode[barcode]);
         }
         else {
