@@ -8,42 +8,50 @@ export class Display {
     setText(text: string): void {
         this._text = text;
     }
+
+    public displayProductNotFoundMessage(barcode: string) {
+        this.setText("Product not found for " + barcode);
+    }
+
+    public displayEmptyBarcodeMessage() {
+        this.setText("Scanning error: empty barcode");
+    }
+
+    public displayPrice(priceAsText: any) {
+        this.setText(priceAsText);
+    }
 }
 
 export class Sale {
     private _display: Display;
-    private _pricesByBarcode: any;
+    private _catalog: Catalog;
 
-    constructor(display, pricesByBarcode) {
+    constructor(display, catalog) {
         this._display = display;
-        this._pricesByBarcode = pricesByBarcode;
+        this._catalog = catalog;
     }
     onBarcode(barcode: string) {
         if (barcode === ""){
-            this.displayEmptyBarcodeMessage();
+            this._display.displayEmptyBarcodeMessage();
             return;
         }
-        let priceAsText: string = this.findPrice(barcode);
+
+        let priceAsText: string = this._catalog.findPrice(barcode);
         if (priceAsText === undefined) {
-            this.displayProductNotFoundMessage(barcode);
+            this._display.displayProductNotFoundMessage(barcode);
         } else {
-            this.displayPrice(priceAsText);
+            this._display.displayPrice(priceAsText);
         }
     }
 
-    private displayPrice(priceAsText: any) {
-        this._display.setText(priceAsText);
-    }
+}
 
-    private findPrice(barcode: string) {
+export class Catalog {
+    private _pricesByBarcode;
+    constructor(pricesByBarcode) {
+        this._pricesByBarcode = pricesByBarcode;
+    }
+    public findPrice(barcode: string) {
         return this._pricesByBarcode[barcode];
-    }
-
-    private displayProductNotFoundMessage(barcode: string) {
-        this._display.setText("Product not found for " + barcode);
-    }
-
-    private displayEmptyBarcodeMessage() {
-        this._display.setText("Scanning error: empty barcode");
     }
 }

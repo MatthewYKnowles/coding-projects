@@ -1,11 +1,11 @@
-import {Display, Sale} from "../src/pos";
+import {Display, Sale, Catalog} from "../src/pos";
 describe("Sell One Item", ()=> {
     let display: Display;
     let pricesByBarcode = {"12345": "$7.95", "23456": "$12.50"};
     let sale: Sale;
     beforeEach(()=> {
         display = new Display();
-        sale = new Sale(display, pricesByBarcode);
+        sale = new Sale(display, new Catalog(pricesByBarcode));
     });
     it("should find the product", ()=> {
         sale.onBarcode("12345");
@@ -20,7 +20,6 @@ describe("Sell One Item", ()=> {
         expect(display.getText()).toBe("Product not found for 99999");
     });
     it("should show empty barcode when no barcode passed in", ()=> {
-        let sale: Sale = new Sale(display, null);
         sale.onBarcode("");
         expect(display.getText()).toBe("Scanning error: empty barcode");
     });

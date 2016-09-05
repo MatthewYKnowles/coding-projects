@@ -8,40 +8,47 @@ var Display = (function () {
     Display.prototype.setText = function (text) {
         this._text = text;
     };
+    Display.prototype.displayProductNotFoundMessage = function (barcode) {
+        this.setText("Product not found for " + barcode);
+    };
+    Display.prototype.displayEmptyBarcodeMessage = function () {
+        this.setText("Scanning error: empty barcode");
+    };
+    Display.prototype.displayPrice = function (priceAsText) {
+        this.setText(priceAsText);
+    };
     return Display;
 }());
 exports.Display = Display;
 var Sale = (function () {
-    function Sale(display, pricesByBarcode) {
+    function Sale(display, catalog) {
         this._display = display;
-        this._pricesByBarcode = pricesByBarcode;
+        this._catalog = catalog;
     }
     Sale.prototype.onBarcode = function (barcode) {
         if (barcode === "") {
-            this.displayEmptyBarcodeMessage();
+            this._display.displayEmptyBarcodeMessage();
             return;
         }
-        var priceAsText = this.findPrice(barcode);
+        var priceAsText = this._catalog.findPrice(barcode);
         if (priceAsText === undefined) {
-            this.displayProductNotFoundMessage(barcode);
+            this._display.displayProductNotFoundMessage(barcode);
         }
         else {
-            this.displayPrice(priceAsText);
+            this._display.displayPrice(priceAsText);
         }
-    };
-    Sale.prototype.displayPrice = function (priceAsText) {
-        this._display.setText(priceAsText);
-    };
-    Sale.prototype.findPrice = function (barcode) {
-        return this._pricesByBarcode[barcode];
-    };
-    Sale.prototype.displayProductNotFoundMessage = function (barcode) {
-        this._display.setText("Product not found for " + barcode);
-    };
-    Sale.prototype.displayEmptyBarcodeMessage = function () {
-        this._display.setText("Scanning error: empty barcode");
     };
     return Sale;
 }());
 exports.Sale = Sale;
+var Catalog = (function () {
+    function Catalog(pricesByBarcode) {
+        this._pricesByBarcode = pricesByBarcode;
+    }
+    Catalog.prototype.findPrice = function (barcode) {
+        return this._pricesByBarcode[barcode];
+    };
+    return Catalog;
+}());
+exports.Catalog = Catalog;
 //# sourceMappingURL=pos.js.map

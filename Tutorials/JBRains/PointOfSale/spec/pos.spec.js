@@ -6,7 +6,7 @@ describe("Sell One Item", function () {
     var sale;
     beforeEach(function () {
         display = new pos_1.Display();
-        sale = new pos_1.Sale(display, pricesByBarcode);
+        sale = new pos_1.Sale(display, new pos_1.Catalog(pricesByBarcode));
     });
     it("should find the product", function () {
         sale.onBarcode("12345");
@@ -21,7 +21,6 @@ describe("Sell One Item", function () {
         expect(display.getText()).toBe("Product not found for 99999");
     });
     it("should show empty barcode when no barcode passed in", function () {
-        var sale = new pos_1.Sale(display, null);
         sale.onBarcode("");
         expect(display.getText()).toBe("Scanning error: empty barcode");
     });
