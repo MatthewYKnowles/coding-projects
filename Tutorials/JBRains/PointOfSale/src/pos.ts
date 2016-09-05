@@ -23,11 +23,11 @@ export class Sale {
             this.displayEmptyBarcodeMessage();
             return;
         }
-        if (this._pricesByBarcode.hasOwnProperty(barcode)){
-            this.displayPrice(this.findPrice(barcode));
-        }
-        else {
+        let priceAsText: string = this.findPrice(barcode);
+        if (priceAsText === undefined) {
             this.displayProductNotFoundMessage(barcode);
+        } else {
+            this.displayPrice(priceAsText);
         }
     }
 

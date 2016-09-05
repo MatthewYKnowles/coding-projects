@@ -21,11 +21,12 @@ var Sale = (function () {
             this.displayEmptyBarcodeMessage();
             return;
         }
-        if (this._pricesByBarcode.hasOwnProperty(barcode)) {
-            this.displayPrice(this.findPrice(barcode));
+        var priceAsText = this.findPrice(barcode);
+        if (priceAsText === undefined) {
+            this.displayProductNotFoundMessage(barcode);
         }
         else {
-            this.displayProductNotFoundMessage(barcode);
+            this.displayPrice(priceAsText);
         }
     };
     Sale.prototype.displayPrice = function (priceAsText) {
