@@ -12,17 +12,18 @@ export class Display {
 
 export class Sale {
     private _display: Display;
+    private _pricesByBarcode: any;
 
-    constructor(display) {
+    constructor(display, pricesByBarcode) {
         this._display = display;
+        this._pricesByBarcode = pricesByBarcode;
     }
     onBarcode(barcode: string) {
-        let pricesByBarcode = {"12345": "$7.95", "23456": "$12.50"};
         if (barcode === ""){
             this._display.setText("Scanning error: empty barcode");
         }
-        else if (pricesByBarcode.hasOwnProperty(barcode)){
-            this._display.setText(pricesByBarcode[barcode]);
+        else if (this._pricesByBarcode.hasOwnProperty(barcode)){
+            this._display.setText(this._pricesByBarcode[barcode]);
         }
         else {
             this._display.setText("Product not found for " + barcode);

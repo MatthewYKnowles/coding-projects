@@ -12,16 +12,16 @@ var Display = (function () {
 }());
 exports.Display = Display;
 var Sale = (function () {
-    function Sale(display) {
+    function Sale(display, pricesByBarcode) {
         this._display = display;
+        this._pricesByBarcode = pricesByBarcode;
     }
     Sale.prototype.onBarcode = function (barcode) {
-        var pricesByBarcode = { "12345": "$7.95", "23456": "$12.50" };
         if (barcode === "") {
             this._display.setText("Scanning error: empty barcode");
         }
-        else if (pricesByBarcode.hasOwnProperty(barcode)) {
-            this._display.setText(pricesByBarcode[barcode]);
+        else if (this._pricesByBarcode.hasOwnProperty(barcode)) {
+            this._display.setText(this._pricesByBarcode[barcode]);
         }
         else {
             this._display.setText("Product not found for " + barcode);
