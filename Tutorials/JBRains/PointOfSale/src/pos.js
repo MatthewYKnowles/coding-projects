@@ -22,11 +22,17 @@ var Sale = (function () {
             return;
         }
         if (this._pricesByBarcode.hasOwnProperty(barcode)) {
-            this._display.setText(this._pricesByBarcode[barcode]);
+            this.displayPrice(this.findPrice(barcode));
         }
         else {
             this.displayProductNotFoundMessage(barcode);
         }
+    };
+    Sale.prototype.displayPrice = function (priceAsText) {
+        this._display.setText(priceAsText);
+    };
+    Sale.prototype.findPrice = function (barcode) {
+        return this._pricesByBarcode[barcode];
     };
     Sale.prototype.displayProductNotFoundMessage = function (barcode) {
         this._display.setText("Product not found for " + barcode);

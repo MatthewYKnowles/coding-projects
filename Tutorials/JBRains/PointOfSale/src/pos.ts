@@ -24,11 +24,19 @@ export class Sale {
             return;
         }
         if (this._pricesByBarcode.hasOwnProperty(barcode)){
-            this._display.setText(this._pricesByBarcode[barcode]);
+            this.displayPrice(this.findPrice(barcode));
         }
         else {
             this.displayProductNotFoundMessage(barcode);
         }
+    }
+
+    private displayPrice(priceAsText: any) {
+        this._display.setText(priceAsText);
+    }
+
+    private findPrice(barcode: string) {
+        return this._pricesByBarcode[barcode];
     }
 
     private displayProductNotFoundMessage(barcode: string) {
