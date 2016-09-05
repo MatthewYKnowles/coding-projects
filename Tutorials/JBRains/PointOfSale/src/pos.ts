@@ -5,20 +5,17 @@ export class Display {
     getText(): string {
         return this._text;
     }
-    setText(text: string): void {
-        this._text = text;
-    }
 
     public displayProductNotFoundMessage(barcode: string) {
-        this.setText("Product not found for " + barcode);
+        this._text = "Product not found for " + barcode;
     }
 
     public displayEmptyBarcodeMessage() {
-        this.setText("Scanning error: empty barcode");
+        this._text = "Scanning error: empty barcode";
     }
 
     public displayPrice(priceAsText: any) {
-        this.setText(priceAsText);
+        this._text = priceAsText;
     }
 }
 
@@ -51,6 +48,7 @@ export class Catalog {
     constructor(pricesByBarcode) {
         this._pricesByBarcode = pricesByBarcode;
     }
+
     public findPrice(barcode: string) {
         return this._pricesByBarcode[barcode];
     }

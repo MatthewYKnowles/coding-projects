@@ -5,17 +5,14 @@ var Display = (function () {
     Display.prototype.getText = function () {
         return this._text;
     };
-    Display.prototype.setText = function (text) {
-        this._text = text;
-    };
     Display.prototype.displayProductNotFoundMessage = function (barcode) {
-        this.setText("Product not found for " + barcode);
+        this._text = "Product not found for " + barcode;
     };
     Display.prototype.displayEmptyBarcodeMessage = function () {
-        this.setText("Scanning error: empty barcode");
+        this._text = "Scanning error: empty barcode";
     };
     Display.prototype.displayPrice = function (priceAsText) {
-        this.setText(priceAsText);
+        this._text = priceAsText;
     };
     return Display;
 }());
