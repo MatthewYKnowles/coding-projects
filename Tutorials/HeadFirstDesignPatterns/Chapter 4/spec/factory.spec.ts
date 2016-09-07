@@ -5,16 +5,16 @@ describe("Simple Pizza Factory", ()=> {
         simplePizzaFactory = new SimplePizzaFactory();
     });
     it("should return a new cheese pizza", ()=> {
-        expect(simplePizzaFactory.makePizza("cheese")).toEqual(new CheesePizza());
+        expect(simplePizzaFactory.createPizza("cheese")).toEqual(new CheesePizza());
     });
     it("should return a new cheese pizza", ()=> {
-        expect(simplePizzaFactory.makePizza("pepperoni")).toEqual(new PepperoniPizza());
+        expect(simplePizzaFactory.createPizza("pepperoni")).toEqual(new PepperoniPizza());
     });
     it("should return a new clam pizza", ()=> {
-        expect(simplePizzaFactory.makePizza("clam")).toEqual(new ClamPizza());
+        expect(simplePizzaFactory.createPizza("clam")).toEqual(new ClamPizza());
     });
     it("should return a new veggie pizza", ()=> {
-        expect(simplePizzaFactory.makePizza("veggie")).toEqual(new VeggiePizza());
+        expect(simplePizzaFactory.createPizza("veggie")).toEqual(new VeggiePizza());
     });
 });
 

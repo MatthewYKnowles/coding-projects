@@ -4,7 +4,9 @@ var PizzaStore = (function () {
         this._factory = factory;
     }
     PizzaStore.prototype.orderPizza = function (type) {
-        return new CheesePizza();
+        var pizza;
+        pizza = this._factory.createPizza(type);
+        return pizza;
     };
     return PizzaStore;
 }());
@@ -12,7 +14,7 @@ exports.PizzaStore = PizzaStore;
 var SimplePizzaFactory = (function () {
     function SimplePizzaFactory() {
     }
-    SimplePizzaFactory.prototype.makePizza = function (type) {
+    SimplePizzaFactory.prototype.createPizza = function (type) {
         var pizza = null;
         if (type === "cheese") {
             pizza = new CheesePizza();
