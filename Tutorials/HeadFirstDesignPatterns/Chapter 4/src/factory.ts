@@ -1,11 +1,18 @@
 export class SimplePizzaFactory {
-    makePizza(pizzaType: string) {
+
+    makePizza(type: string) {
         let pizza: Pizza = null;
-        if (pizzaType === "cheese"){
+        if (type === "cheese"){
             pizza = new CheesePizza();
         }
-        else if (pizzaType === "pepperoni") {
+        else if (type === "pepperoni") {
             pizza = new PepperoniPizza();
+        }
+        else if (type === "clam") {
+            pizza = new ClamPizza();
+        }
+        else if (type === "veggie") {
+            pizza = new VeggiePizza();
         }
         return pizza;
     }
@@ -19,5 +26,13 @@ export class CheesePizza implements Pizza {
 }
 
 export class PepperoniPizza implements Pizza {
+
+}
+
+export class ClamPizza implements Pizza {
+
+}
+
+export class VeggiePizza implements Pizza {
 
 }
