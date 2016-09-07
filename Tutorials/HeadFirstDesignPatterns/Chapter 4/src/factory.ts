@@ -1,3 +1,16 @@
+export class PizzaStore {
+    private _factory: SimplePizzaFactory;
+
+    constructor(factory: SimplePizzaFactory) {
+        this._factory = factory;
+
+    }
+    orderPizza(type: string) {
+        return new CheesePizza();
+    }
+}
+
+
 export class SimplePizzaFactory {
 
     makePizza(type: string) {

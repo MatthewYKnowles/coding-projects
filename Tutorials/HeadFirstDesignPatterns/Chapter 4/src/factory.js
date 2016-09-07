@@ -1,4 +1,14 @@
 "use strict";
+var PizzaStore = (function () {
+    function PizzaStore(factory) {
+        this._factory = factory;
+    }
+    PizzaStore.prototype.orderPizza = function (type) {
+        return new CheesePizza();
+    };
+    return PizzaStore;
+}());
+exports.PizzaStore = PizzaStore;
 var SimplePizzaFactory = (function () {
     function SimplePizzaFactory() {
     }

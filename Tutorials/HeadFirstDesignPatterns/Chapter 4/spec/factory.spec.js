@@ -18,4 +18,11 @@ describe("Simple Pizza Factory", function () {
         expect(simplePizzaFactory.makePizza("veggie")).toEqual(new factory_1.VeggiePizza());
     });
 });
+describe("Pizza Store", function () {
+    it("should return a cheese pizza", function () {
+        var simplePizzaFactory = new factory_1.SimplePizzaFactory();
+        var pizzaStore = new factory_1.PizzaStore(simplePizzaFactory);
+        expect(pizzaStore.orderPizza("cheese")).toEqual(new factory_1.CheesePizza());
+    });
+});
 //# sourceMappingURL=factory.spec.js.map
