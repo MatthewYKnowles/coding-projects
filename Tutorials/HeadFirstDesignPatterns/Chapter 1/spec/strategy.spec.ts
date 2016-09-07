@@ -1,4 +1,4 @@
-import {Mallard, RedHeadDuck, RubberDuck, DecoyDuck, Silence, FlyRocketPowered} from "../src/HFDPChapter1"
+import {Mallard, RedHeadDuck, RubberDuck, DecoyDuck, Silence, FlyRocketPowered} from "../src/strategy"
 describe("Mallard", ()=> {
     it("should quack", ()=> {
         let mallard: Mallard = new Mallard();
