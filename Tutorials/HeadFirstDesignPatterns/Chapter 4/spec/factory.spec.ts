@@ -1,5 +1,6 @@
 import {
-    SimplePizzaFactory, CheesePizza, PepperoniPizza, ClamPizza, VeggiePizza, NYPizzaStore, NYStyleCheesePizza
+    SimplePizzaFactory, CheesePizza, PepperoniPizza, ClamPizza, VeggiePizza, NYPizzaStore, NYStyleCheesePizza,
+    NYStyleVeggiePizza, Pizza
 } from "../src/factory";
 
 describe("Simple Pizza Factory", ()=> {
@@ -23,8 +24,17 @@ describe("Simple Pizza Factory", ()=> {
 
 describe("Pizza Store", ()=> {
     it("should return a NYStyle cheese pizza", ()=> {
-        let simplePizzaFactory: SimplePizzaFactory = new SimplePizzaFactory();
-        let nYPizzaStore: NYPizzaStore = new NYPizzaStore(simplePizzaFactory);
+        let nYPizzaStore: NYPizzaStore = new NYPizzaStore();
         expect(nYPizzaStore.orderPizza("cheese")).toEqual(new NYStyleCheesePizza())
+    });
+    it("should return a NYStyle veggie pizza", ()=> {
+        let nyPizzaStore: NYPizzaStore = new NYPizzaStore();
+        expect(nyPizzaStore.orderPizza("veggie")).toEqual(new NYStyleVeggiePizza())
+    });
+});
+describe("Pizza", ()=> {
+    it("should bake a pizza", ()=> {
+        let pizza: Pizza = new NYStyleCheesePizza();
+        expect(pizza.bake()).toEqual("Bake for 25 minutes at 350")
     });
 });

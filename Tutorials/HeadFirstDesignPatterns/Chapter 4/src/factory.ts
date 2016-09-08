@@ -1,31 +1,35 @@
 export abstract class PizzaStore {
-    private _factory: SimplePizzaFactory;
 
-    constructor(factory: SimplePizzaFactory) {
-        this._factory = factory;
-
+    constructor() {
     }
-    orderPizza(type: string) {
-        let pizza: Pizza;
-        pizza = this._factory.createPizza(type);
-        return pizza;
-    }
+    abstract orderPizza(type: string): Pizza;
 }
 
+export abstract class Pizza {
+
+    bake() {
+        return "Bake for 25 minutes at 350";
+    }
+}
 export class NYPizzaStore implements PizzaStore {
-    _factory: SimplePizzaFactory;
 
-    constructor(type: string) {
-
+    constructor() {
     }
 
     orderPizza(type: string): Pizza {
-        return new NYStyleCheesePizza();
+        if (type === "cheese"){
+            return new NYStyleCheesePizza();
+        } else if (type === "veggie") {
+            return new NYStyleVeggiePizza();
+        }
     }
 }
 
-export class NYStyleCheesePizza implements Pizza {
+export class NYStyleCheesePizza extends Pizza {
 
+}
+
+export class NYStyleVeggiePizza extends Pizza {
 }
 
 
@@ -46,21 +50,29 @@ export class SimplePizzaFactory {
     }
 }
 
-interface Pizza {
-
-}
 export class CheesePizza implements Pizza {
-
+    bake(): string {
+        return undefined;
+    }
 }
 
 export class PepperoniPizza implements Pizza {
+    bake(): string {
+        return undefined;
+    }
 
 }
 
 export class ClamPizza implements Pizza {
+    bake(): string {
+        return undefined;
+    }
 
 }
 
 export class VeggiePizza implements Pizza {
+    bake(): string {
+        return undefined;
+    }
 
 }
