@@ -1,26 +1,4 @@
-import {
-    SimplePizzaFactory, CheesePizza, PepperoniPizza, ClamPizza, VeggiePizza, NYPizzaStore, NYStyleCheesePizza,
-    NYStyleVeggiePizza, Pizza
-} from "../src/factory";
-
-describe("Simple Pizza Factory", ()=> {
-    let simplePizzaFactory: SimplePizzaFactory;
-    beforeEach(()=> {
-        simplePizzaFactory = new SimplePizzaFactory();
-    });
-    it("should return a new cheese pizza", ()=> {
-        expect(simplePizzaFactory.createPizza("cheese")).toEqual(new CheesePizza());
-    });
-    it("should return a new cheese pizza", ()=> {
-        expect(simplePizzaFactory.createPizza("pepperoni")).toEqual(new PepperoniPizza());
-    });
-    it("should return a new clam pizza", ()=> {
-        expect(simplePizzaFactory.createPizza("clam")).toEqual(new ClamPizza());
-    });
-    it("should return a new veggie pizza", ()=> {
-        expect(simplePizzaFactory.createPizza("veggie")).toEqual(new VeggiePizza());
-    });
-});
+import {NYPizzaStore, NYStyleCheesePizza, NYStyleVeggiePizza, Pizza} from "../src/factory";
 
 describe("Pizza Store", ()=> {
     it("should return a NYStyle cheese pizza", ()=> {
@@ -36,5 +14,9 @@ describe("Pizza", ()=> {
     it("should bake a pizza", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
         expect(pizza.bake()).toEqual("Bake for 25 minutes at 350")
+    });
+    it("should cut a pizza", ()=> {
+        let pizza: Pizza = new NYStyleCheesePizza();
+        expect(pizza.cut()).toEqual("Cutting the pizza into diagonal slices")
     });
 });

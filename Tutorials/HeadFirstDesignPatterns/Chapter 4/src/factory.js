@@ -4,21 +4,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var PizzaStore = (function () {
-    function PizzaStore() {
-    }
-    return PizzaStore;
-}());
-exports.PizzaStore = PizzaStore;
 var Pizza = (function () {
     function Pizza() {
     }
     Pizza.prototype.bake = function () {
         return "Bake for 25 minutes at 350";
     };
+    Pizza.prototype.cut = function () {
+        return "Cutting the pizza into diagonal slices";
+    };
     return Pizza;
 }());
 exports.Pizza = Pizza;
+var PizzaStore = (function () {
+    function PizzaStore() {
+    }
+    return PizzaStore;
+}());
+exports.PizzaStore = PizzaStore;
 var NYPizzaStore = (function () {
     function NYPizzaStore() {
     }
@@ -49,62 +52,4 @@ var NYStyleVeggiePizza = (function (_super) {
     return NYStyleVeggiePizza;
 }(Pizza));
 exports.NYStyleVeggiePizza = NYStyleVeggiePizza;
-var SimplePizzaFactory = (function () {
-    function SimplePizzaFactory() {
-    }
-    SimplePizzaFactory.prototype.createPizza = function (type) {
-        var pizza = null;
-        if (type === "cheese") {
-            pizza = new CheesePizza();
-        }
-        else if (type === "pepperoni") {
-            pizza = new PepperoniPizza();
-        }
-        else if (type === "clam") {
-            pizza = new ClamPizza();
-        }
-        else if (type === "veggie") {
-            pizza = new VeggiePizza();
-        }
-        return pizza;
-    };
-    return SimplePizzaFactory;
-}());
-exports.SimplePizzaFactory = SimplePizzaFactory;
-var CheesePizza = (function () {
-    function CheesePizza() {
-    }
-    CheesePizza.prototype.bake = function () {
-        return undefined;
-    };
-    return CheesePizza;
-}());
-exports.CheesePizza = CheesePizza;
-var PepperoniPizza = (function () {
-    function PepperoniPizza() {
-    }
-    PepperoniPizza.prototype.bake = function () {
-        return undefined;
-    };
-    return PepperoniPizza;
-}());
-exports.PepperoniPizza = PepperoniPizza;
-var ClamPizza = (function () {
-    function ClamPizza() {
-    }
-    ClamPizza.prototype.bake = function () {
-        return undefined;
-    };
-    return ClamPizza;
-}());
-exports.ClamPizza = ClamPizza;
-var VeggiePizza = (function () {
-    function VeggiePizza() {
-    }
-    VeggiePizza.prototype.bake = function () {
-        return undefined;
-    };
-    return VeggiePizza;
-}());
-exports.VeggiePizza = VeggiePizza;
 //# sourceMappingURL=factory.js.map
