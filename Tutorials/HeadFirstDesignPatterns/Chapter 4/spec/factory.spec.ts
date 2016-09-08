@@ -19,4 +19,8 @@ describe("Pizza", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
         expect(pizza.cut()).toEqual("Cutting the pizza into diagonal slices")
     });
+    it("should box a pizza", ()=> {
+        let pizza: Pizza = new NYStyleCheesePizza();
+        expect(pizza.box()).toEqual("Place pizza in official PizzaStore box")
+    });
 });

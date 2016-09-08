@@ -7,6 +7,10 @@ export abstract class Pizza {
     cut() {
         return "Cutting the pizza into diagonal slices";
     }
+
+    box() {
+        return "Place pizza in official PizzaStore box";
+    }
 }
 
 export abstract class PizzaStore {

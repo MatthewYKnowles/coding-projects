@@ -19,5 +19,9 @@ describe("Pizza", function () {
         var pizza = new factory_1.NYStyleCheesePizza();
         expect(pizza.cut()).toEqual("Cutting the pizza into diagonal slices");
     });
+    it("should box a pizza", function () {
+        var pizza = new factory_1.NYStyleCheesePizza();
+        expect(pizza.box()).toEqual("Place pizza in official PizzaStore box");
+    });
 });
 //# sourceMappingURL=factory.spec.js.map

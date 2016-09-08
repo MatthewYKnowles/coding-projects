@@ -13,6 +13,9 @@ var Pizza = (function () {
     Pizza.prototype.cut = function () {
         return "Cutting the pizza into diagonal slices";
     };
+    Pizza.prototype.box = function () {
+        return "Place pizza in official PizzaStore box";
+    };
     return Pizza;
 }());
 exports.Pizza = Pizza;
