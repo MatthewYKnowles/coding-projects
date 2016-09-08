@@ -11,6 +11,21 @@ var PizzaStore = (function () {
     return PizzaStore;
 }());
 exports.PizzaStore = PizzaStore;
+var NYPizzaStore = (function () {
+    function NYPizzaStore(type) {
+    }
+    NYPizzaStore.prototype.orderPizza = function (type) {
+        return new NYStyleCheesePizza();
+    };
+    return NYPizzaStore;
+}());
+exports.NYPizzaStore = NYPizzaStore;
+var NYStyleCheesePizza = (function () {
+    function NYStyleCheesePizza() {
+    }
+    return NYStyleCheesePizza;
+}());
+exports.NYStyleCheesePizza = NYStyleCheesePizza;
 var SimplePizzaFactory = (function () {
     function SimplePizzaFactory() {
     }

@@ -19,10 +19,10 @@ describe("Simple Pizza Factory", function () {
     });
 });
 describe("Pizza Store", function () {
-    it("should return a cheese pizza", function () {
+    it("should return a NYStyle cheese pizza", function () {
         var simplePizzaFactory = new factory_1.SimplePizzaFactory();
-        var pizzaStore = new factory_1.PizzaStore(simplePizzaFactory);
-        expect(pizzaStore.orderPizza("cheese")).toEqual(new factory_1.CheesePizza());
+        var nYPizzaStore = new factory_1.NYPizzaStore(simplePizzaFactory);
+        expect(nYPizzaStore.orderPizza("cheese")).toEqual(new factory_1.NYStyleCheesePizza());
     });
 });
 //# sourceMappingURL=factory.spec.js.map

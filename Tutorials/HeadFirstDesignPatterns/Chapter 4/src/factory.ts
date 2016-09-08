@@ -1,4 +1,4 @@
-export class PizzaStore {
+export abstract class PizzaStore {
     private _factory: SimplePizzaFactory;
 
     constructor(factory: SimplePizzaFactory) {
@@ -10,6 +10,22 @@ export class PizzaStore {
         pizza = this._factory.createPizza(type);
         return pizza;
     }
+}
+
+export class NYPizzaStore implements PizzaStore {
+    _factory: SimplePizzaFactory;
+
+    constructor(type: string) {
+
+    }
+
+    orderPizza(type: string): Pizza {
+        return new NYStyleCheesePizza();
+    }
+}
+
+export class NYStyleCheesePizza implements Pizza {
+
 }
 
 

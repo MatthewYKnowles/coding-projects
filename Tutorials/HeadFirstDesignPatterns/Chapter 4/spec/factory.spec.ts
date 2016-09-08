@@ -1,4 +1,7 @@
-import {SimplePizzaFactory, CheesePizza, PepperoniPizza, ClamPizza, VeggiePizza, PizzaStore} from "../src/factory";
+import {
+    SimplePizzaFactory, CheesePizza, PepperoniPizza, ClamPizza, VeggiePizza, NYPizzaStore, NYStyleCheesePizza
+} from "../src/factory";
+
 describe("Simple Pizza Factory", ()=> {
     let simplePizzaFactory: SimplePizzaFactory;
     beforeEach(()=> {
@@ -19,9 +22,9 @@ describe("Simple Pizza Factory", ()=> {
 });
 
 describe("Pizza Store", ()=> {
-    it("should return a cheese pizza", ()=> {
+    it("should return a NYStyle cheese pizza", ()=> {
         let simplePizzaFactory: SimplePizzaFactory = new SimplePizzaFactory();
-        let pizzaStore: PizzaStore = new PizzaStore(simplePizzaFactory);
-        expect(pizzaStore.orderPizza("cheese")).toEqual(new CheesePizza())
+        let nYPizzaStore: NYPizzaStore = new NYPizzaStore(simplePizzaFactory);
+        expect(nYPizzaStore.orderPizza("cheese")).toEqual(new NYStyleCheesePizza())
     });
 });
