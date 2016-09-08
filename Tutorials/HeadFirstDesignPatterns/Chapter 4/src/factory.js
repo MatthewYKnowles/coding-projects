@@ -6,18 +6,22 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Pizza = (function () {
     function Pizza() {
+        this._order = "";
     }
     Pizza.prototype.bake = function () {
-        return "Bake for 25 minutes at 350";
+        this._order += "Bake for 25 minutes at 350";
     };
     Pizza.prototype.cut = function () {
-        return "Cutting the pizza into diagonal slices";
+        this._order += "Cutting the pizza into diagonal slices";
     };
     Pizza.prototype.box = function () {
-        return "Place pizza in official PizzaStore box";
+        this._order += "Place pizza in official PizzaStore box";
     };
     Pizza.prototype.getName = function () {
         return this._name;
+    };
+    Pizza.prototype.getOrder = function () {
+        return this._order;
     };
     return Pizza;
 }());
@@ -32,12 +36,14 @@ var NYPizzaStore = (function () {
     function NYPizzaStore() {
     }
     NYPizzaStore.prototype.orderPizza = function (type) {
+        var pizza = null;
         if (type === "cheese") {
-            return new NYStyleCheesePizza();
+            pizza = new NYStyleCheesePizza();
         }
         else if (type === "veggie") {
-            return new NYStyleVeggiePizza();
+            pizza = new NYStyleVeggiePizza();
         }
+        return pizza;
     };
     return NYPizzaStore;
 }());
@@ -56,6 +62,7 @@ exports.ChicagoPizzaStore = ChicagoPizzaStore;
 var NYStyleCheesePizza = (function (_super) {
     __extends(NYStyleCheesePizza, _super);
     function NYStyleCheesePizza() {
+        _super.call(this);
         this._name = "NY Style Sauce and Cheese Pizza";
     }
     return NYStyleCheesePizza;

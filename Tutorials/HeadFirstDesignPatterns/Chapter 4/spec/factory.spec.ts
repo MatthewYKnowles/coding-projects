@@ -20,15 +20,18 @@ describe("Pizza Store", ()=> {
 describe("Pizza", ()=> {
     it("should bake a pizza", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
-        expect(pizza.bake()).toEqual("Bake for 25 minutes at 350")
+        pizza.bake();
+        expect(pizza.getOrder()).toEqual("Bake for 25 minutes at 350")
     });
     it("should cut a pizza", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
-        expect(pizza.cut()).toEqual("Cutting the pizza into diagonal slices")
+        pizza.cut();
+        expect(pizza.getOrder()).toEqual("Cutting the pizza into diagonal slices")
     });
     it("should box a pizza", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
-        expect(pizza.box()).toEqual("Place pizza in official PizzaStore box")
+        pizza.box();
+        expect(pizza.getOrder()).toEqual("Place pizza in official PizzaStore box")
     });
     it("should get the NY Style pizza's name", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();

@@ -1,20 +1,27 @@
 export abstract class Pizza {
-    protected _name;
+    protected _name: string;
+    protected _order: string;
 
+    constructor() {
+        this._order = "";
+    }
     bake() {
-        return "Bake for 25 minutes at 350";
+        this._order += "Bake for 25 minutes at 350";
     }
 
     cut() {
-        return "Cutting the pizza into diagonal slices";
+        this._order += "Cutting the pizza into diagonal slices";
     }
 
     box() {
-        return "Place pizza in official PizzaStore box";
+        this._order += "Place pizza in official PizzaStore box";
     }
 
     getName() {
         return this._name;
+    }
+    getOrder(): string {
+        return this._order;
     }
 }
 
@@ -25,11 +32,13 @@ export abstract class PizzaStore {
 export class NYPizzaStore implements PizzaStore {
 
     orderPizza(type: string): Pizza {
+        let pizza: Pizza = null;
         if (type === "cheese"){
-            return new NYStyleCheesePizza();
+            pizza = new NYStyleCheesePizza();
         } else if (type === "veggie") {
-            return new NYStyleVeggiePizza();
+            pizza = new NYStyleVeggiePizza();
         }
+        return pizza
     }
 }
 
@@ -46,6 +55,7 @@ export class ChicagoPizzaStore implements PizzaStore {
 export class NYStyleCheesePizza extends Pizza {
 
     constructor() {
+        super();
         this._name = "NY Style Sauce and Cheese Pizza";
     }
 }
