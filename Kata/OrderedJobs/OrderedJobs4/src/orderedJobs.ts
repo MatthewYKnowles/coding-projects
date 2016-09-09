@@ -1,85 +1,97 @@
 export class OrderJobs {
     private _jobs: string;
-    private _orderedJobs: string;
     private _splitJobs: string[];
-    private _remainingJobs: string[];
-    constructor(jobs: string) {
+    private _orderedJobs: string;
+    private _jobsNotAdded: string[];
+    private _numberOfJobsBeforeDependencyCheck: number;
+
+    constructor(jobs: string){
         this._jobs = jobs;
-        this._splitJobs = this._jobs.split("\n");
+        this._splitJobs = jobs.split("\n");
     }
 
     getOrderedJobs(): string {
-
-        this._jobs === "" ? this.noJobs() : this.orderJobs();
+        if (this._jobs === ""){return "";}
+        this.orderJobs();
         return this._orderedJobs;
     }
 
-    private noJobs() {
-        return this._orderedJobs = "";
-    }
-
-    private orderJobs(): void {
-        this.addJobsWithNoDependencies();
+    private orderJobs() {
+        this.addJobsWithoutDependency();
         this.addJobsWithDependencies();
-
     }
 
     private addJobsWithDependencies() {
-        this.collectJobsWithDependencies();
-        this.checkForSelfDependency();
-        while (this._remainingJobs.length > 0){
-            let jobsLeft = this._remainingJobs.length;
+        this.collectAllJobsWithDependencies();
+        this.checkForJobReferencingSelf();
+        this.resolveDependencies();
+    }
+
+    private resolveDependencies() {
+        while (this.jobsRemain()) {
+            this.countRemainingJobs();
             this.addJobsWithDependencyMet();
-            this.collectUnusedJobs();
-            this.checkForEndlessLoop(jobsLeft);
+            this.collectRemainingJobs();
+            this.checkForCircularDependency();
         }
     }
 
-    private checkForEndlessLoop(jobsLeft: number) {
-        if (this._remainingJobs.length === jobsLeft) {
-            throw new Error("endless loop")
+    private countRemainingJobs() {
+        this._numberOfJobsBeforeDependencyCheck = this._jobsNotAdded.length;
+    }
+
+    private jobsRemain() {
+        return this._jobsNotAdded.length > 0;
+    }
+
+    private checkForCircularDependency() {
+        if (this._jobsNotAdded.length === this._numberOfJobsBeforeDependencyCheck) {
+            throw new Error("circular dependency")
         }
     }
 
-    private checkForSelfDependency() {
-        if (this._remainingJobs.length > 0 && this._remainingJobs[0][0] === this._remainingJobs[0][5]) {
-            throw new Error("self referencing dependency");
+    private checkForJobReferencingSelf() {
+        let selfDependency = this._jobsNotAdded.filter((job) => {
+            return job[0] === job[5]
+        });
+        if (selfDependency.length > 0) {
+            throw new Error("Job can not depend on itself");
         }
     }
 
-    private collectJobsWithDependencies() {
-        this._remainingJobs = this._splitJobs.filter(this.hasDependencies);
+    private collectAllJobsWithDependencies() {
+        this._jobsNotAdded = this._splitJobs.filter(this.jobWithDependency);
     }
 
-    private collectUnusedJobs() {
-        this._remainingJobs = this._remainingJobs.filter(this.jobsNotAdded, this);
+    private collectRemainingJobs() {
+        this._jobsNotAdded = this._jobsNotAdded.filter(this.jobNotAdded, this);
     }
 
     private addJobsWithDependencyMet() {
-        this._orderedJobs = this._remainingJobs.filter(this.dependencyMet, this).reduce(this.addJob, this._orderedJobs);
+        this._orderedJobs = this._jobsNotAdded.filter(this.jobDependencyMet, this).reduce(this.addJobs, this._orderedJobs);
     }
 
-    private addJobsWithNoDependencies() {
-        this._orderedJobs = this._splitJobs.filter(this.noDepencencies).reduce(this.addJob, "");
+    private jobNotAdded(job): any {
+        return this._orderedJobs.indexOf(job[0]) === -1;
     }
 
-    private addJob(acc, job): string {
-        return acc + job[0];
+    private jobDependencyMet(job): any {
+        return this._orderedJobs.indexOf(job[5]) > -1;
     }
 
-    private noDepencencies(job) {
-        return job.length < 6;
+    private addJobsWithoutDependency() {
+        this._orderedJobs = this._splitJobs.filter(this.jobHasNoDependency).reduce(this.addJobs, "");
     }
 
-    private hasDependencies(job) {
+    private jobWithDependency(job): any {
         return job.length === 6;
     }
 
-    private dependencyMet(job) {
-        return this._orderedJobs.indexOf(job[5]) !== -1;
+    private jobHasNoDependency(job): any {
+        return job.length < 6;
     }
 
-    private jobsNotAdded(job) {
-        return this._orderedJobs.indexOf(job[0]) === -1;
+    private addJobs(acc, job): string {
+        return acc + job[0];
     }
 }

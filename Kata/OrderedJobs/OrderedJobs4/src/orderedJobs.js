@@ -2,65 +2,77 @@
 var OrderJobs = (function () {
     function OrderJobs(jobs) {
         this._jobs = jobs;
-        this._splitJobs = this._jobs.split("\n");
+        this._splitJobs = jobs.split("\n");
     }
     OrderJobs.prototype.getOrderedJobs = function () {
-        this._jobs === "" ? this.noJobs() : this.orderJobs();
+        if (this._jobs === "") {
+            return "";
+        }
+        this.orderJobs();
         return this._orderedJobs;
     };
-    OrderJobs.prototype.noJobs = function () {
-        return this._orderedJobs = "";
-    };
     OrderJobs.prototype.orderJobs = function () {
-        this.addJobsWithNoDependencies();
+        this.addJobsWithoutDependency();
         this.addJobsWithDependencies();
     };
     OrderJobs.prototype.addJobsWithDependencies = function () {
-        this.collectJobsWithDependencies();
-        this.checkForSelfDependency();
-        while (this._remainingJobs.length > 0) {
-            var jobsLeft = this._remainingJobs.length;
+        this.collectAllJobsWithDependencies();
+        this.checkForJobReferencingSelf();
+        this.resolveDependencies();
+    };
+    OrderJobs.prototype.resolveDependencies = function () {
+        while (this.jobsRemain()) {
+            this.countRemainingJobs();
             this.addJobsWithDependencyMet();
-            this.collectUnusedJobs();
-            this.checkForEndlessLoop(jobsLeft);
+            this.collectRemainingJobs();
+            this.checkForCircularDependency();
         }
     };
-    OrderJobs.prototype.checkForEndlessLoop = function (jobsLeft) {
-        if (this._remainingJobs.length === jobsLeft) {
-            throw new Error("endless loop");
+    OrderJobs.prototype.countRemainingJobs = function () {
+        this._numberOfJobsBeforeDependencyCheck = this._jobsNotAdded.length;
+    };
+    OrderJobs.prototype.jobsRemain = function () {
+        return this._jobsNotAdded.length > 0;
+    };
+    OrderJobs.prototype.checkForCircularDependency = function () {
+        if (this._jobsNotAdded.length === this._numberOfJobsBeforeDependencyCheck) {
+            throw new Error("circular dependency");
         }
     };
-    OrderJobs.prototype.checkForSelfDependency = function () {
-        if (this._remainingJobs.length > 0 && this._remainingJobs[0][0] === this._remainingJobs[0][5]) {
-            throw new Error("self referencing dependency");
+    OrderJobs.prototype.checkForJobReferencingSelf = function () {
+        var selfDependency = this._jobsNotAdded.filter(function (job) {
+            return job[0] === job[5];
+        });
+        if (selfDependency.length > 0) {
+            throw new Error("Job can not depend on itself");
         }
     };
-    OrderJobs.prototype.collectJobsWithDependencies = function () {
-        this._remainingJobs = this._splitJobs.filter(this.hasDependencies);
+    OrderJobs.prototype.collectAllJobsWithDependencies = function () {
+        this._jobsNotAdded = this._splitJobs.filter(this.jobWithDependency);
     };
-    OrderJobs.prototype.collectUnusedJobs = function () {
-        this._remainingJobs = this._remainingJobs.filter(this.jobsNotAdded, this);
+    OrderJobs.prototype.collectRemainingJobs = function () {
+        this._jobsNotAdded = this._jobsNotAdded.filter(this.jobNotAdded, this);
     };
     OrderJobs.prototype.addJobsWithDependencyMet = function () {
-        this._orderedJobs = this._remainingJobs.filter(this.dependencyMet, this).reduce(this.addJob, this._orderedJobs);
+        this._orderedJobs = this._jobsNotAdded.filter(this.jobDependencyMet, this).reduce(this.addJobs, this._orderedJobs);
     };
-    OrderJobs.prototype.addJobsWithNoDependencies = function () {
-        this._orderedJobs = this._splitJobs.filter(this.noDepencencies).reduce(this.addJob, "");
+    OrderJobs.prototype.jobNotAdded = function (job) {
+        return this._orderedJobs.indexOf(job[0]) === -1;
     };
-    OrderJobs.prototype.addJob = function (acc, job) {
-        return acc + job[0];
+    OrderJobs.prototype.jobDependencyMet = function (job) {
+        return this._orderedJobs.indexOf(job[5]) > -1;
     };
-    OrderJobs.prototype.noDepencencies = function (job) {
-        return job.length < 6;
+    OrderJobs.prototype.addJobsWithoutDependency = function () {
+        this._orderedJobs = this._splitJobs.filter(this.jobHasNoDependency).reduce(this.addJobs, "");
     };
-    OrderJobs.prototype.hasDependencies = function (job) {
+    OrderJobs.prototype.jobWithDependency = function (job) {
         return job.length === 6;
     };
-    OrderJobs.prototype.dependencyMet = function (job) {
-        return this._orderedJobs.indexOf(job[5]) !== -1;
+    OrderJobs.prototype.jobHasNoDependency = function (job) {
+        return job.length < 6;
     };
-    OrderJobs.prototype.jobsNotAdded = function (job) {
-        return this._orderedJobs.indexOf(job[0]) === -1;
+    OrderJobs.prototype.addJobs = function (acc, job) {
+        return acc + job[0];
     };
     return OrderJobs;
 }());
