@@ -48,11 +48,8 @@ export class ChicagoPizzaStore implements PizzaStore {
 
     orderPizza(type: string): Pizza {
         let pizza: Pizza = null;
-        if (type === "veggie"){
-            pizza = new ChicagoStyleVeggiePizza();
-        }
+        if (type === "veggie"){pizza = new ChicagoStyleVeggiePizza();}
         pizza.bake();
-        console.log(pizza.getOrder());
         return pizza
 
     }

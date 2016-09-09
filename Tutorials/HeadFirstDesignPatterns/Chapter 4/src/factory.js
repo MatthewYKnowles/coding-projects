@@ -59,7 +59,6 @@ var ChicagoPizzaStore = (function () {
             pizza = new ChicagoStyleVeggiePizza();
         }
         pizza.bake();
-        console.log(pizza.getOrder());
         return pizza;
     };
     return ChicagoPizzaStore;
