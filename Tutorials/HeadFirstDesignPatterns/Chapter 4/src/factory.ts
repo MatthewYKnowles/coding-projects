@@ -38,6 +38,8 @@ export class NYPizzaStore implements PizzaStore {
         } else if (type === "veggie") {
             pizza = new NYStyleVeggiePizza();
         }
+        pizza.bake();
+        console.log(pizza.getOrder());
         return pizza
     }
 }
@@ -45,9 +47,14 @@ export class NYPizzaStore implements PizzaStore {
 export class ChicagoPizzaStore implements PizzaStore {
 
     orderPizza(type: string): Pizza {
+        let pizza: Pizza = null;
         if (type === "veggie"){
-            return new ChicagoStyleVeggiePizza();
+            pizza = new ChicagoStyleVeggiePizza();
         }
+        pizza.bake();
+        console.log(pizza.getOrder());
+        return pizza
+
     }
 
 }

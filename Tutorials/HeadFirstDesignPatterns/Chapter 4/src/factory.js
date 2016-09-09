@@ -43,6 +43,8 @@ var NYPizzaStore = (function () {
         else if (type === "veggie") {
             pizza = new NYStyleVeggiePizza();
         }
+        pizza.bake();
+        console.log(pizza.getOrder());
         return pizza;
     };
     return NYPizzaStore;
@@ -52,9 +54,13 @@ var ChicagoPizzaStore = (function () {
     function ChicagoPizzaStore() {
     }
     ChicagoPizzaStore.prototype.orderPizza = function (type) {
+        var pizza = null;
         if (type === "veggie") {
-            return new ChicagoStyleVeggiePizza();
+            pizza = new ChicagoStyleVeggiePizza();
         }
+        pizza.bake();
+        console.log(pizza.getOrder());
+        return pizza;
     };
     return ChicagoPizzaStore;
 }());

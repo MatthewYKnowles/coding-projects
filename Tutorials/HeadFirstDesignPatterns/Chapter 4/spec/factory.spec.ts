@@ -16,6 +16,12 @@ describe("Pizza Store", ()=> {
         let chicagoPizzaStore: ChicagoPizzaStore = new ChicagoPizzaStore();
         expect(chicagoPizzaStore.orderPizza("veggie")).toEqual(new ChicagoStyleVeggiePizza())
     });
+    it("should return the order for a Chicago Style veggie pizza", ()=> {
+        let chicagoPizzaStore: ChicagoPizzaStore = new ChicagoPizzaStore();
+        let pizza = chicagoPizzaStore.orderPizza("veggie");
+        console.log(pizza);
+        expect(pizza.getOrder()).toEqual("Bake for 25 minutes at 350")
+    });
 });
 describe("Pizza", ()=> {
     it("should bake a pizza", ()=> {

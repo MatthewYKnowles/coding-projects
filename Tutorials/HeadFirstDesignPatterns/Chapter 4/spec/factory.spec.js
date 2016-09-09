@@ -13,6 +13,12 @@ describe("Pizza Store", function () {
         var chicagoPizzaStore = new factory_1.ChicagoPizzaStore();
         expect(chicagoPizzaStore.orderPizza("veggie")).toEqual(new factory_1.ChicagoStyleVeggiePizza());
     });
+    it("should return the order for a Chicago Style veggie pizza", function () {
+        var chicagoPizzaStore = new factory_1.ChicagoPizzaStore();
+        var pizza = chicagoPizzaStore.orderPizza("veggie");
+        console.log(pizza);
+        expect(pizza.getOrder()).toEqual("Bake for 25 minutes at 350");
+    });
 });
 describe("Pizza", function () {
     it("should bake a pizza", function () {
