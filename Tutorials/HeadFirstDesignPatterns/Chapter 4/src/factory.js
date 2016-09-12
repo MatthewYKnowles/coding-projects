@@ -23,6 +23,12 @@ var Pizza = (function () {
     Pizza.prototype.getOrder = function () {
         return this._order;
     };
+    Pizza.prototype.prepare = function () {
+        this._order += "Preparing " + this._name + "\n";
+        this._order += "Tossing dough...\n";
+        this._order += "Adding sauce...\n";
+        this._order += "Adding toppings: " + this._toppings[0];
+    };
     return Pizza;
 }());
 exports.Pizza = Pizza;
@@ -44,7 +50,6 @@ var NYPizzaStore = (function () {
             pizza = new NYStyleVeggiePizza();
         }
         pizza.bake();
-        console.log(pizza.getOrder());
         return pizza;
     };
     return NYPizzaStore;
@@ -55,7 +60,10 @@ var ChicagoPizzaStore = (function () {
     }
     ChicagoPizzaStore.prototype.orderPizza = function (type) {
         var pizza = null;
-        if (type === "veggie") {
+        if (type === "cheese") {
+            pizza = new ChicagoStyleCheesePizza();
+        }
+        else if (type === "veggie") {
             pizza = new ChicagoStyleVeggiePizza();
         }
         pizza.bake();
@@ -69,6 +77,7 @@ var NYStyleCheesePizza = (function (_super) {
     function NYStyleCheesePizza() {
         _super.call(this);
         this._name = "NY Style Sauce and Cheese Pizza";
+        this._toppings = ["Grated Reggiano Cheese"];
     }
     return NYStyleCheesePizza;
 }(Pizza));
@@ -84,7 +93,9 @@ exports.NYStyleVeggiePizza = NYStyleVeggiePizza;
 var ChicagoStyleCheesePizza = (function (_super) {
     __extends(ChicagoStyleCheesePizza, _super);
     function ChicagoStyleCheesePizza() {
+        _super.call(this);
         this._name = "Chicago Style Deep Dish Cheese Pizza";
+        this._toppings = ["Shredded Mozzarella Cheese"];
     }
     return ChicagoStyleCheesePizza;
 }(Pizza));
