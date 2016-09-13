@@ -52,7 +52,8 @@ describe("Pizzas", function () {
         expect(pizza.getOrder()).toEqual("Preparing NY Style Sauce and Cheese Pizza\n" +
             "Tossing dough...\n" +
             "Adding sauce...\n" +
-            "Adding toppings: Grated Reggiano Cheese");
+            "Adding toppings:\n" +
+            "Grated Reggiano Cheese");
     });
     it("should get the NY Style pizza's name", function () {
         var pizza = new factory_1.NYStyleCheesePizza();
@@ -60,7 +61,8 @@ describe("Pizzas", function () {
         expect(pizza.getOrder()).toEqual("Preparing NY Style Sauce and Cheese Pizza\n" +
             "Tossing dough...\n" +
             "Adding sauce...\n" +
-            "Adding toppings: Grated Reggiano Cheese");
+            "Adding toppings:\n" +
+            "Grated Reggiano Cheese");
     });
 });
 //# sourceMappingURL=factory.spec.js.map

@@ -55,7 +55,8 @@ describe("Pizzas", ()=> {
         expect(pizza.getOrder()).toEqual("Preparing NY Style Sauce and Cheese Pizza\n" +
             "Tossing dough...\n" +
             "Adding sauce...\n" +
-            "Adding toppings: Grated Reggiano Cheese");
+            "Adding toppings:\n" +
+            "Grated Reggiano Cheese");
     });
     it("should get the NY Style pizza's name", ()=> {
         let pizza: Pizza = new NYStyleCheesePizza();
@@ -63,6 +64,7 @@ describe("Pizzas", ()=> {
         expect(pizza.getOrder()).toEqual("Preparing NY Style Sauce and Cheese Pizza\n" +
             "Tossing dough...\n" +
             "Adding sauce...\n" +
-            "Adding toppings: Grated Reggiano Cheese");
+            "Adding toppings:\n" +
+            "Grated Reggiano Cheese");
     });
 });

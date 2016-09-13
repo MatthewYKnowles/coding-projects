@@ -27,7 +27,7 @@ var Pizza = (function () {
         this._order += "Preparing " + this._name + "\n";
         this._order += "Tossing dough...\n";
         this._order += "Adding sauce...\n";
-        this._order += "Adding toppings: " + this._toppings[0];
+        this._order += "Adding toppings:\n" + this._toppings[0];
     };
     return Pizza;
 }());
