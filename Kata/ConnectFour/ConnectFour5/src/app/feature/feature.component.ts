@@ -14,15 +14,19 @@ export class FeatureComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         console.log(this.myCanvas);
         this.context = this.myCanvas.nativeElement.getContext("2d");
-        this.drawPiece();
+        this.drawPiece(7, 6);
     }
 
-    drawPiece() {
+    drawPiece(row: number, column: number) {
         let ctx = this.context;
+        let radius = 45;
+        let startAngle = 0;
+        let finishAngle = 2 * Math.PI;
+        let yAxisCenterPoint = 550;
+        let xAxisCenterPoint = 50;
         ctx.beginPath();
-        ctx.arc(50,550,50,0,2*Math.PI);
-        ctx.fillStyle = "yellow";
+        ctx.arc(xAxisCenterPoint, yAxisCenterPoint, radius, startAngle, finishAngle);
+        ctx.fillStyle = "red";
         ctx.fill();
     }
-
 }
