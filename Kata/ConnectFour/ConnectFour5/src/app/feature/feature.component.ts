@@ -18,8 +18,11 @@ export class FeatureComponent implements AfterViewInit {
     }
 
     drawPiece() {
-        let context = this.context;
-        context.fillStyle = 'blue';
-        context.fillRect(10, 10, 150, 150);
+        let ctx = this.context;
+        ctx.beginPath();
+        ctx.arc(50,550,50,0,2*Math.PI);
+        ctx.fillStyle = "yellow";
+        ctx.fill();
     }
+
 }
