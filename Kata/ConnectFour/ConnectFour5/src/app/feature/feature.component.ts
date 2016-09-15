@@ -1,16 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ViewChild, AfterViewInit} from '@angular/core';
 
 @Component({
-    moduleId: module.id, 
+    moduleId: module.id,
     selector: 'feature',
     templateUrl: 'feature.component.html'
 })
-export class FeatureComponent implements OnInit {
+export class FeatureComponent implements AfterViewInit {
 
-    constructor() { }
+    context: CanvasRenderingContext2D;
 
-    ngOnInit() { 
+    @ViewChild("myCanvas") myCanvas;
 
+    ngAfterViewInit(): void {
+        console.log(this.myCanvas);
+        this.context = this.myCanvas.nativeElement.getContext("2d");
+        this.drawPiece();
     }
 
+    drawPiece() {
+        let context = this.context;
+        context.fillStyle = 'blue';
+        context.fillRect(10, 10, 150, 150);
+    }
 }
