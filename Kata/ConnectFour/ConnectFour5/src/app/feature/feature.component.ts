@@ -9,7 +9,7 @@ export class FeatureComponent implements AfterViewInit {
 
     context: CanvasRenderingContext2D;
 
-    @ViewChild("myCanvas") myCanvas;
+    @ViewChild("myCanvas") myCanvas: any;
 
     ngAfterViewInit(): void {
         console.log(this.myCanvas);
