@@ -8,6 +8,7 @@ import {Component, ViewChild, AfterViewInit} from '@angular/core';
 export class FeatureComponent implements AfterViewInit {
 
     context: CanvasRenderingContext2D;
+    playersTurn: string = "red";
 
     @ViewChild("myCanvas") myCanvas: any;
 
@@ -27,7 +28,11 @@ export class FeatureComponent implements AfterViewInit {
         let xAxisCenterPoint = column * 100 - 50;
         ctx.beginPath();
         ctx.arc(xAxisCenterPoint, yAxisCenterPoint, radius, startAngle, finishAngle);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = this.playersTurn;
         ctx.fill();
+        this.changeTurn();
+    }
+    changeTurn(): void {
+        this.playersTurn === "red" ? "black": "red";
     }
 }
