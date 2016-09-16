@@ -17,6 +17,8 @@ export class FeatureComponent implements AfterViewInit {
         this.context = this.myCanvas.nativeElement.getContext("2d");
         this.drawPiece(1, 7);
         this.drawPiece(2, 7);
+        this.drawPiece(1, 6);
+        this.drawPiece(1, 5);
     }
 
     drawPiece(column: number, row: number) {
@@ -33,6 +35,6 @@ export class FeatureComponent implements AfterViewInit {
         this.changeTurn();
     }
     changeTurn(): void {
-        this.playersTurn === "red" ? "black": "red";
+        this.playersTurn = this.playersTurn === "red" ? "black": "red";
     }
 }
