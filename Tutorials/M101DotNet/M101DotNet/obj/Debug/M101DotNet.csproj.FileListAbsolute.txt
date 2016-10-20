@@ -1,0 +1,12 @@
+D:\Code\M101DotNet\M101DotNet\bin\Debug\M101DotNet.exe.config
+D:\Code\M101DotNet\M101DotNet\bin\Debug\M101DotNet.exe
+D:\Code\M101DotNet\M101DotNet\bin\Debug\M101DotNet.pdb
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Bson.dll
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.Core.dll
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.dll
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Bson.xml
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.xml
+D:\Code\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.Core.xml
+D:\Code\M101DotNet\M101DotNet\obj\Debug\M101DotNet.csprojResolveAssemblyReference.cache
+D:\Code\M101DotNet\M101DotNet\obj\Debug\M101DotNet.exe
+D:\Code\M101DotNet\M101DotNet\obj\Debug\M101DotNet.pdb
