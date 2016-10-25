@@ -12,18 +12,25 @@ namespace M101DotNet
     {
         static void Main(string[] args)
         {
-            MainAsync(args).GetAwaiter().GetResult();
-            Console.WriteLine();
+            MainAsync(args).Wait();
             Console.WriteLine("Press Enter");
             Console.ReadLine();
         }
 
-        static async Task MainAsync(string[] arg)
+        static async Task MainAsync(string[] args)
         {
-            var connectionString = "mongodb://localhose:27017";
-            var client = new MongoClient(connectionString);
+            var client = new MongoClient();
             var db = client.GetDatabase("test");
             var col = db.GetCollection<BsonDocument>("people");
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Lt("Age", 30);
+            var list = await col.Find(new BsonDocument())
+                .Sort(Builders<BsonDocument>.Sort.Ascending("Age").Descending("Name"))
+                .Project("{Name: 1, _id: 0}")
+                .ToListAsync();
+            //var list = await col.Find(filter).ToListAsync();
+
+            //var filter = new BsonDocument("Name", "Smith");
             //var doc = new Person
             //{
             //    Name = "Jones",
@@ -44,7 +51,8 @@ namespace M101DotNet
             //        }
             //    }
 
-            var list = await col.Find(new BsonDocument()).ToListAsync();
+            //await col.Find(new BsonDocument()).ForEachAsync(doc => Console.WriteLine(doc));
+            //var list = await col.Find("{ Name: 'Smith'}").ToListAsync();
             foreach (var doc in list)
             {
                 Console.WriteLine(doc);
