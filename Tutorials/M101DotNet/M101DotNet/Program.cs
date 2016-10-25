@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace M101DotNet
 {
-    class Program
+    class student
     {
         static void Main(string[] args)
         {
@@ -20,51 +20,20 @@ namespace M101DotNet
         static async Task MainAsync(string[] args)
         {
             var client = new MongoClient();
-            var db = client.GetDatabase("test");
-            var col = db.GetCollection<BsonDocument>("people");
-            var builder = Builders<BsonDocument>.Filter;
-            var filter = builder.Lt("Age", 30);
-            var list = await col.Find(new BsonDocument())
-                .Sort(Builders<BsonDocument>.Sort.Ascending("Age").Descending("Name"))
-                .Project("{Name: 1, _id: 0}")
+            var db = client.GetDatabase("students");
+            var col = db.GetCollection<BsonDocument>("grades");
+            var list = await col.Find(new BsonDocument("type", "homework"))
+                .Sort(Builders<BsonDocument>.Sort.Ascending("student_id").Descending("scores"))
                 .ToListAsync();
-            //var list = await col.Find(filter).ToListAsync();
-
-            //var filter = new BsonDocument("Name", "Smith");
-            //var doc = new Person
-            //{
-            //    Name = "Jones",
-            //    Age = 24,
-            //    Profession = "Hacker"
-            //};
-            //Console.WriteLine(doc.Id);
-            //await col.InsertOneAsync(doc);
-            //Console.WriteLine(doc.Id);
-
-            //using (var cursor = await col.Find(new BsonDocument()).ToCursorAsync())
-            //{
-            //    while (await cursor.MoveNextAsync())
-            //    {
-            //        foreach (var doc in cursor.Current)
-            //        {
-            //         Console.WriteLine(doc);   
-            //        }
-            //    }
-
-            //await col.Find(new BsonDocument()).ForEachAsync(doc => Console.WriteLine(doc));
-            //var list = await col.Find("{ Name: 'Smith'}").ToListAsync();
+            var lastStudentId = -1;
             foreach (var doc in list)
             {
-                Console.WriteLine(doc);
+                if (doc["student_id"] != lastStudentId)
+                {
+                    col.DeleteOne(doc);
+                }
+                lastStudentId = doc["student_id"].ToInt32();
             }
         }
-    }
-
-    class Person
-    {
-        public ObjectId Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Profession { get; set; }
     }
 }

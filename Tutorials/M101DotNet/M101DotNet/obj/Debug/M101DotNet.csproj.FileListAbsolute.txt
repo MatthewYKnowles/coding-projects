@@ -22,3 +22,15 @@ D:\Code\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Bson.xm
 D:\Code\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.xml
 D:\Code\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.Core.xml
 D:\Code\CodingProjects\Tutorials\M101DotNet\M101DotNet\obj\Debug\M101DotNet.csprojResolveAssemblyReference.cache
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\M101DotNet.exe.config
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\obj\Debug\M101DotNet.exe
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\obj\Debug\M101DotNet.pdb
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\M101DotNet.exe
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\M101DotNet.pdb
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Bson.dll
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.Core.dll
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.dll
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Bson.xml
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.xml
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\bin\Debug\MongoDB.Driver.Core.xml
+C:\Users\matthew\Documents\CodingProjects\Tutorials\M101DotNet\M101DotNet\obj\Debug\M101DotNet.csprojResolveAssemblyReference.cache
