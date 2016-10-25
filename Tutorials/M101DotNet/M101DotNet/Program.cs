@@ -23,7 +23,7 @@ namespace M101DotNet
             var db = client.GetDatabase("students");
             var col = db.GetCollection<BsonDocument>("grades");
             var list = await col.Find(new BsonDocument("type", "homework"))
-                .Sort(Builders<BsonDocument>.Sort.Ascending("student_id").Descending("scores"))
+                .Sort(Builders<BsonDocument>.Sort.Ascending("student_id").Ascending("score"))
                 .ToListAsync();
             var lastStudentId = -1;
             foreach (var doc in list)
