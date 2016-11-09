@@ -11,7 +11,6 @@ namespace M101DotNet.WebApp.Models
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string Author { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public List<string> Tags { get; set; }
