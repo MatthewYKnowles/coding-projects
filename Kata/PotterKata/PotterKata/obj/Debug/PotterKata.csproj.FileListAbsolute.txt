@@ -1,5 +1,0 @@
-c:\users\matthew\documents\visual studio 2015\Projects\PotterKata\PotterKata\bin\Debug\PotterKata.dll
-c:\users\matthew\documents\visual studio 2015\Projects\PotterKata\PotterKata\bin\Debug\PotterKata.pdb
-c:\users\matthew\documents\visual studio 2015\Projects\PotterKata\PotterKata\obj\Debug\PotterKata.csprojResolveAssemblyReference.cache
-c:\users\matthew\documents\visual studio 2015\Projects\PotterKata\PotterKata\obj\Debug\PotterKata.dll
-c:\users\matthew\documents\visual studio 2015\Projects\PotterKata\PotterKata\obj\Debug\PotterKata.pdb

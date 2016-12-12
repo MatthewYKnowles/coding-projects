@@ -1,0 +1,5 @@
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Algorithm\bin\Debug\PotterKata.Algorithm.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Algorithm\bin\Debug\PotterKata.Algorithm.pdb
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Algorithm\obj\Debug\PotterKata.Algorithm.csprojResolveAssemblyReference.cache
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Algorithm\obj\Debug\PotterKata.Algorithm.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Algorithm\obj\Debug\PotterKata.Algorithm.pdb

@@ -8,5 +8,9 @@ namespace PotterKata.Algorithm
 {
     public class PotterBooks
     {
+        public int getPrice(int[] potterBooks)
+        {
+            return 8 * potterBooks.Length;
+        }
     }
 }

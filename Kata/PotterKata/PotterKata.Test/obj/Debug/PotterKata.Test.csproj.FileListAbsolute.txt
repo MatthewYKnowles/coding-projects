@@ -1,0 +1,9 @@
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\PotterKata.Test.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\PotterKata.Test.pdb
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\nunit.framework.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\PotterKata.Algorithm.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\PotterKata.Algorithm.pdb
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\bin\Debug\nunit.framework.xml
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\obj\Debug\PotterKata.Test.csprojResolveAssemblyReference.cache
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\obj\Debug\PotterKata.Test.dll
+D:\Code\CodingProjects\Kata\PotterKata\PotterKata.Test\obj\Debug\PotterKata.Test.pdb
