@@ -16,14 +16,21 @@ namespace PotterKata.Test
         {
             PotterBooks potterBooks = new PotterBooks();
             int[] booksToBuy = {0};
-            Assert.That(potterBooks.getPrice(booksToBuy), Is.EqualTo(8));
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(8));
         }
         [Test]
         public void TwoBookTest()
         {
             PotterBooks potterBooks = new PotterBooks();
             int[] booksToBuy = {0, 0};
-            Assert.That(potterBooks.getPrice(booksToBuy), Is.EqualTo(16));
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(16));
+        }
+        [Test]
+        public void TwoDifferentBooksTest()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 1};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(16 * (1-.05)));
         }
     }
 }
