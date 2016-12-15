@@ -41,7 +41,13 @@ namespace PotterKata.Algorithm
                     booksInSet += 1;
                 }
             }
-            return booksInSet * (1 - .05 * (booksInSet - 1));
+            double discount = calculateDiscount(booksInSet);
+            return booksInSet * discount;
+        }
+
+        private static double calculateDiscount(double booksInSet)
+        {
+            return booksInSet < 4 ? (1 - .05 * (booksInSet - 1)) : (1 - .05 * booksInSet);
         }
 
         private void AddBooksToDictionary(int[] potterBooks)
