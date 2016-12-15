@@ -21,21 +21,38 @@ namespace PotterKata.Algorithm
 
         public double GetPrice(int[] potterBooks)
         {
-            double totalPrice = 0;
+            double priceForLargestSetPossible = 0;
+            double priceForMaximumSetOfFour = 0;
             AddBooksToDictionary(potterBooks);
             while (_BooksToBuy.Any(book => book.Value > 0))
             {
-                totalPrice += CalculateSetQuantityAndDiscount() * 8;
+                priceForLargestSetPossible += CalculateSetQuantityAndDiscountForMaximumPossible() * 8;
             }
-            return totalPrice;
+            AddBooksToDictionary(potterBooks);
+            while (_BooksToBuy.Any(book => book.Value > 0))
+            {
+                priceForMaximumSetOfFour += CalculateSetQuantityAndDiscountForFourSetMaximum() * 8;
+            }
+            return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
         }
 
-        private double CalculateSetQuantityAndDiscount()
+        private double CalculateSetQuantityAndDiscountForMaximumPossible()
         {
             double booksInSet = 0;
             foreach (KeyValuePair<string, double> BookQuantity in _BooksToBuy.ToList())
             {
-                if (BookQuantity.Value > 0)
+                booksInSet = CreateBiggestSetsPossible(BookQuantity, booksInSet);
+            }
+            double discount = calculateDiscount(booksInSet);
+            return booksInSet * discount;
+        }
+
+        private double CalculateSetQuantityAndDiscountForFourSetMaximum()
+        {
+            double booksInSet = 0;
+            foreach (KeyValuePair<string, double> BookQuantity in _BooksToBuy.ToList())
+            {
+                if (BookQuantity.Value > 0 && booksInSet < 4)
                 {
                     _BooksToBuy[BookQuantity.Key] -= 1;
                     booksInSet += 1;
@@ -43,6 +60,16 @@ namespace PotterKata.Algorithm
             }
             double discount = calculateDiscount(booksInSet);
             return booksInSet * discount;
+        }
+
+        private double CreateBiggestSetsPossible(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        {
+            if (BookQuantity.Value > 0)
+            {
+                _BooksToBuy[BookQuantity.Key] -= 1;
+                booksInSet += 1;
+            }
+            return booksInSet;
         }
 
         private static double calculateDiscount(double booksInSet)

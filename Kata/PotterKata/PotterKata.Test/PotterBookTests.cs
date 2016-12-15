@@ -64,8 +64,8 @@ namespace PotterKata.Test
         public void FiveDifferentBooksWithALotOfEachOneTest()
         {
             PotterBooks potterBooks = new PotterBooks();
-            int[] booksToBuy = {0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 4};
-            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(40 * .75 + 32 * .80 + 24 * .90 + 16 * .95 + 8));
+            int[] booksToBuy = {0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(2 * 40 * .75 + 24 * .90 + 16 * .95 + 8));
         }
         [Test]
         public void TwoGroupsOfFourIsBetterThanFiveAndThreeTest()
