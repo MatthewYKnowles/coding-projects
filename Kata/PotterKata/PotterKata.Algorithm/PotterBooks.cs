@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,27 +22,45 @@ namespace PotterKata.Algorithm
 
         public double GetPrice(int[] potterBooks)
         {
-            var priceForLargestSetPossible = GetPriceForLargestSetPossible(potterBooks);
-            var priceForMaximumSetOfFour = GetPriceForMaximumSetOfFour(potterBooks);
+            FourToASet fourToASet = new FourToASet();
+            FiveToASet fiveToASet = new FiveToASet();
+            AddBooksToDictionary(potterBooks);
+            var priceForLargestSetPossible = fiveToASet.GetPriceForLargestSetPossible(_BooksToBuy);
+            AddBooksToDictionary(potterBooks);
+            var priceForMaximumSetOfFour = fourToASet.GetPriceForMaximumSetOfFour(_BooksToBuy);
             return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
         }
 
-        private double GetPriceForMaximumSetOfFour(int[] potterBooks)
+        private void AddBooksToDictionary(int[] potterBooks)
         {
+            foreach (int bookNumber in potterBooks)
+            {
+                string bookName = "book" + (bookNumber + 1);
+                _BooksToBuy[bookName] += 1;
+            }
+        }
+    }
+
+    public abstract class SetPrice
+    {
+        private Dictionary<string, double> _booksToBuy;
+
+        public double GetPriceForMaximumSetOfFour(Dictionary<string, double> booksToBuy)
+        {
+            _booksToBuy = booksToBuy;
             double priceForMaximumSetOfFour = 0;
-            AddBooksToDictionary(potterBooks);
-            while (_BooksToBuy.Any(book => book.Value > 0))
+            while (_booksToBuy.Any(book => book.Value > 0))
             {
                 priceForMaximumSetOfFour += CalculateSetQuantityAndDiscountForFourSetMaximum() * 8;
             }
             return priceForMaximumSetOfFour;
         }
 
-        private double GetPriceForLargestSetPossible(int[] potterBooks)
+        public double GetPriceForLargestSetPossible(Dictionary<string, double> booksToBuy)
         {
+            _booksToBuy = booksToBuy;
             double priceForLargestSetPossible = 0;
-            AddBooksToDictionary(potterBooks);
-            while (_BooksToBuy.Any(book => book.Value > 0))
+            while (_booksToBuy.Any(book => book.Value > 0))
             {
                 priceForLargestSetPossible += CalculateSetQuantityAndDiscountForMaximumPossible() * 8;
             }
@@ -51,7 +70,7 @@ namespace PotterKata.Algorithm
         private double CalculateSetQuantityAndDiscountForMaximumPossible()
         {
             double booksInSet = 0;
-            foreach (KeyValuePair<string, double> BookQuantity in _BooksToBuy.ToList())
+            foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
             {
                 booksInSet = CreateBiggestSetsPossible(BookQuantity, booksInSet);
             }
@@ -62,11 +81,11 @@ namespace PotterKata.Algorithm
         private double CalculateSetQuantityAndDiscountForFourSetMaximum()
         {
             double booksInSet = 0;
-            foreach (KeyValuePair<string, double> BookQuantity in _BooksToBuy.ToList())
+            foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
             {
                 if (BookQuantity.Value > 0 && booksInSet < 4)
                 {
-                    _BooksToBuy[BookQuantity.Key] -= 1;
+                    _booksToBuy[BookQuantity.Key] -= 1;
                     booksInSet += 1;
                 }
             }
@@ -78,7 +97,7 @@ namespace PotterKata.Algorithm
         {
             if (BookQuantity.Value > 0)
             {
-                _BooksToBuy[BookQuantity.Key] -= 1;
+                _booksToBuy[BookQuantity.Key] -= 1;
                 booksInSet += 1;
             }
             return booksInSet;
@@ -94,8 +113,17 @@ namespace PotterKata.Algorithm
             foreach (int bookNumber in potterBooks)
             {
                 string bookName = "book" + (bookNumber + 1);
-                _BooksToBuy[bookName] += 1;
+                _booksToBuy[bookName] += 1;
             }
         }
+    }
+
+    public class FourToASet : SetPrice
+    {
+        
+    }
+    public class FiveToASet : SetPrice
+    {
+
     }
 }
