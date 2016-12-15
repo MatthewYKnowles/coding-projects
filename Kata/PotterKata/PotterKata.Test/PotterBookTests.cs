@@ -32,5 +32,26 @@ namespace PotterKata.Test
             int[] booksToBuy = {0, 1};
             Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(16 * (1-.05)));
         }
+        [Test]
+        public void TwoDifferentBooksThreeTotalBooksTest()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 1, 1};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(16 * (1-.05)+ 8));
+        }
+        [Test]
+        public void ThreeDifferentBooksTest()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 1, 2};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(24 * .90));
+        }
+        [Test]
+        public void FourDifferentBooksTest()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 1, 2, 3};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(32 * .80));
+        }
     }
 }

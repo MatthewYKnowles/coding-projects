@@ -14,28 +14,34 @@ namespace PotterKata.Algorithm
         {
             _BooksToBuy["book1"] = 0;
             _BooksToBuy["book2"] = 0;
+            _BooksToBuy["book3"] = 0;
+            _BooksToBuy["book4"] = 0;
+            _BooksToBuy["book5"] = 0;
         }
 
         public double GetPrice(int[] potterBooks)
         {
+            double totalPrice = 0;
             AddBooksToDictionary(potterBooks);
-            var firstSetOfBooks = calculateFirstSetPrice();
-            var secondSetOfBooks = calculateFirstSetPrice();
-            return 8 * firstSetOfBooks + 8 * secondSetOfBooks;
+            while (_BooksToBuy.Any(book => book.Value > 0))
+            {
+                totalPrice += CalculateSetQuantityAndDiscount() * 8;
+            }
+            return totalPrice;
         }
 
-        private double calculateFirstSetPrice()
+        private double CalculateSetQuantityAndDiscount()
         {
-            double firstSetPrice = 0;
+            double booksInSet = 0;
             foreach (KeyValuePair<string, double> BookQuantity in _BooksToBuy.ToList())
             {
                 if (BookQuantity.Value > 0)
                 {
                     _BooksToBuy[BookQuantity.Key] -= 1;
-                    firstSetPrice += 1;
+                    booksInSet += 1;
                 }
             }
-            return firstSetPrice * (1 - .05 * (firstSetPrice - 1));
+            return booksInSet * (1 - .05 * (booksInSet - 1));
         }
 
         private void AddBooksToDictionary(int[] potterBooks)
