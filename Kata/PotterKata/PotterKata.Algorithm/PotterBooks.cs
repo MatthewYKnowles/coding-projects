@@ -22,13 +22,23 @@ namespace PotterKata.Algorithm
 
         public double GetPrice(int[] potterBooks)
         {
-            AddBooksToDictionary(potterBooks);
-            FiveToASet fiveToASet = new FiveToASet(_BooksToBuy);
-            var priceForLargestSetPossible = fiveToASet.GetPriceForLargestSetPossible();
+            var priceForLargestSetPossible = GetPriceForLargestSetPossible(potterBooks);
+            var priceForMaximumSetOfFour = GPriceForMaximumSetOfFour(potterBooks);
+            return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
+        }
+
+        private double GPriceForMaximumSetOfFour(int[] potterBooks)
+        {
             AddBooksToDictionary(potterBooks);
             FourToASet fourToASet = new FourToASet(_BooksToBuy);
-            var priceForMaximumSetOfFour = fourToASet.GetPriceForMaximumSetOfFour();
-            return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
+            return fourToASet.GetPrice();
+        }
+
+        private double GetPriceForLargestSetPossible(int[] potterBooks)
+        {
+            AddBooksToDictionary(potterBooks);
+            FiveToASet fiveToASet = new FiveToASet(_BooksToBuy);
+            return fiveToASet.GetPrice();
         }
 
         private void AddBooksToDictionary(int[] potterBooks)
@@ -45,17 +55,7 @@ namespace PotterKata.Algorithm
     {
         protected Dictionary<string, double> _booksToBuy;
 
-        public double GetPriceForMaximumSetOfFour()
-        {
-            double priceForMaximumSetOfFour = 0;
-            while (_booksToBuy.Any(book => book.Value > 0))
-            {
-                priceForMaximumSetOfFour += CalculateSetQuantityAndDiscount() * 8;
-            }
-            return priceForMaximumSetOfFour;
-        }
-
-        public double GetPriceForLargestSetPossible()
+        public double GetPrice()
         {
             double priceForLargestSetPossible = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
@@ -76,13 +76,12 @@ namespace PotterKata.Algorithm
                     booksInSet += 1;
                 }
             }
-            double discount = calculateDiscount(booksInSet);
-            return booksInSet * discount;
+            return booksInSet * CalculateDiscount(booksInSet);
         }
 
         protected abstract bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet);
 
-        private static double calculateDiscount(double booksInSet)
+        private static double CalculateDiscount(double booksInSet)
         {
             return booksInSet < 4 ? (1 - .05 * (booksInSet - 1)) : (1 - .05 * booksInSet);
         }
@@ -95,9 +94,9 @@ namespace PotterKata.Algorithm
             _booksToBuy = booksToBuy;
         }
 
-        protected override bool BookIsValid(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        protected override bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet)
         {
-            return BookQuantity.Value > 0 && booksInSet < 4;
+            return bookQuantity.Value > 0 && booksInSet < 4;
         }
     }
     public class FiveToASet : SetPrice
@@ -107,9 +106,9 @@ namespace PotterKata.Algorithm
             _booksToBuy = booksToBuy;
         }
 
-        protected override bool BookIsValid(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        protected override bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet)
         {
-            return BookQuantity.Value > 0;
+            return bookQuantity.Value > 0;
         }
     }
 }
