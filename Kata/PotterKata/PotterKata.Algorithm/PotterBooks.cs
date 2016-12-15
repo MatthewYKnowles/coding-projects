@@ -81,7 +81,7 @@ namespace PotterKata.Algorithm
             double booksInSet = 0;
             foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
             {
-                if (BookQuantity.Value > 0 && booksInSet < 4)
+                if (BookIsValid(BookQuantity, booksInSet))
                 {
                     _booksToBuy[BookQuantity.Key] -= 1;
                     booksInSet += 1;
@@ -91,11 +91,13 @@ namespace PotterKata.Algorithm
             return booksInSet * discount;
         }
 
-        private double CreateBiggestSetsPossible(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        protected abstract bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet);
+
+        private double CreateBiggestSetsPossible(KeyValuePair<string, double> bookQuantity, double booksInSet)
         {
-            if (BookQuantity.Value > 0)
+            if (BookIsValid(bookQuantity, booksInSet))
             {
-                _booksToBuy[BookQuantity.Key] -= 1;
+                _booksToBuy[bookQuantity.Key] -= 1;
                 booksInSet += 1;
             }
             return booksInSet;
@@ -105,15 +107,6 @@ namespace PotterKata.Algorithm
         {
             return booksInSet < 4 ? (1 - .05 * (booksInSet - 1)) : (1 - .05 * booksInSet);
         }
-
-        private void AddBooksToDictionary(int[] potterBooks)
-        {
-            foreach (int bookNumber in potterBooks)
-            {
-                string bookName = "book" + (bookNumber + 1);
-                _booksToBuy[bookName] += 1;
-            }
-        }
     }
 
     public class FourToASet : SetPrice
@@ -122,12 +115,22 @@ namespace PotterKata.Algorithm
         {
             _booksToBuy = booksToBuy;
         }
+
+        protected override bool BookIsValid(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        {
+            return BookQuantity.Value > 0 && booksInSet < 4;
+        }
     }
     public class FiveToASet : SetPrice
     {
         public FiveToASet(Dictionary<string, double> booksToBuy)
         {
             _booksToBuy = booksToBuy;
+        }
+
+        protected override bool BookIsValid(KeyValuePair<string, double> BookQuantity, double booksInSet)
+        {
+            return BookQuantity.Value > 0;
         }
     }
 }
