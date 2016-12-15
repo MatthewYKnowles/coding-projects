@@ -50,7 +50,7 @@ namespace PotterKata.Algorithm
             double priceForMaximumSetOfFour = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
             {
-                priceForMaximumSetOfFour += CalculateSetQuantityAndDiscountForFourSetMaximum() * 8;
+                priceForMaximumSetOfFour += CalculateSetQuantityAndDiscount() * 8;
             }
             return priceForMaximumSetOfFour;
         }
@@ -60,23 +60,12 @@ namespace PotterKata.Algorithm
             double priceForLargestSetPossible = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
             {
-                priceForLargestSetPossible += CalculateSetQuantityAndDiscountForMaximumPossible() * 8;
+                priceForLargestSetPossible += CalculateSetQuantityAndDiscount() * 8;
             }
             return priceForLargestSetPossible;
         }
 
-        private double CalculateSetQuantityAndDiscountForMaximumPossible()
-        {
-            double booksInSet = 0;
-            foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
-            {
-                booksInSet = CreateBiggestSetsPossible(BookQuantity, booksInSet);
-            }
-            double discount = calculateDiscount(booksInSet);
-            return booksInSet * discount;
-        }
-
-        private double CalculateSetQuantityAndDiscountForFourSetMaximum()
+        private double CalculateSetQuantityAndDiscount()
         {
             double booksInSet = 0;
             foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
@@ -92,16 +81,6 @@ namespace PotterKata.Algorithm
         }
 
         protected abstract bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet);
-
-        private double CreateBiggestSetsPossible(KeyValuePair<string, double> bookQuantity, double booksInSet)
-        {
-            if (BookIsValid(bookQuantity, booksInSet))
-            {
-                _booksToBuy[bookQuantity.Key] -= 1;
-                booksInSet += 1;
-            }
-            return booksInSet;
-        }
 
         private static double calculateDiscount(double booksInSet)
         {
