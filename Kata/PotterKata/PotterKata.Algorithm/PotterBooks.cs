@@ -21,19 +21,31 @@ namespace PotterKata.Algorithm
 
         public double GetPrice(int[] potterBooks)
         {
-            double priceForLargestSetPossible = 0;
+            var priceForLargestSetPossible = GetPriceForLargestSetPossible(potterBooks);
+            var priceForMaximumSetOfFour = GetPriceForMaximumSetOfFour(potterBooks);
+            return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
+        }
+
+        private double GetPriceForMaximumSetOfFour(int[] potterBooks)
+        {
             double priceForMaximumSetOfFour = 0;
-            AddBooksToDictionary(potterBooks);
-            while (_BooksToBuy.Any(book => book.Value > 0))
-            {
-                priceForLargestSetPossible += CalculateSetQuantityAndDiscountForMaximumPossible() * 8;
-            }
             AddBooksToDictionary(potterBooks);
             while (_BooksToBuy.Any(book => book.Value > 0))
             {
                 priceForMaximumSetOfFour += CalculateSetQuantityAndDiscountForFourSetMaximum() * 8;
             }
-            return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
+            return priceForMaximumSetOfFour;
+        }
+
+        private double GetPriceForLargestSetPossible(int[] potterBooks)
+        {
+            double priceForLargestSetPossible = 0;
+            AddBooksToDictionary(potterBooks);
+            while (_BooksToBuy.Any(book => book.Value > 0))
+            {
+                priceForLargestSetPossible += CalculateSetQuantityAndDiscountForMaximumPossible() * 8;
+            }
+            return priceForLargestSetPossible;
         }
 
         private double CalculateSetQuantityAndDiscountForMaximumPossible()
