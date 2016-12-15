@@ -22,12 +22,12 @@ namespace PotterKata.Algorithm
 
         public double GetPrice(int[] potterBooks)
         {
-            FourToASet fourToASet = new FourToASet();
-            FiveToASet fiveToASet = new FiveToASet();
             AddBooksToDictionary(potterBooks);
-            var priceForLargestSetPossible = fiveToASet.GetPriceForLargestSetPossible(_BooksToBuy);
+            FiveToASet fiveToASet = new FiveToASet(_BooksToBuy);
+            var priceForLargestSetPossible = fiveToASet.GetPriceForLargestSetPossible();
             AddBooksToDictionary(potterBooks);
-            var priceForMaximumSetOfFour = fourToASet.GetPriceForMaximumSetOfFour(_BooksToBuy);
+            FourToASet fourToASet = new FourToASet(_BooksToBuy);
+            var priceForMaximumSetOfFour = fourToASet.GetPriceForMaximumSetOfFour();
             return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
         }
 
@@ -43,11 +43,10 @@ namespace PotterKata.Algorithm
 
     public abstract class SetPrice
     {
-        private Dictionary<string, double> _booksToBuy;
+        protected Dictionary<string, double> _booksToBuy;
 
-        public double GetPriceForMaximumSetOfFour(Dictionary<string, double> booksToBuy)
+        public double GetPriceForMaximumSetOfFour()
         {
-            _booksToBuy = booksToBuy;
             double priceForMaximumSetOfFour = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
             {
@@ -56,9 +55,8 @@ namespace PotterKata.Algorithm
             return priceForMaximumSetOfFour;
         }
 
-        public double GetPriceForLargestSetPossible(Dictionary<string, double> booksToBuy)
+        public double GetPriceForLargestSetPossible()
         {
-            _booksToBuy = booksToBuy;
             double priceForLargestSetPossible = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
             {
@@ -120,10 +118,16 @@ namespace PotterKata.Algorithm
 
     public class FourToASet : SetPrice
     {
-        
+        public FourToASet(Dictionary<string, double> booksToBuy)
+        {
+            _booksToBuy = booksToBuy;
+        }
     }
     public class FiveToASet : SetPrice
     {
-
+        public FiveToASet(Dictionary<string, double> booksToBuy)
+        {
+            _booksToBuy = booksToBuy;
+        }
     }
 }
