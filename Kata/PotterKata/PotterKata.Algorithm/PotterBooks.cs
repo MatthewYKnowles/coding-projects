@@ -9,7 +9,7 @@ namespace PotterKata.Algorithm
 {
     public class PotterBooks
     {
-        private Dictionary<string, double> _BooksToBuy = new Dictionary<string, double>();
+        private Dictionary<string, decimal> _BooksToBuy = new Dictionary<string, decimal>();
 
         public PotterBooks()
         {
@@ -20,21 +20,21 @@ namespace PotterKata.Algorithm
             _BooksToBuy["book5"] = 0;
         }
 
-        public double GetPrice(int[] potterBooks)
+        public decimal GetPrice(int[] potterBooks)
         {
             var priceForLargestSetPossible = GetPriceForLargestSetPossible(potterBooks);
             var priceForMaximumSetOfFour = GPriceForMaximumSetOfFour(potterBooks);
             return Math.Min(priceForMaximumSetOfFour, priceForLargestSetPossible);
         }
 
-        private double GPriceForMaximumSetOfFour(int[] potterBooks)
+        private decimal GPriceForMaximumSetOfFour(int[] potterBooks)
         {
             AddBooksToDictionary(potterBooks);
             FourToASet fourToASet = new FourToASet(_BooksToBuy);
             return fourToASet.GetPrice();
         }
 
-        private double GetPriceForLargestSetPossible(int[] potterBooks)
+        private decimal GetPriceForLargestSetPossible(int[] potterBooks)
         {
             AddBooksToDictionary(potterBooks);
             FiveToASet fiveToASet = new FiveToASet(_BooksToBuy);
@@ -53,11 +53,11 @@ namespace PotterKata.Algorithm
 
     public abstract class SetPrice
     {
-        protected Dictionary<string, double> _booksToBuy;
+        protected Dictionary<string, decimal> _booksToBuy;
 
-        public double GetPrice()
+        public decimal GetPrice()
         {
-            double priceForLargestSetPossible = 0;
+            decimal priceForLargestSetPossible = 0;
             while (_booksToBuy.Any(book => book.Value > 0))
             {
                 priceForLargestSetPossible += CalculateSetQuantityAndDiscount() * 8;
@@ -65,10 +65,10 @@ namespace PotterKata.Algorithm
             return priceForLargestSetPossible;
         }
 
-        private double CalculateSetQuantityAndDiscount()
+        private decimal CalculateSetQuantityAndDiscount()
         {
-            double booksInSet = 0;
-            foreach (KeyValuePair<string, double> BookQuantity in _booksToBuy.ToList())
+            decimal booksInSet = 0;
+            foreach (var BookQuantity in _booksToBuy.OrderByDescending(key => key.Value).ToList())
             {
                 if (BookIsValid(BookQuantity, booksInSet))
                 {
@@ -79,34 +79,34 @@ namespace PotterKata.Algorithm
             return booksInSet * CalculateDiscount(booksInSet);
         }
 
-        protected abstract bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet);
+        protected abstract bool BookIsValid(KeyValuePair<string, decimal> bookQuantity, decimal booksInSet);
 
-        private static double CalculateDiscount(double booksInSet)
+        private static decimal CalculateDiscount(decimal booksInSet)
         {
-            return booksInSet < 4 ? (1 - .05 * (booksInSet - 1)) : (1 - .05 * booksInSet);
+            return (decimal) (booksInSet < 4 ? (1 - .05 * (double) (booksInSet - 1)) : (1 - .05 * (double) booksInSet));
         }
     }
 
     public class FourToASet : SetPrice
     {
-        public FourToASet(Dictionary<string, double> booksToBuy)
+        public FourToASet(Dictionary<string, decimal> booksToBuy)
         {
             _booksToBuy = booksToBuy;
         }
 
-        protected override bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet)
+        protected override bool BookIsValid(KeyValuePair<string, decimal> bookQuantity, decimal booksInSet)
         {
             return bookQuantity.Value > 0 && booksInSet < 4;
         }
     }
     public class FiveToASet : SetPrice
     {
-        public FiveToASet(Dictionary<string, double> booksToBuy)
+        public FiveToASet(Dictionary<string, decimal> booksToBuy)
         {
             _booksToBuy = booksToBuy;
         }
 
-        protected override bool BookIsValid(KeyValuePair<string, double> bookQuantity, double booksInSet)
+        protected override bool BookIsValid(KeyValuePair<string, decimal> bookQuantity, decimal booksInSet)
         {
             return bookQuantity.Value > 0;
         }

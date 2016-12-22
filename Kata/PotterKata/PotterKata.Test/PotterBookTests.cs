@@ -23,7 +23,7 @@ namespace PotterKata.Test
         {
             PotterBooks potterBooks = new PotterBooks();
             int[] booksToBuy = {0, 0};
-            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(16));
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(8 * 2));
         }
         [Test]
         public void TwoDifferentBooksTest()
@@ -73,6 +73,20 @@ namespace PotterKata.Test
             PotterBooks potterBooks = new PotterBooks();
             int[] booksToBuy = {0, 0, 1, 1, 2, 2, 3, 4};
             Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(32 * .80 + 32 * .80));
+        }
+        [Test]
+        public void MikeTest()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(78.80));
+        }
+        [Test]
+        public void MikeTest2()
+        {
+            PotterBooks potterBooks = new PotterBooks();
+            int[] booksToBuy = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4};
+            Assert.That(potterBooks.GetPrice(booksToBuy), Is.EqualTo(100.00));
         }
     }
 }
