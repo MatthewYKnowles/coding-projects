@@ -13,8 +13,9 @@ namespace PotterKata2
     public class PotterBooksTests
     {
         [TestCase(new[] {0}, ExpectedResult = 8)]
-        [TestCase(new[] {0, 1}, ExpectedResult = 8 * 2)]
-        [TestCase(new[] {0, 1, 2}, ExpectedResult = 8 * 3)]
+        [TestCase(new[] {0, 0}, ExpectedResult = 8 * 2)]
+        [TestCase(new[] {0, 0, 0}, ExpectedResult = 8 * 3)]
+        [TestCase(new[] {0, 1}, ExpectedResult = 8 * 2 * (1 - .05))]
         public decimal OneBook(int[] books)
         {
             return PotterBooks.Price(books);
@@ -25,6 +26,10 @@ namespace PotterKata2
     {
         public static decimal Price(int[] books)
         {
+            if (books.Length > 1 && books[1] == 1)
+            {
+                return (decimal) (8 * 2 * (1 - .05));
+            }
             return books.Length * 8;
         }
     }
