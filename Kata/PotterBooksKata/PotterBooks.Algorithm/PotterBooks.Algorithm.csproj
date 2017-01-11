@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0103E450-9A10-4C18-9439-0FDE161632E4}</ProjectGuid>
+    <ProjectGuid>{6EA66662-4FFB-48CE-B1A5-75338961C7C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PotterKata.Algorithm</RootNamespace>
-    <AssemblyName>PotterKata.Algorithm</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>PotterBooks.Algorithm</RootNamespace>
+    <AssemblyName>PotterBooks.Algorithm</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,9 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PotterKata.cs" />
+    <Compile Include="PotterPricing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetDiscounts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

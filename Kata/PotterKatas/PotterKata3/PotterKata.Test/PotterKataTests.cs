@@ -13,7 +13,8 @@ namespace PotterKata.Test
         [TestCase(new[] {0, 0}, ExpectedResult = 8 * 2)]
         [TestCase(new[] {0, 0, 0}, ExpectedResult = 8 * 3)]
         [TestCase(new[] {0, 1, 0, 1}, ExpectedResult = 8 * 2 * (1 - .05) + (8 * 2 * (1-.05)))]
-        [TestCase(new[] {0, 1, 0, 1, 0, 1, 2, 3, 4}, ExpectedResult = (8 * 5 * (1 - .25)) + (8 * 2 * (1 - .05)) + (8 * 2 * (1-.05)))]
+        [TestCase(new[] {0, 1, 0, 1, 0, 1, 2, 3, 4}, ExpectedResult = 60.4)]
+        [TestCase(new[] {0, 1, 2, 3, 4, 1, 2, 3}, ExpectedResult = 51.20)]
         public decimal PotterTests(int[] books)
         {
             var potterKata = new Algorithm.PotterKata(books);
