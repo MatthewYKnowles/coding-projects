@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotterBooks.Test", "PotterBooks.Test\PotterBooks.Test.csproj", "{7271B2E9-2C03-4284-82D1-D0FD495A1C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotterBooks.Algorithm", "PotterBooks.Algorithm\PotterBooks.Algorithm.csproj", "{6EA66662-4FFB-48CE-B1A5-75338961C7C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7271B2E9-2C03-4284-82D1-D0FD495A1C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7271B2E9-2C03-4284-82D1-D0FD495A1C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7271B2E9-2C03-4284-82D1-D0FD495A1C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7271B2E9-2C03-4284-82D1-D0FD495A1C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EA66662-4FFB-48CE-B1A5-75338961C7C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EA66662-4FFB-48CE-B1A5-75338961C7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EA66662-4FFB-48CE-B1A5-75338961C7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EA66662-4FFB-48CE-B1A5-75338961C7C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
