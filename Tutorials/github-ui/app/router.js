@@ -7,7 +7,6 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-<<<<<<< HEAD
   this.route('orgs');
   this.route('org', {path: 'org/:id'}, function() {
     this.route('repos');
@@ -17,9 +16,6 @@ Router.map(function() {
     });
   });
   this.route('notfound', {path: '*path'});
-=======
-  this.route('home');
->>>>>>> 3b102763fa5e22697c8b1216bc85185cdf417f83
 });
 
 export default Router;

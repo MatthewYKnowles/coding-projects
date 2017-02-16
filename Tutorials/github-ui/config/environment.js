@@ -16,6 +16,9 @@ module.exports = function(environment) {
         Date: false
       }
     },
+      contentSecurityPolicy: {
+        'connect-scr': 'https://api.github.com/*'
+      },
 
     APP: {
       // Here you can pass flags/options to your application instance

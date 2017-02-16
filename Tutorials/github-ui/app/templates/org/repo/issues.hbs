@@ -1,4 +1,12 @@
 {{outlet}}
 
 
-<p>Issues</p>
+<p>Contributors</p>
+
+<ul>
+    {{#each content as |issues|}}
+        <li>{{issues.title}}</li>
+    {{/each}}
+</ul>
+
+{{log content}}

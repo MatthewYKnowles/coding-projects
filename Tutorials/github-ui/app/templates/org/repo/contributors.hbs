@@ -1,4 +1,12 @@
 {{outlet}}
 
 
-<p>Contributos</p>
+<p>Contributors</p>
+
+<ul>
+    {{#each content as |contributor|}}
+        <li>{{contributor.login}}</li>
+    {{/each}}
+</ul>
+
+{{log content}}
