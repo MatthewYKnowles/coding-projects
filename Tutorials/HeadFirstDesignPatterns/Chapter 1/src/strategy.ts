@@ -78,6 +78,7 @@ class Mallard extends Duck{
     }
 
     display() {
+
         return "Mallard";
     }
 }
