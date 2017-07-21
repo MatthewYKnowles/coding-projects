@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 
 public static class Grains
 {
@@ -10,6 +9,7 @@ public static class Grains
 
     public static ulong Total()
     {
-        return 18446744073709551615ul;
+        const ulong grainsInSixtyFourSquares = 18446744073709551615ul;
+        return grainsInSixtyFourSquares;
     }
 }
