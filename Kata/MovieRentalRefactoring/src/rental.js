@@ -1,17 +1,35 @@
-var Rental = function () { };
+var MovieRentalStatements = function () { };
 
-Rental.prototype.statement = function (customer) {
-  var totalAmount = 0;
-  var frequentRenterPoints = 0;
-  var result = `Rental Record for ${customer.name}\n`;
+MovieRentalStatements.prototype.print = function (customer) {
+  var statement = this.buildStatement(customer);
+  var result = this.buildString(statement);
+  return result;
+};
+
+MovieRentalStatements.prototype.buildStatement = function (customer) {
+  var statement = {
+    customerName: customer.name,
+    movies: [],
+    totalAmount: 0,
+    frequentRenterPoints: 0
+  };
   for (var rental of customer.rentals) {
     var movie = movies[rental.movieID];
-    totalAmount += calculateRentalAmount(movie.code, rental.days);
-    frequentRenterPoints += shouldAddDoublePoints(movie.code, rental.days) ? 2 : 1;
-    result += `\t${movie.title}\t${calculateRentalAmount(movie.code, rental.days)}\n`;
+    let movieRentalAmount = movieFactory(movie.code).getAmount(rental.days);
+    statement.movies.push({ title: movie.title, amount: movieRentalAmount });
+    statement.totalAmount += movieRentalAmount;
+    statement.frequentRenterPoints += shouldAddDoublePoints(movie.code, rental.days) ? 2 : 1;
   }
-  result += `Amount owed is ${totalAmount}\n`;
-  result += `You earned ${frequentRenterPoints} frequent renter points\n`;
+  return statement;
+};
+
+MovieRentalStatements.prototype.buildString = function (statement) {
+  var result = `Rental Record for ${statement.customerName}\n`;
+  statement.movies.forEach((movie) => {
+    result += `\t${movie.title}\t${movie.amount}\n`;
+  });
+  result += `Amount owed is ${statement.totalAmount}\n`;
+  result += `You earned ${statement.frequentRenterPoints} frequent renter points\n`;
   return result;
 };
 
@@ -19,10 +37,10 @@ function shouldAddDoublePoints(movieCode, days) {
   return movieCode === "new" && days > 2;
 }
 
-function calculateRentalAmount(movieCode, days) {
-  if (movieCode === "regular") return regularMovie.getAmount(days);
-  if (movieCode === "childrens") return childrensMovie.getAmount(days);
-  return newMovie.getAmount(days);
+function movieFactory(movieCode) {
+  if (movieCode === "regular") return regularMovie;
+  if (movieCode === "childrens") return childrensMovie;
+  return newMovie;
 }
 
 var movies = {

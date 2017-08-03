@@ -1,12 +1,16 @@
 describe('Rental', function () {
-  var stuff;
+  var movieRentalStatements;
   var customer;
 
   beforeEach(function () {
-    stuff = new Rental();
+    movieRentalStatements = new MovieRentalStatements();
     customer = {
       name: 'Steven',
     }
+  });
+  it('should rent Cars 2 for 2 days', function () {
+    let movie = { id: 'F003', name: 'Cars 2', price: 1.5, points: 1 }
+    testOneRental(movie, 2);
   });
   it('should rent Cars 2 for 3 days', function () {
     let movie = { id: 'F003', name: 'Cars 2', price: 1.5, points: 1 }
@@ -61,13 +65,13 @@ describe('Rental', function () {
       ]
     };
 
-    var actualResult = stuff.statement(customer)
+    var actualResult = movieRentalStatements.print(customer)
     expect(actualResult).toEqual(properResult);
   });
   function testOneRental(movie, rentalDays) {
     customer.rentals = [{ movieID: movie.id, days: rentalDays }]
     let expectedResult = oneMovieRentalString(customer.name, movie);
-    expect(stuff.statement(customer)).toEqual(expectedResult);
+    expect(movieRentalStatements.print(customer)).toEqual(expectedResult);
   }
 });
 function oneMovieRentalString(name, movie) {
