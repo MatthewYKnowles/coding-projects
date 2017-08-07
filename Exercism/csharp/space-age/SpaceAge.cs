@@ -1,75 +1,177 @@
 using System;
-using System.Collections.Generic;
 
 public class SpaceAge
 {
     private readonly long _seconds;
-    private readonly Dictionary<string, double> _planetOrbitInSeconds;
 
     public SpaceAge(long seconds)
     {
         _seconds = seconds;
-        _planetOrbitInSeconds = new Dictionary<string, double>()
-        {
-            {"Mercury", 7600525.80},
-            {"Venus", 19411026.17},
-            {"Earth", 31557600.00},
-            {"Mars", 59359776.78},
-            {"Jupiter", 374222565.14},
-            {"Saturn", 928792569.65},
-            {"Uranus", 2652994591.73},
-            {"Neptune", 5196280668.35}
-        };
     }
 
     public double OnMercury()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Mercury");
+        return GetSpaceAge("Mercury");
     }
 
     public double OnVenus()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Venus");
+        return GetSpaceAge("Venus");
     }
 
     public double OnEarth()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Earth");
+        return GetSpaceAge("Earth");
     }
 
     public double OnMars()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Mars");
+        return GetSpaceAge("Mars");
     }
 
     public double OnJupiter()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Jupiter");
+        return GetSpaceAge("Jupiter");
     }
 
     public double OnSaturn()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Saturn");
+        return GetSpaceAge("Saturn");
     }
 
     public double OnUranus()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Uranus");
+        return GetSpaceAge("Uranus");
     }
 
     public double OnNeptune()
     {
-        return AgeOfObjectOnPlanetWithTwoDigits("Neptune");
+        return GetSpaceAge("Neptune");
     }
 
-
-    private double AgeOfObjectOnPlanetWithTwoDigits(string planet)
+    private double GetSpaceAge(string planetName)
     {
-        return Math.Round(AgeOfObjectOnPlanet(planet) * 100) / 100;
+        double ageOfObjectOnPlanet = PlanetFactory.GetPlanet(planetName)
+            .CalculateAgeOfObject(_seconds);
+        return RoundToTwoDigits(ageOfObjectOnPlanet);
     }
 
-    private double AgeOfObjectOnPlanet(string planet)
+    public double RoundToTwoDigits(double number)
     {
-        return _seconds / _planetOrbitInSeconds[planet];
+        return Math.Round(number * 100) / 100;
+    }
+}
+
+public abstract class Planet
+{
+    protected double OrbitInSeconds;
+
+    public double CalculateAgeOfObject(long seconds)
+    {
+        return seconds / OrbitInSeconds;
+    }
+}
+
+public class Mercury : Planet
+{
+    public Mercury()
+    {
+        OrbitInSeconds = 7600525;
+    }
+}
+
+public class Venus : Planet
+{
+    public Venus()
+    {
+        OrbitInSeconds = 19411026;
+    }
+}
+
+public class Earth : Planet
+{
+    public Earth()
+    {
+        OrbitInSeconds = 31557600;
+    }
+}
+
+public class Mars : Planet
+{
+    public Mars()
+    {
+        OrbitInSeconds = 59359776;
+    }
+}
+
+public class Jupiter : Planet
+{
+    public Jupiter()
+    {
+        OrbitInSeconds = 374222565;
+    }
+}
+
+public class Saturn : Planet
+{
+    public Saturn()
+    {
+        OrbitInSeconds = 928792569;
+    }
+}
+
+public class Uranus : Planet
+{
+    public Uranus()
+    {
+        OrbitInSeconds = 2652994591;
+    }
+}
+
+public class Neptune : Planet
+{
+    public Neptune()
+    {
+        OrbitInSeconds = 5196280668;
+    }
+}
+
+public static class PlanetFactory
+{
+    public static Planet GetPlanet(string planetName)
+    {
+        if (planetName == "Mercury")
+        {
+            return new Mercury();
+        }
+        if (planetName == "Venus")
+        {
+            return new Venus();
+        }
+        if (planetName == "Earth")
+        {
+            return new Earth();
+        }
+        if (planetName == "Mars")
+        {
+            return new Mars();
+        }
+        if (planetName == "Jupiter")
+        {
+            return new Jupiter();
+        }
+        if (planetName == "Saturn")
+        {
+            return new Saturn();
+        }
+        if (planetName == "Uranus")
+        {
+            return new Uranus();
+        }
+        if (planetName == "Neptune")
+        {
+            return new Neptune();
+        }
+        return null;
     }
 }
