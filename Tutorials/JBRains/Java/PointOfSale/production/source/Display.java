@@ -1,6 +1,12 @@
 public class Display {
 
+    private String text;
+
     public String getText() {
-        return "7.95";
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
