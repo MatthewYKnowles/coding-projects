@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Sale {
     private Display display;
 
@@ -5,14 +8,19 @@ public class Sale {
         this.display = display;
     }
     public void onBarcode(String barcode) {
-        if("12345".equals(barcode)){
-            display.setText("7.95");
-        }
-        else if("23456".equals(barcode)){
-            display.setText("12.50");
+        if ("".equals(barcode)) {
+            display.setText("Scanning error: empty barcode");
         }
         else {
-            display.setText("Product not found for " + barcode);
+            Map<String, String> pricesByBarcode = new HashMap<String, String>() {{
+                put("12345", "7.95");
+                put("23456", "12.50");
+            }};
+            if (pricesByBarcode.containsKey(barcode)) {
+                display.setText(pricesByBarcode.get(barcode));
+            } else {
+                display.setText("Product not found for " + barcode);
+            }
         }
     }
 }
