@@ -1,7 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -14,10 +13,10 @@ public class SellOneItemTest {
     @Before
     public void setUp() throws Exception {
         display = new Display();
-        sale = new Sale(display, new HashMap<String, String>() {{
+        sale = new Sale(display, new Catalog(new HashMap<String, String>() {{
             put("12345", "7.95");
             put("23456", "12.50");
-        }});
+        }}));
     }
 
     @Test
@@ -40,7 +39,7 @@ public class SellOneItemTest {
 
     @Test
     public void emptyBarcode() throws Exception {
-        Sale sale = new Sale(display, null);
+        Sale sale = new Sale(display, new Catalog(null));
         sale.onBarcode("");
         assertEquals("Scanning error: empty barcode", display.getText());
     }

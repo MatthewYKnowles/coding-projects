@@ -1,24 +1,22 @@
-import java.util.Map;
-
 public class Sale {
+    private final Catalog catalog;
     private Display display;
-    private Map<String, String> pricesByBarcode;
 
-    public Sale(Display display, Map<String, String> pricesByBarcode) {
-
+    public Sale(Display display, Catalog catalog) {
         this.display = display;
-        this.pricesByBarcode = pricesByBarcode;
+        this.catalog = catalog;
     }
 
     public void onBarcode(String barcode) {
         if ("".equals(barcode)) {
-            display.setText("Scanning error: empty barcode");
+            display.displayEmptyBarcodeMessage();
             return;
         }
-        if (pricesByBarcode.containsKey(barcode)) {
-            display.setText(pricesByBarcode.get(barcode));
+        String priceAsText = catalog.findPrice(barcode);
+        if (priceAsText == null) {
+            display.displayProductNotFoundMessage(barcode);
         } else {
-            display.setText("Product not found for " + barcode);
+            display.displayPrice(priceAsText);
         }
     }
 
