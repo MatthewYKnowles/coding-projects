@@ -20,4 +20,8 @@ public class Sale {
         }
     }
 
+    public void onTotal() {
+        display.displayNoSaleInProgressMessage();
+    }
+
 }

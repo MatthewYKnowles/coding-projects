@@ -3,7 +3,6 @@ public class Display {
     private String text;
 
     public String getText() {
-
         return text;
     }
 
@@ -17,5 +16,13 @@ public class Display {
 
     void displayEmptyBarcodeMessage() {
         this.text = "Scanning error: empty barcode";
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void displayNoSaleInProgressMessage() {
+        this.text = "no sale in progress.  Try scanning a product";
     }
 }
