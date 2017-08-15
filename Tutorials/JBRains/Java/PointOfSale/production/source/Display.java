@@ -25,4 +25,8 @@ public class Display {
     public void displayNoSaleInProgressMessage() {
         this.text = "no sale in progress.  Try scanning a product";
     }
+
+    public void displayPurchaseTotal(String price) {
+        this.text = "Total: " + price;
+    }
 }
