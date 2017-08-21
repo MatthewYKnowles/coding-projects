@@ -13,21 +13,25 @@ public class Sale {
             display.displayEmptyBarcodeMessage();
             return;
         }
-        scannedPrice = catalog.findPrice(barcode);
+        scannedPrice = catalog.findThenFormatPrice(barcode);
         if (scannedPrice == null) {
             display.displayProductNotFoundMessage(barcode);
         } else {
-            display.displayPrice(scannedPrice);
+            display.displayPrice(formatMonetaryAmount(scannedPrice));
         }
     }
 
     public void onTotal() {
         boolean saleInProcess = !(scannedPrice == null);
         if (saleInProcess) {
-             display.displayPurchaseTotal(scannedPrice);
+             display.displayPurchaseTotal(formatMonetaryAmount(scannedPrice));
         } else {
             display.displayNoSaleInProgressMessage();
         }
+    }
+
+    private String formatMonetaryAmount(String priceAsText) {
+        return priceAsText;
     }
 
 }

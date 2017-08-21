@@ -46,13 +46,13 @@ namespace Weather_Data_Mocking
         public void ShouldMakeTemperatureCold()
         {
             var temperatureSensor = new Mock<ITemperatureSensor>();
-            temperatureSensor.Setup(x => x.GetTemperature()).Returns(70);
+            temperatureSensor.Setup(x => x.GetTemperature()).Returns(50);
             IHumiditySensor humiditySensor = new FakeLowHumiditySensor();
             WeatherDisplay weatherDisplay = new WeatherDisplay(temperatureSensor.Object, humiditySensor);
-            Assert.That(weatherDisplay.GetDisplayedText(), Is.EqualTo("It is warm outside"));
+            Assert.That(weatherDisplay.GetDisplayedText(), Is.EqualTo("It is cold outside"));
         }
 
-        //Spy Tests
+        //Spy Test
         [Test]
         public void ShouldCheckHumidty()
         {
@@ -61,7 +61,18 @@ namespace Weather_Data_Mocking
             WeatherDisplay weatherDisplay = new WeatherDisplay(temperatureSensor.Object, humiditySensor.Object);
             weatherDisplay.GetDisplayedText();
             humiditySensor.Verify(x => x.IsHumidityTooHigh());
+        }
 
+        [Test]
+        public void Mock()
+        {
+            var temperatureSensor = new Mock<ITemperatureSensor>(MockBehavior.Strict);
+            temperatureSensor.Setup(x => x.GetTemperature()).Returns(0);
+            var humiditySensor = new FakeHighHumiditySensor();
+            WeatherDisplay weatherDisplay = new WeatherDisplay(temperatureSensor.Object, humiditySensor);
+            weatherDisplay.GetDisplayedText();
+
+            temperatureSensor.VerifyAll();
         }
     }
 

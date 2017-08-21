@@ -1,19 +1,22 @@
+import java.util.HashMap;
 import java.util.Map;
 
 class Catalog {
-    private final Map<String, String> pricesByBarcode;
+    private Map<String, String> pricesAsStringByBarcode;
+    private Map<String, Integer> pricesAsNumberByBarcode;
 
-    Catalog(Map<String, String> pricesByBarcode) {
 
-        this.pricesByBarcode = pricesByBarcode;
+    public Catalog(Map<String, String> pricesAsStringByBarcode, Map<String, Integer> pricesAsNumberByBarcode) {
+        this.pricesAsStringByBarcode = pricesAsStringByBarcode;
+        this.pricesAsNumberByBarcode = pricesAsNumberByBarcode;
     }
 
     public Map<String, String> getPricesByBarcode() {
 
-        return pricesByBarcode;
+        return pricesAsStringByBarcode;
     }
 
-    public String findPrice(String barcode) {
-        return pricesByBarcode.get(barcode);
+    public String findThenFormatPrice(String barcode) {
+        return pricesAsStringByBarcode.get(barcode);
     }
 }
