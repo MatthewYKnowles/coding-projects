@@ -13,10 +13,7 @@ public class ScanOneItemTest {
     @Before
     public void setUp() throws Exception {
         display = new Display();
-        sale = new Sale(display, new Catalog(new HashMap<String, String>() {{
-            put("12345", "7.95");
-            put("23456", "12.50");
-        }}, new HashMap<String, Integer>() {{
+        sale = new Sale(display, new Catalog(new HashMap<String, Integer>() {{
             put("12345", 795);
             put("23456", 1250);
         }}));
@@ -25,13 +22,13 @@ public class ScanOneItemTest {
     @Test
     public void productFound() throws Exception {
         sale.onBarcode("12345");
-        assertEquals("7.95", display.getText());
+        assertEquals("$7.95", display.getText());
     }
 
     @Test
     public void anotherProductFound() throws Exception {
         sale.onBarcode("23456");
-        assertEquals("12.50", display.getText());
+        assertEquals("$12.50", display.getText());
     }
 
     @Test
@@ -42,7 +39,7 @@ public class ScanOneItemTest {
 
     @Test
     public void emptyBarcode() throws Exception {
-        Sale sale = new Sale(display, new Catalog(null, null));
+        Sale sale = new Sale(display, new Catalog(null));
         sale.onBarcode("");
         assertEquals("Scanning error: empty barcode", display.getText());
     }

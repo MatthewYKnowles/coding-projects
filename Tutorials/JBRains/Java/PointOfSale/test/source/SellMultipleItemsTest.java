@@ -1,8 +1,6 @@
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.Collections;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +17,7 @@ public class SellMultipleItemsTest {
 
     @Test
     public void oneItemFound() {
-        Catalog catalog = new Catalog(Collections.singletonMap("12345", "$6.50"), Collections.singletonMap("12345", 650));
+        Catalog catalog = new Catalog(Collections.singletonMap("12345", 650));
         Display display = new Display();
         Sale sale = new Sale(display, catalog);
 
@@ -31,7 +29,7 @@ public class SellMultipleItemsTest {
 
     @Test
     public void oneItemNotFound() {
-        Catalog catalog = new Catalog(Collections.singletonMap("12345", "$6.50"), Collections.singletonMap("12345", 650));
+        Catalog catalog = new Catalog(Collections.singletonMap("12345", 650));
         Display display = new Display();
         Sale sale = new Sale(display, catalog);
 

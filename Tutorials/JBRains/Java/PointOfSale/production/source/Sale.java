@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Sale {
     private final Catalog catalog;
     private Display display;
-    private String scannedPrice;
+    private Collection<Integer> pendingPurchaseItemPrices = new ArrayList<Integer>();
 
     public Sale(Display display, Catalog catalog) {
         this.display = display;
@@ -13,25 +16,26 @@ public class Sale {
             display.displayEmptyBarcodeMessage();
             return;
         }
-        scannedPrice = catalog.findThenFormatPrice(barcode);
-        if (scannedPrice == null) {
+        Integer priceInCents = catalog.findPrice(barcode);
+        if (priceInCents == null) {
             display.displayProductNotFoundMessage(barcode);
         } else {
-            display.displayPrice(formatMonetaryAmount(scannedPrice));
+            pendingPurchaseItemPrices.add(priceInCents);
+            display.displayPrice(priceInCents);
         }
     }
 
     public void onTotal() {
-        boolean saleInProcess = !(scannedPrice == null);
-        if (saleInProcess) {
-             display.displayPurchaseTotal(formatMonetaryAmount(scannedPrice));
-        } else {
+        if (pendingPurchaseItemPrices.isEmpty()) {
             display.displayNoSaleInProgressMessage();
+        } else {
+            display.displayPurchaseTotal(Display.formatMonetaryAmount(pendingPurchaseTotal()));
         }
     }
 
-    private String formatMonetaryAmount(String priceAsText) {
-        return priceAsText;
+    private Integer pendingPurchaseTotal() {
+
+        return pendingPurchaseItemPrices.iterator().next();
     }
 
 }
