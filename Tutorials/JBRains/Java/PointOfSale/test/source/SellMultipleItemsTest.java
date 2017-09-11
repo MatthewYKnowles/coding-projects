@@ -7,6 +7,11 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 
 public class SellMultipleItemsTest {
+
+    private Catalog emptyCatalog() {
+        return new Catalog(Collections.emptyMap());
+    }
+
     @Test
     public void zeroItems() {
         Display display = new Display();
@@ -56,12 +61,7 @@ public class SellMultipleItemsTest {
                 display.getText());
     }
 
-    private Catalog emptyCatalog() {
-        return new Catalog(Collections.emptyMap());
-    }
-
     @Test
-    @Ignore("Refactoring")
     public void severalItemsAllFound() {
         Catalog catalog = new Catalog(new HashMap<String, Integer>(){{
             put("1", 850);

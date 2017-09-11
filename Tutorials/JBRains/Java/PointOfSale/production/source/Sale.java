@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.BinaryOperator;
 
 public class Sale {
     private final Catalog catalog;
@@ -38,8 +39,8 @@ public class Sale {
         return computePurchaseTotal(pendingPurchaseItemPrices);
     }
 
-    public static Integer computePurchaseTotal(Collection<Integer> pendingPurchaseItemPrices) {
-        return pendingPurchaseItemPrices.iterator().next();
+    public static Integer computePurchaseTotal(Collection<Integer> purchaseItemPrices) {
+        return purchaseItemPrices.stream().reduce(0, Integer::sum);
     }
 
 }
