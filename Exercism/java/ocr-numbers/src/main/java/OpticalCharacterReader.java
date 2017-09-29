@@ -3,6 +3,8 @@ import java.util.List;
 
 public class OpticalCharacterReader {
     NumbersToOCR numbersToOCR;
+    private final int NUMBER_OF_ROWS_IN_AN_OCR_NUMBER = 4;
+    private final int NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER = 3;
 
     public OpticalCharacterReader() {
         numbersToOCR = new NumbersToOCR();
@@ -15,20 +17,26 @@ public class OpticalCharacterReader {
 
     private String translateOcrStream(List<String> ocrStream) {
         String translatedRows = "";
-        int rowsOfOcrNumbers = ocrStream.size() / 4;
-        for (int i = 0; i < rowsOfOcrNumbers; i++) {
-            int currentOcrRowStartingIndex = i * 4;
-            if (i > 0) {
-                translatedRows += ",";
-            }
-            translatedRows += translateOneOcrRow(ocrStream.subList(currentOcrRowStartingIndex, currentOcrRowStartingIndex + 4));
+        int rowsOfOcrNumbers = ocrStream.size() / NUMBER_OF_ROWS_IN_AN_OCR_NUMBER;
+        for (int currentRow = 0; currentRow < rowsOfOcrNumbers; currentRow++) {
+            translatedRows = translateRowWithCommas(ocrStream, currentRow);
         }
         return translatedRows;
     }
 
+    private String translateRowWithCommas(List<String> ocrStream, int currentRow) {
+        int currentOcrRowStartingIndex = currentRow * NUMBER_OF_ROWS_IN_AN_OCR_NUMBER;
+        String row = "";
+        if (currentRow > 0) {
+            row += ",";
+        }
+        row += translateOneOcrRow(ocrStream.subList(currentOcrRowStartingIndex, currentOcrRowStartingIndex + NUMBER_OF_ROWS_IN_AN_OCR_NUMBER));
+        return row;
+    }
+
     private String translateOneOcrRow(List<String> ocrRows) {
         String translatedStream = "";
-        int numbersInOcrStream = ocrRows.get(0).length() / 3;
+        int numbersInOcrStream = ocrRows.get(0).length() / NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER;
         for (int ocrStreamIndex = 0; ocrStreamIndex < numbersInOcrStream; ocrStreamIndex++) {
             String ocrNumber = extractOneOcrNumber(ocrRows, ocrStreamIndex);
             translatedStream += translateOcrNumberToInteger(ocrNumber);
@@ -37,11 +45,10 @@ public class OpticalCharacterReader {
     }
 
     private String extractOneOcrNumber(List<String> ocrRows, int ocrStreamIndex) {
-        int ocrNumberStartingIndex = ocrStreamIndex * 3;
-        int numberOfRowsInAnOcrNumber = 4;
+        int ocrNumberStartingIndex = ocrStreamIndex * NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER;
         String ocrNumber = "";
-        for (int i = 0; i < numberOfRowsInAnOcrNumber; i++) {
-            ocrNumber += ocrRows.get(i).substring(ocrNumberStartingIndex, ocrNumberStartingIndex + 3);
+        for (int i = 0; i < NUMBER_OF_ROWS_IN_AN_OCR_NUMBER; i++) {
+            ocrNumber += ocrRows.get(i).substring(ocrNumberStartingIndex, ocrNumberStartingIndex + NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER);
         }
         return ocrNumber;
     }
@@ -56,25 +63,27 @@ public class OpticalCharacterReader {
     }
 
     private void checkForIllegalNumberOfRows(List<String> ocrRows) {
-        if (correctOcrNumberHeight(ocrRows)) {
-            throw new IllegalArgumentException("Number of input rows must be a positive multiple of 4");
+        if (illegalOcrNumberHeight(ocrRows)) {
+            throw new IllegalArgumentException(
+                    String.format("Number of input rows must be a positive multiple of %s", NUMBER_OF_ROWS_IN_AN_OCR_NUMBER));
         }
     }
 
     private void checkForIllegalRowLength(List<String> ocrRows) {
         for (String ocrRow : ocrRows) {
-            if (correctOcrNumberWidth(ocrRow)) {
-                throw new IllegalArgumentException("Number of input columns must be a positive multiple of 3");
+            if (illegalOcrNumberWidth(ocrRow)) {
+                throw new IllegalArgumentException(
+                        String.format("Number of input columns must be a positive multiple of %s", NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER));
             }
         }
     }
 
-    private boolean correctOcrNumberHeight(List<String> ocrRows) {
-        return ocrRows.size() % 4 != 0;
+    private boolean illegalOcrNumberHeight(List<String> ocrRows) {
+        return ocrRows.size() % NUMBER_OF_ROWS_IN_AN_OCR_NUMBER != 0;
     }
 
-    private boolean correctOcrNumberWidth(String ocrRow) {
-        return ocrRow.length() % 3 != 0;
+    private boolean illegalOcrNumberWidth(String ocrRow) {
+        return ocrRow.length() % NUMBER_OF_COLUMNS_IN_AN_OCR_NUMBER != 0;
     }
 
     private class NumbersToOCR {
