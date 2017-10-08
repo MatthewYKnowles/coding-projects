@@ -4,7 +4,7 @@ public static class Bob
 {
     public static string Hey(string statement)
     {
-        return IsAngryResponse(statement)
+        return AngryResponse(statement)
             ? "Whoa, chill out!"
             : GetCalmResponse(statement);
     }
@@ -12,38 +12,38 @@ public static class Bob
     private static string GetCalmResponse(string statement)
     {
         string statementWithoutSpaces = statement.Replace(" ", "");
-        if (IsEmpty(statementWithoutSpaces))
+        if (NoStatement(statementWithoutSpaces))
         {
             return "Fine. Be that way!";
         }
-        if (IsAQuestion(statementWithoutSpaces))
+        if (Question(statementWithoutSpaces))
         {
             return "Sure.";
         }
         return "Whatever.";
     }
 
-    private static bool IsEmpty(string statementWithoutSpaces)
+    private static bool NoStatement(string statement)
     {
-        return string.IsNullOrWhiteSpace(statementWithoutSpaces);
+        return string.IsNullOrWhiteSpace(statement);
     }
 
-    private static bool IsAQuestion(string statementWithoutSpaces)
+    private static bool Question(string statement)
     {
-        return statementWithoutSpaces.EndsWith("?");
+        return statement.EndsWith("?");
     }
 
-    private static bool IsAngryResponse(string statement)
+    private static bool AngryResponse(string statement)
     {
-        return HasAnyLetters(statement) && AreAllLettersCapitalized(statement);
+        return HasLetters(statement) && AllLettersCapitalized(statement);
     }
 
-    private static bool AreAllLettersCapitalized(string statement)
+    private static bool AllLettersCapitalized(string statement)
     {
         return statement.ToUpper() == statement;
     }
 
-    private static bool HasAnyLetters(string statement)
+    private static bool HasLetters(string statement)
     {
         return statement.Any(char.IsLetter);
     }
