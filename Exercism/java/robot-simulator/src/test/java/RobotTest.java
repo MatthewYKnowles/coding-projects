@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 public class RobotTest {
 
-    @Ignore("Remove to run test")
     @Test
     public void testRobotIsCreatedWithCorrectInitialPosition() {
         final GridPosition initialGridPosition = new GridPosition(0, 0);
@@ -14,7 +13,7 @@ public class RobotTest {
         assertEquals(robot.getGridPosition(), initialGridPosition);
     }
 
-    @Ignore("Remove to run test")
+
     @Test
     public void testRobotIsCreatedWithCorrectInitialOrientation() {
         final Orientation initialOrientation = Orientation.NORTH;
@@ -23,7 +22,7 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), initialOrientation);
     }
 
-    @Ignore("Remove to run test")
+
     @Test
     public void testTurningRightDoesNotChangePosition() {
         final GridPosition initialGridPosition = new GridPosition(0, 0);
@@ -34,7 +33,7 @@ public class RobotTest {
         assertEquals(robot.getGridPosition(), initialGridPosition);
     }
 
-    @Ignore("Remove to run test")
+
     @Test
     public void testTurningRightCorrectlyChangesOrientationFromNorthToEast() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.NORTH);
@@ -46,7 +45,7 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
+
     @Test
     public void testTurningRightCorrectlyChangesOrientationFromEastToSouth() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.EAST);
@@ -58,7 +57,7 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
+
     @Test
     public void testTurningRightCorrectlyChangesOrientationFromSouthToWest() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.SOUTH);
@@ -70,7 +69,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningRightCorrectlyChangesOrientationFromWestToNorth() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.WEST);
@@ -82,7 +80,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningLeftDoesNotChangePosition() {
         final GridPosition initialGridPosition = new GridPosition(0, 0);
@@ -93,7 +90,6 @@ public class RobotTest {
         assertEquals(robot.getGridPosition(), initialGridPosition);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningLeftCorrectlyChangesOrientationFromNorthToWest() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.NORTH);
@@ -105,7 +101,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningLeftCorrectlyChangesOrientationFromWestToSouth() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.WEST);
@@ -117,7 +112,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningLeftCorrectlyChangesOrientationFromSouthToEast() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.SOUTH);
@@ -129,7 +123,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testTurningLeftCorrectlyChangesOrientationFromEastToNorth() {
         final Robot robot = new Robot(new GridPosition(0, 0), Orientation.EAST);
@@ -141,7 +134,6 @@ public class RobotTest {
         assertEquals(robot.getOrientation(), expectedOrientation);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testAdvancingDoesNotChangeOrientation() {
         final Orientation initialOrientation = Orientation.NORTH;
