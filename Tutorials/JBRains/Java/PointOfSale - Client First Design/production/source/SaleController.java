@@ -8,6 +8,11 @@ public class SaleController {
     }
 
     public void onBarcode(String barcode) {
-        display.displayPrice(catalog.findPrice(barcode));
+        Price price = catalog.findPrice(barcode);
+        if (price == null){
+            display.displayProductNotFoundMessage(barcode);
+        } else {
+            display.displayPrice(price);
+        }
     }
 }
