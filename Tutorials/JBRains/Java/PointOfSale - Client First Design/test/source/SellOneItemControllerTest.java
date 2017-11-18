@@ -15,7 +15,7 @@ public class SellOneItemControllerTest {
     public void setUp() throws Exception {
         catalog = context.mock(Catalog.class);
         display = context.mock(Display.class);
-        saleController = new SaleController(display, catalog);
+        saleController = new SaleController(catalog, display);
     }
 
     @Test
@@ -23,12 +23,12 @@ public class SellOneItemControllerTest {
         Price irrelevantPrice = Price.cents(755);
 
         context.checking(new Expectations() {{
-            allowing(catalog).findPrice(with("12345"));
+            allowing(catalog).findPrice(with("::product found::"));
             will(returnValue(irrelevantPrice));
            oneOf(display).displayPrice(with(irrelevantPrice));
         }});
 
-        saleController.onBarcode("12345");
+        saleController.onBarcode("::product found::");
     }
 
     @Test
@@ -41,5 +41,14 @@ public class SellOneItemControllerTest {
         }});
 
         saleController.onBarcode("::product not found::");
+    }
+
+    @Test
+    public void emptyBarcode() throws Exception {
+        context.checking(new Expectations() {{
+            oneOf(display).displayEmptyBarcodeMessage();
+        }});
+        saleController = new SaleController(null, display);
+        saleController.onBarcode("");
     }
 }
