@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fibonacci\Fibonacci.csproj" />
+    <ProjectReference Include="..\FizzBuzz.Service\FizzBuzz.Service.csproj" />
   </ItemGroup>
 
 </Project>
