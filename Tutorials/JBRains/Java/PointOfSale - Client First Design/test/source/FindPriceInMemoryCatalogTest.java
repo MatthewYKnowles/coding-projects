@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class FindPriceInMemoryCatalogTest extends FindPriceInCatalogContract {
 
     @Override
-    protected Catalog catalogWith(String barcode, Price price) {
+    protected Catalog catalogWith(final String barcode, final Price price) {
         return new InMemoryCatalog(
                 new HashMap<String, Price>(){{
                     put("definitely not " + barcode, Price.cents(0));
