@@ -1,8 +1,8 @@
 import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.jmock.integration.junit4.JUnitRuleMockery;
 
 public class SellOneItemControllerTest {
     @Rule
@@ -20,7 +20,7 @@ public class SellOneItemControllerTest {
 
     @Test
     public void productFound() throws Exception {
-        Price irrelevantPrice = Price.cents(755);
+        final Price irrelevantPrice = Price.cents(755);
 
         context.checking(new Expectations() {{
             allowing(catalog).findPrice(with("::product found::"));
