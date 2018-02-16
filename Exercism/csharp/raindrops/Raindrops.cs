@@ -1,21 +1,24 @@
 using System;
+using System.Linq;
 
 public static class Raindrops
 {
     public static string Convert(int number)
     {
-        if (number == 7)
+        var raindropSound = "";
+        if (number % 3 == 0)
         {
-            return "Plong";
+            raindropSound += "Pling";
         }
-        if (number == 5)
+        if (number % 5 == 0)
         {
-            return "Plang";
+            raindropSound += "Plang";
         }
-        if (number == 3)
+        if (number % 7 == 0)
         {
-            return "Pling";
+            raindropSound += "Plong";
         }
-        return "1";
+
+        return raindropSound == "" ? number.ToString() : raindropSound;
     }
 }
