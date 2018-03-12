@@ -12,7 +12,7 @@ public class School
 
     public IEnumerable<string> Roster()
     {
-        return students.Select(x => x.Name);
+        return students.OrderBy(x => x.Grade).ThenBy(x => x.Name).Select(x => x.Name);
     }
 
     public IEnumerable<string> Grade(int grade)
