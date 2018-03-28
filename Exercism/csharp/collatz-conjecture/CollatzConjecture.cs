@@ -2,52 +2,50 @@
 
 public static class CollatzConjecture
 {
-    public static int Steps(int number)
+    public static long Steps(long number)
     {
         CheckForInvalidInput(number);
         return CalculateCollatzSteps(number);
     }
 
-    private static int CalculateCollatzSteps(int number)
+    private static long CalculateCollatzSteps(long number)
     {
-        int steps = 0;
-        int currentNumber = number;
+        var steps = 0;
 
-        while (currentNumber > 1)
+        for (var currentNumber = number; currentNumber > 1; steps++)
         {
-            steps += 1;
             currentNumber = GetNextCollatzNumber(currentNumber);
         }
 
         return steps;
     }
 
-    private static int GetNextCollatzNumber(int number)
+    private static long GetNextCollatzNumber(long number)
     {
 
-        return number.IsEven() ? EvenCollatzNumber(number) : OddCollatzNumber(number);
+        return number.IsEven() ? number.EvenCollatzNumber() : number.OddCollatzNumber();
     }
 
-    private static Boolean IsEven(this int number)
+    private static bool IsEven(this long number)
     {
         return number % 2 == 0;
     }
     
-    private static int OddCollatzNumber(int number)
+    private static long OddCollatzNumber(this long number)
     {
         return number * 3 + 1;
     }
 
-    private static int EvenCollatzNumber(int number)
+    private static long EvenCollatzNumber(this long number)
     {
         return number / 2;
     }
 
-    private static void CheckForInvalidInput(int number)
+    private static void CheckForInvalidInput(long number)
     {
         if (number <= 0)
         {
-            throw new ArgumentException();
+            throw new ArgumentException(nameof(number));
         }
     }
 }

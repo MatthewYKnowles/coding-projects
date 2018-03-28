@@ -40,6 +40,12 @@ public class CollatzConjectureTest
     {
         Assert.Equal(152, CollatzConjecture.Steps(1000000));
     }
+    
+    [Fact]
+    public void ReallyLarge()
+    {
+        Assert.Equal(372, CollatzConjecture.Steps(3333333124112344434));
+    }
 
     [Fact]
     public void Zero_is_an_error()
