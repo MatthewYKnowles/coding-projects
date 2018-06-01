@@ -12,7 +12,7 @@ public class TennisGame1 implements TennisGame {
     }
 
     public void wonPoint(String playerName) {
-        if (playerName == playerOneName)
+        if (playerName.equals(playerOneName))
             playerOneScore += 1;
         else
             playerTwoScore += 1;
@@ -41,15 +41,15 @@ public class TennisGame1 implements TennisGame {
     }
 
     private String getWinningScore() {
-        String score = "Win for ";
-        score += (playerOneScore - playerTwoScore) > 0 ? playerOneName : playerTwoName;
-        return score;
+        return "Win for " + getPlayerWithHigherPoints();
     }
 
     private String getAdvantageScore() {
-        String score = "Advantage ";
-        score += (playerOneScore - playerTwoScore) > 0 ? playerOneName : playerTwoName;
-        return score;
+        return "Advantage " + getPlayerWithHigherPoints();
+    }
+
+    private String getPlayerWithHigherPoints() {
+        return (playerOneScore - playerTwoScore) > 0 ? playerOneName : playerTwoName;
     }
 
     private boolean scoreDifferenceIsOne(int scoreDifference) {
