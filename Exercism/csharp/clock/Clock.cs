@@ -59,7 +59,7 @@ public struct Clock
     
     private static int calculateHours(int hours, int minutes)
     {
-        int finalHours
+        int finalHours;
         return (int) ((hours + Math.Floor((decimal)minutes/60)) % 24);
     }
 }
