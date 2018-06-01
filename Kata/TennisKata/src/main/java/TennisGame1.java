@@ -19,26 +19,45 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        String score = "";
         IPoints playerOnePoints = PointsFactory.getPoints(playerOneScore);
         IPoints playerTwoPoints = PointsFactory.getPoints(playerTwoScore);
         if (scoreIsTied())
         {
             return playerOnePoints.getEvenScore();
         }
-        if (playerOneScore >=4 || playerTwoScore >=4)
+        if (scoreIsInEndGame())
         {
-            int minusResult = playerOneScore - playerTwoScore;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+            return determineEndGameScore();
         }
-        else
-        {
-            score = playerOnePoints.getScore() + "-" + playerTwoPoints.getScore();
+        return playerOnePoints.getScore() + "-" + playerTwoPoints.getScore();
+    }
+
+    private String determineEndGameScore() {
+        int scoreDifference = playerOneScore - playerTwoScore;
+        if (scoreDifferenceIsOne(scoreDifference)){
+            return getAdvantageScore();
         }
+        return getWinningScore();
+    }
+
+    private String getWinningScore() {
+        String score = "Win for ";
+        score += (playerOneScore - playerTwoScore) > 0 ? playerOneName : playerTwoName;
         return score;
+    }
+
+    private String getAdvantageScore() {
+        String score = "Advantage ";
+        score += (playerOneScore - playerTwoScore) > 0 ? playerOneName : playerTwoName;
+        return score;
+    }
+
+    private boolean scoreDifferenceIsOne(int scoreDifference) {
+        return Math.abs(scoreDifference) == 1;
+    }
+
+    private boolean scoreIsInEndGame() {
+        return playerOneScore >=4 || playerTwoScore >=4;
     }
 
     private boolean scoreIsTied() {
