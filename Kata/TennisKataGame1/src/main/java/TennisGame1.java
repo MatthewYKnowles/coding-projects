@@ -33,8 +33,7 @@ public class TennisGame1 implements TennisGame {
     }
 
     private String determineEndGameScore() {
-        int scoreDifference = playerOneScore - playerTwoScore;
-        if (scoreDifferenceIsOne(scoreDifference)){
+        if (scoreDifferenceIsOne(playerOneScore - playerTwoScore)){
             return getAdvantageScore();
         }
         return getWinningScore();
