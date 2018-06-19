@@ -1,30 +1,13 @@
-function sumOfMultiplesOfThreeAndFive(number){
-    var answer = 0;
-    var maxNumber = number - 1;
-    var multiplesOfThree = Math.floor(maxNumber/3);
-    if (multiplesOfThree % 2 === 1){
-        answer += (multiplesOfThree*3)* divideByTwoRoundingUp(multiplesOfThree);
+function sumOfMultiplesOfThreeAndFive(input){
+    let sum = 0;
+    for (let i = 0; i < input; i++) {
+        if (shouldAddToSum(i)) {
+            sum += i;
+        }
     }
-    if (multiplesOfThree % 2 === 0){
-        answer += (multiplesOfThree*3+3)* divideByTwoRoundingUp(multiplesOfThree);
-    }
-    var multiplesOfFive = Math.floor(maxNumber/5);
-    if (multiplesOfFive % 2 === 1){
-        answer += (multiplesOfFive*5)* divideByTwoRoundingUp(multiplesOfFive);
-    }
-    if (multiplesOfFive % 2 === 0){
-        answer += (multiplesOfFive*5+5)* divideByTwoRoundingUp(multiplesOfFive);
-    }
-    var multiplesOfFifteen = Math.floor(maxNumber/15);
-    if (multiplesOfFifteen % 2 === 1){
-        answer -= (multiplesOfFifteen*15)* divideByTwoRoundingUp(multiplesOfFifteen);
-    }
-    if (multiplesOfFifteen % 2 === 0){
-        answer -= (multiplesOfFifteen*15+15)* divideByTwoRoundingUp(multiplesOfFifteen);
-    }
-    return answer;
+    return sum;
 }
 
-function divideByTwoRoundingUp(whatToDivide) {
-    return Math.ceil(whatToDivide/2);
+function shouldAddToSum(number) {
+    return number % 5 === 0 || number % 3 === 0;
 }
