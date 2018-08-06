@@ -14,4 +14,10 @@ describe("largestPrimeFactor", function(){
     it("should return 3 as largest prime factor of 6", function(){
         expect(largestPrimeFactor(6)).toBe(3);
     });
+    it("should return 7 as largest prime factor of 7", function(){
+        expect(largestPrimeFactor(7)).toBe(7);
+    });
+    it("project Euler answer", function(){
+        expect(largestPrimeFactor(600851475143)).toBe(7);
+    });
 });

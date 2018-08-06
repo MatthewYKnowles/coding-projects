@@ -1,42 +1,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 public class NucleotideCount
 {
-    public Dictionary<char, int> NucleotideCounts { get; set; }
+    public Dictionary<char, int> NucleotideCounts { get; }
     
     public NucleotideCount(string sequence)
     {
-        NucleotideCounts = new Dictionary<char, int>
+        NucleotideCounts = InitialNucleotideCounts();
+        PopulateNucleotideCounts(sequence);
+    }
+
+    private Dictionary<char, int> InitialNucleotideCounts()
+    {
+        return new Dictionary<char, int>
         {
             ['A'] = 0,
             ['C'] = 0,
             ['G'] = 0,
             ['T'] = 0
         };
-
-        PopulateCucleotideCounts(sequence);
     }
 
-    private void PopulateCucleotideCounts(string sequence)
+    private void PopulateNucleotideCounts(string sequence)
     {
         foreach (var nucleotide in sequence)
         {
-            if (NotValidNucleotide(nucleotide))
-            {
-                throw new InvalidNucleotideException();
-            }
-
+            CheckForInvalidNucleotide(nucleotide);
             NucleotideCounts[nucleotide] += 1;
         }
     }
 
-    private static bool NotValidNucleotide(char nucleotide)
+    private static void CheckForInvalidNucleotide(char nucleotide)
+    {
+        if (InvalidNucleotide(nucleotide))
+        {
+            throw new ArgumentException();
+        }
+    }
+
+    private static bool InvalidNucleotide(char nucleotide)
     {
         return !"ACGT".Contains(nucleotide);
     }
 }
-
-public class InvalidNucleotideException : Exception { }
