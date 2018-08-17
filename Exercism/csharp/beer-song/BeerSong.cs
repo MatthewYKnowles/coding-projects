@@ -1,75 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 public static class BeerSong
 {
     public static string Recite(int initalNumberOfBottles, int totalVerses)
     {
-        var verses = new List<string>{};
+        var verses = new List<string> { };
         for (var currentVerse = 0; currentVerse < totalVerses; currentVerse++)
         {
-            var bottlesOnWall = BottlesOnWallFactory.GetBottlesOnWall(initalNumberOfBottles - currentVerse);
-            verses.Add(bottlesOnWall.getSongVerse(initalNumberOfBottles - currentVerse));
+            verses.Add(Verse(initalNumberOfBottles - currentVerse));
         }
+
         return String.Join("\n\n", verses);
     }
-}
 
-public static class BottlesOnWallFactory
-{
-    public static BottlesOnWall GetBottlesOnWall(int bottles)
+    public static string Verse(int number)
     {
-        switch (bottles)
+        switch (number)
         {
             case 0:
-                return new NoBottleOnWall();
+                return "No more bottles of beer on the wall, " +
+                       "no more bottles of beer.\n" +
+                       "Go to the store and buy some more, " +
+                       "99 bottles of beer on the wall.";
             case 1:
-                return new OneBottleOnWall();
-            case 2:
-                return new TwoBottlesOnWall();
+                return $"1 bottle of beer on the wall, " +
+                       $"1 bottle of beer.\n" +
+                       $"Take it down and pass it around, " +
+                       $"no more bottles of beer on the wall.";
             default:
-                return new MoreThanTwoBottlesOnWall();
+                return $"{number} {Container(number)} of beer on the wall, " +
+                       $"{number} {Container(number)} of beer.\n" +
+                       $"Take one down and pass it around, " +
+                       $"{number - 1} {Container(number - 1)} of beer on the wall.";
         }
     }
-}
 
-public interface BottlesOnWall
-{
-    string getSongVerse(int bottles);
-}
-
-public class MoreThanTwoBottlesOnWall : BottlesOnWall
-{
-    public string getSongVerse(int bottles)
+    public static string Container(int number)
     {
-        return $"{bottles} bottles of beer on the wall, {bottles} bottles of beer.\n" +
-               $"Take one down and pass it around, {bottles - 1} bottles of beer on the wall.";
-    }
-}
-
-public class TwoBottlesOnWall : BottlesOnWall
-{
-    public string getSongVerse(int bottles)
-    {
-        return $"2 bottles of beer on the wall, 2 bottles of beer.\n" +
-               $"Take one down and pass it around, 1 bottle of beer on the wall.";
-    }
-}
-
-public class OneBottleOnWall : BottlesOnWall
-{
-    public string getSongVerse(int bottles)
-    {
-        return $"1 bottle of beer on the wall, 1 bottle of beer.\n" +
-               $"Take it down and pass it around, no more bottles of beer on the wall.";
-    }
-}
-
-public class NoBottleOnWall : BottlesOnWall
-{
-    public string getSongVerse(int bottles)
-    {
-        return "No more bottles of beer on the wall, no more bottles of beer.\n" +
-               "Go to the store and buy some more, 99 bottles of beer on the wall.";
+        return number == 1 ? "bottle" : "bottles";
     }
 }
