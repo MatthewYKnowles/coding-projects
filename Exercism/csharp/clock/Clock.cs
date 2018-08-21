@@ -21,6 +21,11 @@ public struct Clock
         return new Clock(_hours, _minutes - minutesToSubtract);
     }
     
+    public override string ToString()
+    {
+        return $"{_hours:00}:{_minutes:00}";
+    }
+    
     private static int HoursFromMinutes(int minutes)
     {
         return (int) Math.Floor((decimal)minutes/60);
@@ -42,17 +47,5 @@ public struct Clock
         return timeUnitRemainder < 0 
             ? timeUnitRemainder + upperLimit
             : timeUnitRemainder;
-    }
-    
-    public override string ToString()
-    {
-        return $"{ClockDisplay(_hours)}:{ClockDisplay(_minutes)}";
-    }
-
-    private string ClockDisplay(int timeUnit)
-    {
-        return timeUnit < 10 ? 
-            $"0{timeUnit}" 
-            : timeUnit.ToString();
     }
 }
