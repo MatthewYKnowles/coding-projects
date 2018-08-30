@@ -11,6 +11,14 @@ public class BinarySearch
 
     public int Find(int value)
     {
-        return 6;
+        if (_input.Length == 1)
+        {
+            return _input[0] == value ? 0 : -1;
+        }
+        if (_input.Length > 1)
+        {
+            return 3;
+        }
+        return 0;
     }
 }

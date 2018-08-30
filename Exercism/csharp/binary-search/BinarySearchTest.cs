@@ -13,7 +13,7 @@ public class BinarySearchTest
         Assert.Equal(0, sut.Find(6));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Finds_a_value_in_the_middle_of_an_array()
     {
         var array = new[] { 1, 3, 4, 6, 8, 9, 11 };
