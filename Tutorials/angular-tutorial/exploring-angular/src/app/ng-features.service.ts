@@ -11,6 +11,6 @@ export class NgFeaturesService {
       { 'name': 'Services' },
       { 'name': 'Directives' },
       { 'name': 'Pipes' }
-    ]
+    ];
   }
 }
