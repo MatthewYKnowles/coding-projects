@@ -1,3 +1,4 @@
+import java.io.StringReader;
 import java.util.HashMap;
 
 public class VirtualPointOfSaleTerminal {
@@ -11,6 +12,10 @@ public class VirtualPointOfSaleTerminal {
                 ),
                 new EnglishLanguageConsoleDisplay()
         );
+
+//        new EnglishLanguageConsoleDisplay.TextProcessorAndCommandInterpreter(saleController).process(new StringReader(
+//                "12345\n23456\n99999\n\n"
+//        ));
         saleController.onBarcode("12345");
         saleController.onBarcode("23456");
         saleController.onBarcode("99999");
