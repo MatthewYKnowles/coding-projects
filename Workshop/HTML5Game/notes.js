@@ -1,3 +1,4 @@
+//in index.html
 <html>
 <head>
   <title>HTML 5 Game in under 2 hours</title>
@@ -8,6 +9,7 @@
 </html>
 ---------------------------------------------------
 //can't see the canvas
+//in game.js
 
 function startApp() {
   var canvas = document.getElementById('canvas');
@@ -61,8 +63,8 @@ function spawnHero() {
   app.context.fillStyle = "#FFFF00";
   app.context.fillRect(app.hero.position.x, app.hero.position.y,
     app.hero.size, app.hero.size);
-
 }
+//add call to spawnHero in startApp
 ---------------------------------------------------------
 //should still see a hero
 //next going to redraw the scene quick enough to look like animation
@@ -74,6 +76,7 @@ context.fillStyle = "#000020";
 context.fillRect(0, 0, canvas.width, canvas.height);
 spawnHero();
 }
+// make call to drawScene in startApp
 ------------------------------------------------------
 //how often are we going to redraw the scene,
     //enough to make it look like motion
@@ -134,6 +137,7 @@ if (rock.position.y - rock.size > app.canvas.height){
 }
 //it always starts off at the same point, boring
 //make the position start off screen
+// in the spawnRock function type the following
 position : {
   x:Math.random() * app.canvas.width,
   y:Math.random() * -app.canvas.height},
