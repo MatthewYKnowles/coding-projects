@@ -1,38 +1,30 @@
 // This file was auto-generated based on version 1.0.0 of the canonical data.
 
-using System.Reflection.Metadata;
 using Xunit;
 
 public class ResistorColorTest
 {
     [Fact]
-    public void TestZeroReturnsZero()
+    public void Black()
     {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(0), 0);
+        Assert.Equal(0, ResistorColor.ColorCode("black"));
     }
+
     [Fact]
-    public void TestOneReturnsEight()
+    public void White()
     {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(1), 8);
+        Assert.Equal(9, ResistorColor.ColorCode("white"));
     }
+
     [Fact]
-    public void Test2Returns6()
+    public void Orange()
     {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(2), 6);
+        Assert.Equal(3, ResistorColor.ColorCode("orange"));
     }
+
     [Fact]
-    public void TwoDigits10()
+    public void Colors()
     {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(10), 9);
-    }
-    [Fact]
-    public void TwoDigits11()
-    {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(11), 7);
-    }
-    [Fact]
-    public void TwoDigits15()
-    {
-        Assert.Equal(LuhnAlgorithm.GetCheckDigit(15), 8);
+        Assert.Equal(new[] { "black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white" }, ResistorColor.Colors());
     }
 }

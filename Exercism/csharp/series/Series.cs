@@ -1,16 +1,26 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 public static class Series
 {
     public static string[] Slices(string numbers, int sliceLength)
     {
-        string[] answer = new string[]{};
-        if (sliceLength == 2)
+        ValidateInputs(numbers, sliceLength);
+        var answer = new List<string>();
+        for (var i = 0; i <= numbers.Length - sliceLength; i++)
         {
-            return new string[] {"35"};
+            answer.Add(numbers.Substring(i, sliceLength));
         }
-        return numbers.Select(x => x.ToString()).ToArray();
+        return answer.ToArray();
+    }
+
+    private static void ValidateInputs(string numbers, int sliceLength)
+    {
+        if (sliceLength <= 0 || numbers.Length < sliceLength)
+        {
+            throw new ArgumentException();
+        }
+
     }
 }

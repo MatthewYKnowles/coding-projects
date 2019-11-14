@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResistorColor", "ResistorColor.csproj", "{AC423AB5-75AE-4166-902E-8004D6F5F696}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Series", "Series.csproj", "{3B0D8D3F-2EE8-4CFC-BC69-68EB657C00BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AC423AB5-75AE-4166-902E-8004D6F5F696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC423AB5-75AE-4166-902E-8004D6F5F696}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC423AB5-75AE-4166-902E-8004D6F5F696}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC423AB5-75AE-4166-902E-8004D6F5F696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B0D8D3F-2EE8-4CFC-BC69-68EB657C00BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B0D8D3F-2EE8-4CFC-BC69-68EB657C00BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B0D8D3F-2EE8-4CFC-BC69-68EB657C00BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B0D8D3F-2EE8-4CFC-BC69-68EB657C00BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {93CA0C36-5873-4F52-9A6E-CAD606E01BA1}
+		SolutionGuid = {DC65A8E3-901E-4E09-9CDF-09C95CE4859E}
 	EndGlobalSection
 EndGlobal
