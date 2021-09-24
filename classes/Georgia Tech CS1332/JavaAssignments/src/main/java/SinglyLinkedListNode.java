@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Node class used for implementing the SinglyLinkedList.
  *

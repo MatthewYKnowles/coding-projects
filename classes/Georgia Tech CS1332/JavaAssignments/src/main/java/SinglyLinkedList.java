@@ -1,112 +1,148 @@
-/**
- * Your implementation of a Singly-Linked List.
- */
-public class SinglyLinkedList<T> {
+import java.util.NoSuchElementException;
 
-    /*
-     * Do not add new instance variables or modify existing ones.
-     */
+public class SinglyLinkedList<T> {
     private SinglyLinkedListNode<T> head;
     private SinglyLinkedListNode<T> tail;
     private int size;
 
-    /*
-     * Do not add a constructor.
-     */
-
-    /**
-     * Adds the element to the front of the list.
-     *
-     * Method should run in O(1) time.
-     *
-     * @param data the data to add to the front of the list
-     * @throws java.lang.IllegalArgumentException if data is null
-     */
     public void addToFront(T data) {
+        checkDataValidity(data);
         if (size == 0) {
-            head = new SinglyLinkedListNode<>(data, null);
-            tail = new SinglyLinkedListNode<>(data, null);
+            SinglyLinkedListNode<T> node = new SinglyLinkedListNode<>(data, null);
+            head = tail = node;
         } else {
-            head = new SinglyLinkedListNode<>(data, head);
+            addToFrontOfPopulatedList(data);
         }
         size++;
     }
 
-    /**
-     * Adds the element to the back of the list.
-     *
-     * Method should run in O(1) time.
-     *
-     * @param data the data to add to the back of the list
-     * @throws java.lang.IllegalArgumentException if data is null
-     */
+    public void addAtIndex(int index, T data) {
+        if (size == 0) {
+            SinglyLinkedListNode<T> node = new SinglyLinkedListNode<>(data, null);
+            head = tail = node;
+        }
+        else if (index == 0) {
+            var newNode = new SinglyLinkedListNode<T>(data);
+            newNode.setNext(head);
+            head = newNode;
+        } else {
+            SinglyLinkedListNode<T> previousNode = head;
+            for (var i = 0; i < index-1; i++) {
+                previousNode = previousNode.getNext();
+            }
+            var newNode = new SinglyLinkedListNode<T>(data);
+            newNode.setNext(previousNode.getNext());
+            previousNode.setNext(newNode);
+            if (newNode.getNext() == null) {
+                tail = newNode;
+            }
+        }
+        size++;
+    }
+
     public void addToBack(T data) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        checkDataValidity(data);
+        if (size == 0) {
+            SinglyLinkedListNode<T> node = new SinglyLinkedListNode<>(data, null);
+            head = tail = node;
+        } else {
+            var newNode = new SinglyLinkedListNode<>(data, null);
+            tail.setNext(newNode);
+            tail = newNode;
+        }
+        size++;
     }
 
-    /**
-     * Removes and returns the first data of the list.
-     *
-     * Method should run in O(1) time.
-     *
-     * @return the data formerly located at the front of the list
-     * @throws java.util.NoSuchElementException if the list is empty
-     */
     public T removeFromFront() {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        return null;
+        validatePopulatedList();
+        var frontNode = head;
+        if (head.getNext() == null) {
+            return removeFromListWithOneNode();
+        }
+        head = frontNode.getNext();
+        size--;
+        return frontNode.getData();
     }
 
-    /**
-     * Removes and returns the last data of the list.
-     *
-     * Method should run in O(n) time.
-     *
-     * @return the data formerly located at the back of the list
-     * @throws java.util.NoSuchElementException if the list is empty
-     */
     public T removeFromBack() {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        return null;
+        validatePopulatedList();
+        if (head.getNext() == null) {
+            return removeFromListWithOneNode();
+        }
+        var oldBackNode = tail;
+        var newBackNode = determineNewBackNode();
+        newBackNode.setNext(null);
+        tail = newBackNode;
+        size--;
+        return oldBackNode.getData();
     }
 
-    /**
-     * Returns the head node of the list.
-     *
-     * For grading purposes only. You shouldn't need to use this method since
-     * you have direct access to the variable.
-     *
-     * @return the node at the head of the list
-     */
+    private SinglyLinkedListNode<T> determineNewBackNode() {
+        var currentNode = head;
+        while (currentNode.getNext().getNext() != null) {
+            currentNode = currentNode.getNext();
+        }
+        return currentNode;
+    }
+
     public SinglyLinkedListNode<T> getHead() {
         // DO NOT MODIFY THIS METHOD!
         return head;
     }
 
-    /**
-     * Returns the tail node of the list.
-     *
-     * For grading purposes only. You shouldn't need to use this method since
-     * you have direct access to the variable.
-     *
-     * @return the node at the tail of the list
-     */
     public SinglyLinkedListNode<T> getTail() {
         // DO NOT MODIFY THIS METHOD!
         return tail;
     }
 
-    /**
-     * Returns the size of the list.
-     *
-     * For grading purposes only. You shouldn't need to use this method since
-     * you have direct access to the variable.
-     *
-     * @return the size of the list
-     */
     public int size() {
         // DO NOT MODIFY THIS METHOD!
         return size;
     }
 
+    private void checkDataValidity(T data) {
+        if (data == null) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void addToFrontOfPopulatedList(T data) {
+        head = new SinglyLinkedListNode<>(data, head);
+    }
+
+    private void validatePopulatedList() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+    }
+
+    private T removeFromListWithOneNode() {
+        var node = tail;
+        head = null;
+        tail = null;
+        size--;
+        return node.getData();
+    }
 }
+
+
+//[Executed at:Wed Sep 1 7:48:20PDT 2021]
+//
+//        ============================================================
+//        SinglyLinkedList.java successfully compiled.
+//        ============================================================
+//        Tests Passed:15/17
+//
+//        [Test Failure:addToFront][-0.59]:Tail is not pointing to the correct node.
+//        Expected:node containing 0a
+//        Actual:node containing 0a
+//        List structure(for reference):0a
+//
+//        [Test Failure:addToBack][-0.59]:Tail is not pointing to the correct node.
+//        Expected:node containing 0a
+//        Actual:node containing 0a
+//        List structure(for reference):0a
+//
+//
+//        Score:8.82/10.0
+//        ============================================================

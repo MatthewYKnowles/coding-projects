@@ -10,10 +10,15 @@ public class ArrayList<T> {
     }
 
     public void addToFront(T data) {
-        checkDataValidity(data);
-        doubleCapacityIfNecessary();
-        for (int i = size; i > 0; i--) {
-            backingArray[i] = backingArray[i - 1];
+        if (size == backingArray.length) {
+            var newBackingArray = (T[]) new Object[backingArray.length * 2];
+            for (var i = 0; i < size; i++) {
+                newBackingArray[i] = backingArray[i];
+            }
+            backingArray = newBackingArray;
+        }
+        for (var i = size; i > 0; i--) {
+            backingArray[i] = backingArray[i-1];
         }
         backingArray[0] = data;
         size++;
@@ -26,10 +31,19 @@ public class ArrayList<T> {
         size++;
     }
 
+    public void addAtIndex(int index, T data) {
+        var itemsToMove = size - index;
+        for (var i = 0; i < itemsToMove; i++) {
+            backingArray[size - i] = backingArray[size - i - 1];
+        }
+        backingArray[index] = data;
+        size++;
+    }
+
     public T removeFromFront() {
         validateArray();
         T front = backingArray[0];
-        for (int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size - 1; i++) {
             backingArray[i] = backingArray[i + 1];
         }
         backingArray[size - 1] = null;

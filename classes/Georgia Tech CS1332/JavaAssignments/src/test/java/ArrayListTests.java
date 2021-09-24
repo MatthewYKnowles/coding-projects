@@ -108,6 +108,7 @@ public class ArrayListTests {
         assertEquals(2, second);
         assertEquals(0, arrayList.size());
     }
+
     @Test
     void removeFromFrontOfEmptyArray() {
         assertThrows(NoSuchElementException.class, () -> arrayList.removeFromFront());
@@ -134,5 +135,44 @@ public class ArrayListTests {
     @Test
     void removeFromBackOfEmptyArray() {
         assertThrows(NoSuchElementException.class, () -> arrayList.removeFromBack());
+    }
+
+    @Test
+    void addAtIndexZero() {
+        arrayList.addAtIndex(0, 5);
+        Integer[] expected = {5, null, null, null, null, null, null, null, null};
+        assertArrayEquals(expected, arrayList.getBackingArray());
+        assertEquals(1, arrayList.size());
+    }
+    @Test
+    void addAtIndexZeroWithItemsInList() {
+        arrayList.addAtIndex(0, 5);
+        arrayList.addAtIndex(0, 9);
+        Integer[] expected = {9, 5, null, null, null, null, null, null, null};
+        assertArrayEquals(expected, arrayList.getBackingArray());
+        assertEquals(2, arrayList.size());
+    }
+
+    @Test
+    void addAtIndexOneWithItemsInList() {
+        arrayList.addAtIndex(0, 5);
+        arrayList.addAtIndex(0, 9);
+        arrayList.addAtIndex(1, 11);
+        Integer[] expected = {9, 11, 5, null, null, null, null, null, null};
+        assertArrayEquals(expected, arrayList.getBackingArray());
+        assertEquals(3, arrayList.size());
+    }
+
+    @Test
+    void addAtIndexFiveAtCapacity() {
+        arrayList.addAtIndex(0, 5);
+        arrayList.addAtIndex(0, 9);
+        arrayList.addAtIndex(1, 11);
+        arrayList.addAtIndex(3, 14);
+        arrayList.addAtIndex(3, 89);
+        arrayList.addAtIndex(3, 42);
+        Integer[] expected = {9, 11, 5, 42, 89, 14, null, null, null};
+        assertArrayEquals(expected, arrayList.getBackingArray());
+        assertEquals(6, arrayList.size());
     }
 }
