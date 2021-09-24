@@ -14,21 +14,21 @@ public class BST<T extends Comparable<? super T>> {
             size++;
             return new BSTNode<>(data);
         }
-        if (newValueIsGreater(node, data)) {
+        if (newValueIsGreater(node.getData(), data)) {
             node.setRight(addValidData(node.getRight(), data));
         }
-        if (newValueIsLesser(node, data)) {
+        if (newValueIsLesser(node.getData(), data)) {
             node.setLeft(addValidData(node.getLeft(), data));
         }
         return node;
     }
 
-    private boolean newValueIsLesser(BSTNode<T> node, T data) {
-        return data.compareTo(node.getData()) < 0;
+    private boolean newValueIsLesser(T newData, T data) {
+        return data.compareTo(newData) < 0;
     }
 
-    private boolean newValueIsGreater(BSTNode<T> node, T data) {
-        return data.compareTo(node.getData()) > 0;
+    private boolean newValueIsGreater(T newData, T data) {
+        return data.compareTo(newData) > 0;
     }
 
     private void checkDataValidity(T data) {
