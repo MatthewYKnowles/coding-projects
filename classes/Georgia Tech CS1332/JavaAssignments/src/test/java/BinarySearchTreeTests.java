@@ -161,6 +161,53 @@ public class BinarySearchTreeTests {
         assertEquals(3, bst.getRoot().getLeft().getLeft().getData());
     }
     @Test
+    void RemoveRootWithTwoChildren() {
+        bst.add(50);
+        bst.add(60);
+        bst.add(25);
+        var removed = bst.remove(50);
+        assertEquals(50, removed);
+        assertEquals(2, bst.size());
+        assertEquals(60, bst.getRoot().getData());
+        assertEquals(25, bst.getRoot().getLeft().getData());
+    }
+
+    @Test
+    void RemoveNodeWithTwoChildrenUsingSuccessor() {
+        bst.add(50);
+        bst.add(60);
+        bst.add(25);
+        bst.add(35);
+        bst.add(12);
+        bst.add(5);
+        bst.add(20);
+        bst.add(18);
+        bst.add(22);
+        bst.add(21);
+        var removed = bst.remove(12);
+        assertEquals(12, removed);
+        assertEquals(9, bst.size());
+        assertEquals(50, bst.getRoot().getData());
+        assertEquals(25, bst.getRoot().getLeft().getData());
+        assertEquals(18, bst.getRoot().getLeft().getLeft().getData());
+        assertEquals(5, bst.getRoot().getLeft().getLeft().getLeft().getData());
+        assertEquals(20, bst.getRoot().getLeft().getLeft().getRight().getData());
+        assertEquals(22, bst.getRoot().getLeft().getLeft().getRight().getRight().getData());
+    }
+    @Test
+    void shouldRemoveWithString() {
+        var stringBst = new BST<String>();
+        stringBst.add("bc");
+        stringBst.add("ab");
+        stringBst.add("cd");
+        var removed = stringBst.remove("bc");
+        assertEquals("bc", removed);
+        assertEquals("cd", stringBst.getRoot().getData());
+        assertEquals("ab", stringBst.getRoot().getLeft().getData());
+        assertEquals(2, stringBst.size());
+    }
+
+    @Test
     void ShouldThrowIfDataIsNull() {
         bst.add(6);
         bst.add(4);

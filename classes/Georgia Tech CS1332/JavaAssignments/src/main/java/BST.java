@@ -37,36 +37,9 @@ public class BST<T extends Comparable<? super T>> {
         }
     }
 
-    /**
-     * Removes and returns the data from the tree matching the given parameter.
-     * <p>
-     * This must be done recursively.
-     * <p>
-     * There are 3 cases to consider:
-     * 1: The node containing the data is a leaf (no children). In this case,
-     * simply remove it.
-     * 2: The node containing the data has one child. In this case, simply
-     * replace it with its child.
-     * 3: The node containing the data has 2 children. Use the SUCCESSOR to
-     * replace the data. You should use recursion to find and remove the
-     * successor (you will likely need an additional helper method to
-     * handle this case efficiently).
-     * <p>
-     * Do NOT return the same data that was passed in. Return the data that
-     * was stored in the tree.
-     * <p>
-     * Hint: Should you use value equality or reference equality?
-     * <p>
-     * Must be O(log n) for best and average cases and O(n) for worst case.
-     *
-     * @param data The data to remove.
-     * @return The data that was removed.
-     * @throws java.lang.IllegalArgumentException If data is null.
-     * @throws java.util.NoSuchElementException   If the data is not in the tree.
-     */
     public T remove(T data) {
         checkDataValidity(data);
-        var dummyNode = new BSTNode<>(data);
+        var dummyNode = new BSTNode<>((T) null);
         root = helper(root, data, dummyNode);
         return dummyNode.getData();
     }
@@ -75,25 +48,9 @@ public class BST<T extends Comparable<? super T>> {
         verifyElementExists(node);
         var difference = data.compareTo(node.getData());
         if (difference == 0) {
-            if (node.getLeft() == null && node.getRight() == null) {
-                dummyNode.setData(data);
-                size--;
-                return null;
-            }
-            if (node.getLeft() != null && node.getRight() == null) {
-                dummyNode.setData(data);
-                size--;
-                return node.getLeft();
-            }
-            if (node.getLeft() == null && node.getRight() != null) {
-                dummyNode.setData(data);
-                size--;
-                return node.getRight();
-            }
-
+            node = HandleFoundData(node);
             dummyNode.setData(data);
             size--;
-            return null;
         }
         if (difference < 0) {
             node.setLeft(helper(node.getLeft(), data, dummyNode));
@@ -104,39 +61,30 @@ public class BST<T extends Comparable<? super T>> {
         return node;
     }
 
-    private T removeNode(BSTNode<T> node, T data) {
-        var difference = data.compareTo(node.getData());
-        if (difference < 0) {
-            var currentNode = node.getLeft();
-            verifyElementExists(currentNode);
-            var currentData = currentNode.getData();
-            if (currentData == data) {
-                if (currentNode.getLeft() == null) {
-                    node.setLeft(currentNode.getRight());
-                } else {
-                    node.setLeft(currentNode.getLeft());
-                }
-                size--;
-                return currentData;
-            }
-            return removeNode(currentNode, data);
+    private BSTNode<T> HandleFoundData(BSTNode<T> node) {
+        BSTNode<T> nodeToReturn = null;
+        if (node.getLeft() != null && node.getRight() == null) {
+            nodeToReturn = node.getLeft();
         }
-        if (difference > 0) {
-            var currentNode = node.getRight();
-            verifyElementExists(currentNode);
-            var currentData = currentNode.getData();
-            if (currentData == data) {
-                if (currentNode.getRight() == null) {
-                    node.setRight(currentNode.getLeft());
-                } else {
-                    node.setRight(currentNode.getRight());
-                }
-                size--;
-                return currentData;
-            }
-            return removeNode(currentNode, data);
+        if (node.getLeft() == null && node.getRight() != null) {
+            nodeToReturn = node.getRight();
         }
-        return null;
+        if (node.getLeft() != null && node.getRight() != null) {
+            var dummyNode = new BSTNode<>((T) null);
+            node.setRight(successor(node.getRight(), dummyNode));
+            node.setData(dummyNode.getData());
+            nodeToReturn = node;
+        }
+        return nodeToReturn;
+    }
+
+    private BSTNode<T> successor(BSTNode<T> node, BSTNode<T> dummyNode) {
+        if (node.getLeft() == null) {
+            dummyNode.setData(node.getData());
+            return node.getRight();
+        }
+        node.setLeft(successor(node.getLeft(), dummyNode));
+        return node;
     }
 
     private void verifyElementExists(BSTNode<T> node) {
