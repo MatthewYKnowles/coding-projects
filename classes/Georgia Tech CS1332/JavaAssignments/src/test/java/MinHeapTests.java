@@ -227,6 +227,62 @@ public class MinHeapTests {
         assertArrayEquals(expected, minheap.getBackingArray());
         assertEquals(6, minheap.size());
     }
+    @Test
+    void shouldStopIfNoChildrenAreSmaller() {
+        minheap.add(0);
+        minheap.add(7);
+        minheap.add(14);
+        minheap.add(42);
+        minheap.add(28);
+        minheap.add(35);
+        minheap.add(21);
+
+        var result = minheap.remove();
+
+        assertEquals(0, result);
+        var expected = emptyBackingArray;
+        expected[1] = 7;
+        expected[2] = 21;
+        expected[3] = 14;
+        expected[4] = 42;
+        expected[5] = 28;
+        expected[6] = 35;
+        assertArrayEquals(expected, minheap.getBackingArray());
+        assertEquals(6, minheap.size());
+    }
+    @Test
+    void shouldRemoveFromFullArray() {
+        minheap.add(1);
+        minheap.add(2);
+        minheap.add(3);
+        minheap.add(4);
+        minheap.add(5);
+        minheap.add(6);
+        minheap.add(7);
+        minheap.add(8);
+        minheap.add(9);
+        minheap.add(10);
+        minheap.add(11);
+        minheap.add(12);
+
+        var result = minheap.remove();
+
+        assertEquals(1, result);
+        var expected = emptyBackingArray;
+        expected[1] = 2;
+        expected[2] = 4;
+        expected[3] = 3;
+        expected[4] = 8;
+        expected[5] = 5;
+        expected[6] = 6;
+        expected[7] = 7;
+        expected[8] = 12;
+        expected[9] = 9;
+        expected[10] = 10;
+        expected[11] = 11;
+        assertArrayEquals(expected, minheap.getBackingArray());
+        assertEquals(11, minheap.size());
+    }
     @Test()
     void ShouldThrowWhenRemovingFromEmptyHear() {
         minheap.add(5);
