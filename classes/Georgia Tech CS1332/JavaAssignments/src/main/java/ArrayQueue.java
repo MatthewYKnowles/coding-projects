@@ -54,17 +54,3 @@ public class ArrayQueue<T> {
     }
 
 }
-
-//
-//[Executed at: Mon Sep 6 19:17:51 PDT 2021]
-//
-//        ============================================================
-//        ArrayQueue.java successfully compiled.
-//        ============================================================
-//        Tests Passed: 20 / 21
-//
-//        [Test Failure: validFront] [-0.48] : Front variable did not update correctly when testing the following method(s): dequeue.
-//
-//
-//        Score: 9.52 / 10.0
-//        ============================================================
