@@ -36,10 +36,25 @@ public class HashMapTests {
         hashMap.put(3, 3);
         hashMap.put(16, 16);
         var table = hashMap.getTable();
-        var tailNode = new ExternalChainingMapEntry<>(2, 2);
+        var tailNode = new ExternalChainingMapEntry<>(3, 3);
         var headNode = new ExternalChainingMapEntry<>(16, 16, tailNode);
         assertEquals(headNode, table[3]);
         assertEquals(tailNode, table[3].getNext());
         assertEquals(2, hashMap.size());
+    }
+
+    @Test
+    void shouldChainMultipleLevelsIfCollision() {
+        hashMap.put(4, 4);
+        hashMap.put(17, 17);
+        hashMap.put(30, 30);
+        var table = hashMap.getTable();
+        var tailNode = new ExternalChainingMapEntry<>(4, 4);
+        var secondNode = new ExternalChainingMapEntry<>(17, 17, tailNode);
+        var headNode = new ExternalChainingMapEntry<>(30, 30, secondNode);
+        assertEquals(headNode, table[4]);
+        assertEquals(secondNode, table[4].getNext());
+        assertEquals(tailNode, table[4].getNext().getNext());
+        assertEquals(3, hashMap.size());
     }
 }

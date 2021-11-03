@@ -50,7 +50,13 @@ public class ExternalChainingHashMap<K, V> {
     public V put(K key, V value) {
         var entry = new ExternalChainingMapEntry<>(key, value);
         int index = abs(entry.getKey().hashCode() % table.length);
-        table[index] = entry;
+        var currentEntryAtIndex = table[index];
+        if (currentEntryAtIndex != null) {
+            entry.setNext(currentEntryAtIndex);
+            table[index] = entry;
+        } else {
+            table[index] = entry;
+        }
         size++;
         return null;
     }
