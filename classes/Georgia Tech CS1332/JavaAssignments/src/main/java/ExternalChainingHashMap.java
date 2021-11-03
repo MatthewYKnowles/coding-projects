@@ -1,36 +1,14 @@
 import java.util.NoSuchElementException;
 
-/**
- * Your implementation of a ExternalChainingHashMap.
- */
+import static java.lang.Math.abs;
+
 public class ExternalChainingHashMap<K, V> {
-
-    /*
-     * The initial capacity of the ExternalChainingHashMap when created with the
-     * default constructor.
-     *
-     * DO NOT MODIFY THIS VARIABLE!
-     */
     public static final int INITIAL_CAPACITY = 13;
-
-    /*
-     * The max load factor of the ExternalChainingHashMap.
-     *
-     * DO NOT MODIFY THIS VARIABLE!
-     */
     public static final double MAX_LOAD_FACTOR = 0.67;
-
-    /*
-     * Do not add new instance variables or modify existing ones.
-     */
     private ExternalChainingMapEntry<K, V>[] table;
     private int size;
 
-    /**
-     * Constructs a new ExternalChainingHashMap with an initial capacity of INITIAL_CAPACITY.
-     */
     public ExternalChainingHashMap() {
-        //DO NOT MODIFY THIS METHOD!
         table = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[INITIAL_CAPACITY];
     }
 
@@ -70,7 +48,11 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.lang.IllegalArgumentException If key or value is null.
      */
     public V put(K key, V value) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        var entry = new ExternalChainingMapEntry<>(key, value);
+        int index = abs(entry.getKey().hashCode() % table.length);
+        table[index] = entry;
+        size++;
+        return null;
     }
 
     /**
@@ -83,6 +65,7 @@ public class ExternalChainingHashMap<K, V> {
      */
     public V remove(K key) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        return null;
     }
 
     /**
@@ -100,35 +83,17 @@ public class ExternalChainingHashMap<K, V> {
      *
      * Hint: You cannot just simply copy the entries over to the new table.
      *
-     * @param Length The new length of the backing table.
+     * @param length The new length of the backing table.
      */
     private void resizeBackingTable(int length) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
     }
 
-    /**
-     * Returns the table of the map.
-     *
-     * For grading purposes only. You shouldn't need to use this method since
-     * you have direct access to the variable.
-     *
-     * @return The table of the map.
-     */
     public ExternalChainingMapEntry<K, V>[] getTable() {
-        // DO NOT MODIFY THIS METHOD!
         return table;
     }
 
-    /**
-     * Returns the size of the map.
-     *
-     * For grading purposes only. You shouldn't need to use this method since
-     * you have direct access to the variable.
-     *
-     * @return The size of the map.
-     */
     public int size() {
-        // DO NOT MODIFY THIS METHOD!
         return size;
     }
 }
