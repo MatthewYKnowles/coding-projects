@@ -1,0 +1,5 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Matthews Portfolio'
+theme = 'basic'
+relativeURLs = true
