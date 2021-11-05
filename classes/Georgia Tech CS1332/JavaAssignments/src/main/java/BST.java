@@ -78,6 +78,24 @@ public class BST<T extends Comparable<? super T>> {
         return nodeToReturn;
     }
 
+    public boolean contains(T data) {
+        return containsHelper(root, data);
+    }
+    private boolean containsHelper(BSTNode<T> node, T data) {
+        if (node == null){
+            return false;
+        }
+        int difference = data.compareTo(node.getData());
+        if (difference > 0) {
+            return containsHelper(node.getRight(), data);
+        }
+        if (difference < 0) {
+            return containsHelper(node.getLeft(), data);
+        }
+        return true;
+    }
+
+
     private BSTNode<T> successor(BSTNode<T> node, BSTNode<T> dummyNode) {
         if (node.getLeft() == null) {
             dummyNode.setData(node.getData());
