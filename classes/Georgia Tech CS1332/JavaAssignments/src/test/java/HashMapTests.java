@@ -112,10 +112,14 @@ public class HashMapTests {
         hashMap.put(17, 17);
         hashMap.put(30, 30);
         hashMap.put(43, 43);
-        hashMap.put(8, 8);
-        hashMap.put(9, 9);
+        hashMap.put(26, 26);
+        hashMap.put(53, 53);
         var table = hashMap.getTable();
-        // assertEquals(27, table.length);
+        var entry = new ExternalChainingMapEntry<>(52, 52);
+        var entry2 = new ExternalChainingMapEntry<>(26, 26);
+        entry.setNext(entry2);
+        assertEquals(entry2, table[26].getNext());
+        assertEquals(27, table.length);
         assertEquals(9, hashMap.size());
     }
 
@@ -127,5 +131,15 @@ public class HashMapTests {
     @Test
     void shouldThrowWhenValueIsNull() {
         assertThrows(IllegalArgumentException.class, () -> hashMap.put(5, null));
+    }
+
+    @Test
+    void shouldRemoveMatchingKey() {
+        hashMap.put(2, 5);
+        var value = hashMap.remove(2);
+
+        assertEquals(5, value);
+        assertArrayEquals(table, hashMap.getTable());
+        assertEquals(0, hashMap.size());
     }
 }
