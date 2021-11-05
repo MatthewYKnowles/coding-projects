@@ -48,27 +48,27 @@ public class ExternalChainingHashMap<K, V> {
     }
 
     public V remove(K key) {
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
         var index = getTableIndex(table.length, key.hashCode());
         var externalChainOfEntryToRemove = table[index];
         ExternalChainingMapEntry previousEntry = null;
         var currentEntry = externalChainOfEntryToRemove;
-        while (currentEntry.getNext() != null){
+        while (currentEntry != null){
             if (currentEntry.getKey() == key) {
                 if (previousEntry == null) {
                     table[index] = currentEntry.getNext();
-                    size--;
-                    return currentEntry.getValue();
+                } else {
+                    previousEntry.setNext(currentEntry.getNext());
                 }
-                previousEntry.setNext(currentEntry.getNext());
                 size--;
                 return currentEntry.getValue();
             }
             previousEntry = currentEntry;
             currentEntry = currentEntry.getNext();
         }
-        table[index] = null;
-        size--;
-        return externalChainOfEntryToRemove.getValue();
+        throw new NoSuchElementException();
     }
 
     private void resizeBackingTable(int length) {

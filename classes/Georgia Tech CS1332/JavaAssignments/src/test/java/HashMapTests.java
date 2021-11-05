@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HashMapTests {
@@ -172,5 +174,37 @@ public class HashMapTests {
         assertEquals(head, table[2]);
         assertEquals(tail, table[2].getNext());
         assertEquals(2, hashMap.size());
+    }
+
+    @Test
+    void shouldRemoveMatchingKeyAtEndOfExternalChain () {
+        hashMap.put(2, 5);
+        hashMap.put(15, 10);
+        hashMap.put(28, 15);
+
+        var value = hashMap.remove(2);
+
+        assertEquals(5, value);
+        var tail = new ExternalChainingMapEntry<>(15, 10);
+        var head = new ExternalChainingMapEntry<>(28, 15);
+        head.setNext(tail);
+        var table = hashMap.getTable();
+        assertEquals(head, table[2]);
+        assertEquals(tail, table[2].getNext());
+        assertNull(table[2].getNext().getNext());
+        assertEquals(2, hashMap.size());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentWhenValueIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> hashMap.remove(null));
+    }
+    @Test
+    void shouldThrowNoSuchElementExceptionIfKeyIsMissing () {
+        hashMap.put(2, 5);
+        hashMap.put(15, 10);
+        hashMap.put(28, 15);
+
+        assertThrows(NoSuchElementException.class, () -> hashMap.remove(10));
     }
 }
