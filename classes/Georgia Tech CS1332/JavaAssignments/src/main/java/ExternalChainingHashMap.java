@@ -48,17 +48,42 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.lang.IllegalArgumentException If key or value is null.
      */
     public V put(K key, V value) {
-        var entry = new ExternalChainingMapEntry<>(key, value);
-        int index = abs(entry.getKey().hashCode() % table.length);
-        var currentEntryAtIndex = table[index];
-        if (currentEntryAtIndex != null) {
-            entry.setNext(currentEntryAtIndex);
-            table[index] = entry;
-        } else {
-            table[index] = entry;
+        if (key == null || value == null) {
+            throw new IllegalArgumentException();
         }
+        double potentialLoad =  ((double)(size + 1) / table.length);
+        if (potentialLoad > MAX_LOAD_FACTOR) {
+            resizeBackingTable(table.length * 2 + 1);
+        }
+        var entry = new ExternalChainingMapEntry<>(key, value);
+        var index = getTableIndex(table.length, entry.getKey().hashCode());
+        var currentEntryAtIndex = table[index];
+        if (hasCollision(currentEntryAtIndex)) {
+            ExternalChainingMapEntry<K, V> previousEntryInChain = null;
+            var currentEntryInChain = currentEntryAtIndex;
+            while(currentEntryInChain != null){
+                if(currentEntryInChain.getKey() == entry.getKey()) {
+                    if (currentEntryAtIndex == currentEntryInChain) {
+                        table[index] = entry;
+                    }
+                    entry.setNext(currentEntryInChain.getNext());
+                    if (previousEntryInChain != null) {
+                        previousEntryInChain.setNext(entry);
+                    }
+                    return currentEntryInChain.getValue();
+                }
+                previousEntryInChain = currentEntryInChain;
+                currentEntryInChain = currentEntryInChain.getNext();
+            }
+            entry.setNext(currentEntryAtIndex);
+        }
+        table[index] = entry;
         size++;
         return null;
+    }
+
+    private boolean hasCollision(ExternalChainingMapEntry<K, V> entry) {
+        return entry != null;
     }
 
     /**
@@ -92,7 +117,23 @@ public class ExternalChainingHashMap<K, V> {
      * @param length The new length of the backing table.
      */
     private void resizeBackingTable(int length) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        var newTable = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[length];
+        for (int i = 0; i < table.length; i++) {
+            var entry = table[i];
+            if (entry != null) {
+                int index = getTableIndex(newTable.length, entry.getKey().hashCode());
+                var currentEntryAtIndex = newTable[index];
+                if (hasCollision(currentEntryAtIndex)) {
+                    entry.setNext(currentEntryAtIndex);
+                }
+                newTable[index] = entry;
+            }
+        }
+        table = newTable;
+    }
+
+    private int getTableIndex(int length, int hashCode) {
+        return abs(hashCode % length);
     }
 
     public ExternalChainingMapEntry<K, V>[] getTable() {
