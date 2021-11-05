@@ -47,21 +47,28 @@ public class ExternalChainingHashMap<K, V> {
         return null;
     }
 
-    private boolean hasCollision(ExternalChainingMapEntry<K, V> entry) {
-        return entry != null;
-    }
-
-    /**
-     * Removes the entry with a matching key from the map.
-     *
-     * @param key The key to remove.
-     * @return The value associated with the key.
-     * @throws java.lang.IllegalArgumentException If key is null.
-     * @throws java.util.NoSuchElementException   If the key is not in the map.
-     */
     public V remove(K key) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        return null;
+        var index = getTableIndex(table.length, key.hashCode());
+        var externalChainOfEntryToRemove = table[index];
+        ExternalChainingMapEntry previousEntry = null;
+        var currentEntry = externalChainOfEntryToRemove;
+        while (currentEntry.getNext() != null){
+            if (currentEntry.getKey() == key) {
+                if (previousEntry == null) {
+                    table[index] = currentEntry.getNext();
+                    size--;
+                    return currentEntry.getValue();
+                }
+                previousEntry.setNext(currentEntry.getNext());
+                size--;
+                return currentEntry.getValue();
+            }
+            previousEntry = currentEntry;
+            currentEntry = currentEntry.getNext();
+        }
+        table[index] = null;
+        size--;
+        return externalChainOfEntryToRemove.getValue();
     }
 
     private void resizeBackingTable(int length) {
@@ -80,6 +87,10 @@ public class ExternalChainingHashMap<K, V> {
             }
         }
         table = newTable;
+    }
+
+    private boolean hasCollision(ExternalChainingMapEntry<K, V> entry) {
+        return entry != null;
     }
 
     private int getTableIndex(int length, int hashCode) {

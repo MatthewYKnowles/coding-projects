@@ -142,4 +142,35 @@ public class HashMapTests {
         assertArrayEquals(table, hashMap.getTable());
         assertEquals(0, hashMap.size());
     }
+
+    @Test
+    void shouldRemoveMatchingKeyAtBeginningOfExternalChain () {
+        hashMap.put(2, 5);
+        hashMap.put(15, 10);
+
+        var value = hashMap.remove(15);
+
+        assertEquals(10, value);
+        table[2] = new ExternalChainingMapEntry<>(2, 5);
+        assertArrayEquals(table, hashMap.getTable());
+        assertEquals(1, hashMap.size());
+    }
+
+    @Test
+    void shouldRemoveMatchingKeyAtMiddleOfExternalChain () {
+        hashMap.put(2, 5);
+        hashMap.put(15, 10);
+        hashMap.put(28, 15);
+
+        var value = hashMap.remove(15);
+
+        assertEquals(10, value);
+        var tail = new ExternalChainingMapEntry<>(2, 5);
+        var head = new ExternalChainingMapEntry<>(28, 15);
+        head.setNext(tail);
+        var table = hashMap.getTable();
+        assertEquals(head, table[2]);
+        assertEquals(tail, table[2].getNext());
+        assertEquals(2, hashMap.size());
+    }
 }
