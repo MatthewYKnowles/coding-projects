@@ -27,8 +27,8 @@ public class ExternalChainingHashMap<K, V> {
             ExternalChainingMapEntry<K, V> previousEntryInChain = null;
             var currentEntryInChain = currentEntryAtIndex;
             while(currentEntryInChain != null){
-                if(currentEntryInChain.getKey() == entry.getKey()) {
-                    if (currentEntryAtIndex == currentEntryInChain) {
+                if(currentEntryInChain.getKey().equals(entry.getKey())) {
+                    if (currentEntryAtIndex.equals(currentEntryInChain)) {
                         table[index] = entry;
                     }
                     entry.setNext(currentEntryInChain.getNext());
@@ -56,7 +56,7 @@ public class ExternalChainingHashMap<K, V> {
         ExternalChainingMapEntry previousEntry = null;
         var currentEntry = externalChainOfEntryToRemove;
         while (currentEntry != null){
-            if (currentEntry.getKey() == key) {
+            if (currentEntry.getKey().equals(key)) {
                 if (previousEntry == null) {
                     table[index] = currentEntry.getNext();
                 } else {
