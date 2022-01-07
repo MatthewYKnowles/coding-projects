@@ -1,4 +1,5 @@
-public class Solution {
+// Runtime 100 ms, Memory 40.8 MB
+public class Solution1 {
     public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
         var firstNumberAsStack = new Queue<int>();
         var secondNumberAsStack = new Queue<int>();
@@ -43,5 +44,36 @@ public class Solution {
             listNode = new ListNode(answerStack.Pop(), listNode);
         }
         return listNode;
+    }
+}
+
+// Runtime 108 ms, Memory 41.3 MB
+
+public class Solution2 {
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+        var currentFirstListNode = l1;
+        var currentSecondListNode = l2;
+        
+        ListNode dummyHead = new ListNode(0);
+        ListNode summationListNode = dummyHead;
+        var remainder = 0;
+        
+        
+        while(currentFirstListNode != null || currentSecondListNode != null) {
+            var firstListNumber = currentFirstListNode?.val ?? 0;
+            var secondListNumber = currentSecondListNode?.val ?? 0;
+            var summation = firstListNumber + secondListNumber + remainder;
+            summationListNode.next = new ListNode(summation % 10, null);
+            summationListNode = summationListNode.next;
+            remainder = summation > 9 ? 1 : 0;
+            currentFirstListNode = currentFirstListNode?.next;
+            currentSecondListNode = currentSecondListNode?.next;
+        }
+        if (remainder == 1) {
+            summationListNode.next = new ListNode(remainder, null);
+            summationListNode = summationListNode.next;
+        }
+        
+        return dummyHead.next;
     }
 }
