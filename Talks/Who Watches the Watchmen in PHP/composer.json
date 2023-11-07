@@ -13,7 +13,9 @@
         }
     ],
     "scripts": {
-        "infection": "infection"
+        "test": "./vendor/bin/phpunit --coverage-html html",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html html",
+        "mutation": "./vendor/bin/infection"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.4",
