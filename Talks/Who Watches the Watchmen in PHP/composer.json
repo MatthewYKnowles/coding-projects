@@ -13,12 +13,12 @@
         }
     ],
     "scripts": {
-        "test": "./vendor/bin/phpunit --coverage-html html",
-        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html html",
-        "mutation": "./vendor/bin/infection"
+        "test": "./vendor/bin/phpunit",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage",
+        "mutate": "./vendor/bin/infection --logger-html=mutation-report.html"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.4",
+        "phpunit/phpunit": "^10.4.2",
         "infection/infection": "^0.27.6"
     },
     "config": {
